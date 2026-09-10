@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>交互网站设计 · 王福鑫作品集</title>
+<meta name="description" content="可上手把玩的纯前端小应用——3D 全屋设计工坊与 8-bit 像素画板。点开即玩，无需安装。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230d110f'/%3E%3Cpath d='M7 11 L13 17 L7 23 M15 23 H25' fill='none' stroke='%23b6d98a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+/* SECTION: tokens */
+:root{
+  --bg:#0d110f;--bg-soft:#131a16;--ink:#e9ece7;--dim:#8b968d;
+  --faint:rgba(233,236,231,.42);--line:rgba(233,236,231,.10);
+  --moss:#b6d98a;--sand:#c9b892;
+  --serif:"Songti SC","STSong","SimSun",Georgia,serif;
+  --sans:-apple-system,"PingFang SC","Microsoft YaHei",Arial,sans-serif;
+  --ease:cubic-bezier(.22,.61,.21,1);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.8;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;}
+::selection{background:var(--moss);color:#0d110f;}
+a{color:inherit;text-decoration:none;}
+::-webkit-scrollbar{width:10px;}
+::-webkit-scrollbar-thumb{background:#242c26;border-radius:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+
+/* SECTION: nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;
+  padding:20px 6vw;background:rgba(13,17,15,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);}
+nav .back{font-size:12.5px;letter-spacing:.2em;color:var(--faint);display:flex;align-items:center;gap:10px;transition:color .3s;}
+nav .back:hover{color:var(--moss);}
+nav .crumb{font-size:12px;letter-spacing:.18em;color:var(--dim);}
+@media(max-width:700px){nav .crumb{display:none;}}
+
+/* SECTION: hero */
+.hero{padding:170px 6vw 70px;position:relative;overflow:hidden;}
+#grid-bg{position:absolute;inset:0;z-index:0;opacity:.5;}
+.hero>*{position:relative;z-index:1;}
+.hero .kicker{display:inline-flex;align-items:center;gap:14px;font-size:11px;letter-spacing:.4em;color:var(--moss);
+  border:1px solid rgba(182,217,138,.28);padding:9px 20px 9px 24px;border-radius:99px;margin-bottom:38px;}
+.hero .kicker i{width:5px;height:5px;border-radius:50%;background:var(--moss);}
+.hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(38px,7vw,82px);line-height:1.16;letter-spacing:.04em;}
+.hero h1 .thin{display:block;font-size:clamp(16px,2.2vw,26px);letter-spacing:.2em;color:var(--dim);margin-top:18px;}
+.hero .sub{margin-top:34px;max-width:620px;color:var(--dim);font-size:14.5px;line-height:2.1;}
+.hero .sub b{color:var(--ink);font-weight:500;}
+
+/* SECTION: cards */
+.wrap{padding:30px 6vw 110px;}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(360px,100%),1fr));gap:28px;}
+.card{border:1px solid var(--line);border-radius:4px;background:var(--bg-soft);overflow:hidden;display:flex;flex-direction:column;
+  transition:border-color .4s,transform .4s var(--ease),box-shadow .4s;}
+.card:hover{border-color:rgba(182,217,138,.42);transform:translateY(-6px);box-shadow:0 24px 60px rgba(0,0,0,.45);}
+.card .thumb{aspect-ratio:16/10;position:relative;overflow:hidden;display:grid;place-items:center;}
+.card .thumb svg{width:100%;height:100%;display:block;transition:transform .6s var(--ease);}
+.card:hover .thumb svg{transform:scale(1.06);}
+.card .thumb .tag{position:absolute;top:14px;left:16px;font-size:9px;letter-spacing:.3em;color:rgba(233,236,231,.5);z-index:2;}
+.thumbA{background:linear-gradient(160deg,#16241a,#0a110c 72%);}
+.thumbB{background:linear-gradient(160deg,#1a2026,#0b0f13 72%);}
+.card .body{padding:30px 28px 34px;flex:1;display:flex;flex-direction:column;}
+.card h2{font-family:var(--serif);font-weight:400;font-size:25px;letter-spacing:.08em;line-height:1.3;}
+.card .en{margin-top:9px;font-size:10px;letter-spacing:.26em;color:var(--dim);}
+.card p{margin-top:18px;color:var(--dim);font-size:13.5px;line-height:2;flex:1;}
+.card .chips{margin-top:22px;display:flex;gap:9px;flex-wrap:wrap;}
+.card .chips span{font-size:10.5px;letter-spacing:.12em;color:var(--faint);border:1px solid var(--line);padding:5px 13px;border-radius:99px;}
+.card .go{margin-top:26px;display:inline-flex;align-items:center;gap:12px;font-size:12.5px;letter-spacing:.24em;color:var(--moss);}
+.card .go::after{content:"→";font-family:Georgia,serif;transition:transform .35s var(--ease);}
+.card:hover .go::after{transform:translateX(8px);}
+
+/* SECTION: footer */
+footer{border-top:1px solid var(--line);padding:36px 6vw;display:flex;justify-content:space-between;gap:16px;
+  flex-wrap:wrap;font-size:11px;letter-spacing:.2em;color:var(--dim);}
+footer a:hover{color:var(--moss);}
+
+/* SECTION: reveal */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:var(--d,0s);}
+.reveal.in{opacity:1;transform:none;}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none;}#grid-bg{display:none;}}
+</style>
+
+/* 返回上一级 · 右上角 */
+.back-top{position:fixed;top:18px;right:22px;z-index:9999;display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border:2px solid #111;background:#fff;color:#111;font-size:12px;font-weight:700;letter-spacing:.08em;text-decoration:none;box-shadow:4px 4px 0 0 #111;transition:transform .25s ease,box-shadow .25s ease,background .25s ease;cursor:pointer;}
+.back-top:hover,.back-top:focus-visible{background:#111;color:#fff;transform:translate(-2px,-2px);box-shadow:6px 6px 0 0 #111;outline:none;}
+.back-top:active{transform:translate(0,0);box-shadow:0 0 0 0 #111;}
+@media(max-width:720px){.back-top{top:10px;right:10px;padding:8px 12px;font-size:11px;}}
+</head>
+<body>
+<a class="back-top" href="#" onclick="event.preventDefault();history.back()">← 返回上一级</a>
+
+<nav>
+  
+  <span class="crumb">作品 / 跨界实验 / 交互网站设计</span>
+</nav>
+
+<!-- SECTION: hero -->
+<header class="hero">
+  <canvas id="grid-bg" aria-hidden="true"></canvas>
+  <span class="kicker reveal"><i></i>INTERACTIVE WEB · FRONT-END MINI APPS</span>
+  <h1 class="reveal" style="--d:.08s">交互网站设计
+    <span class="thin">点开即玩，无需安装</span>
+  </h1>
+  <p class="sub reveal" style="--d:.2s">把设计意图做成能<b>上手把玩</b>的网页——一座可换材质、摆家具、切光照的 3D 全屋设计工坊，一块能画、能撤销、能导出 PNG 的 8-bit 像素画板。两个都是纯前端单文件，<b>双击即开</b>，离线可用。</p>
+</header>
+
+<!-- SECTION: cards -->
+<main class="wrap">
+  <div class="cards">
+
+    <!-- 室内设计工坊 -->
+    <a class="card reveal" href="室内设计工坊/index.html">
+      <div class="thumb thumbA">
+        <span class="tag">3D · INTERIOR</span>
+        <svg viewBox="0 0 400 250" fill="none" stroke="#b6d98a" stroke-width="1.4" aria-hidden="true">
+          <path d="M60 170 L200 100 L340 170 L340 60 L200 130 L60 60 Z" opacity=".35"/>
+          <path d="M60 60 L200 130 L200 240 L60 170 Z" opacity=".55" stroke-linejoin="round"/>
+          <path d="M340 60 L200 130 L200 240 L340 170 Z" opacity=".45" stroke-linejoin="round"/>
+          <path d="M200 130 L200 240" opacity=".5"/>
+          <rect x="100" y="150" width="40" height="30" opacity=".4"/>
+          <circle cx="290" cy="150" r="12" opacity=".4"/>
+          <path d="M150 90 H260" stroke-dasharray="3 6" opacity=".3"/>
+        </svg>
+      </div>
+      <div class="body">
+        <h2>灵感家 · 全屋设计工坊</h2>
+        <div class="en">3D INTERIOR DESIGN STUDIO · THREE.JS</div>
+        <p>一室一厅全屋 3D 模型，可一键替换 8 种地板与 9 种墙面材质，从 14 类家具库摆放、拖动、旋转、逐部件换材质；切换白天 / 黄昏 / 夜晚光照，支持全景 / 俯视 / 客厅 / 卧室视角与自动环视，随时导出 PNG 效果图。</p>
+        <div class="chips"><span>Three.js</span><span>材质替换</span><span>家具摆放</span><span>光照氛围</span><span>导出效果图</span></div>
+        <span class="go">打开设计工坊</span>
+      </div>
+    </a>
+
+    <!-- 像素画板 -->
+    <a class="card reveal" style="--d:.12s" href="像素画板.html">
+      <div class="thumb thumbB">
+        <span class="tag">8-BIT · PIXEL</span>
+        <svg viewBox="0 0 400 250" fill="none" stroke="#8fb6c9" stroke-width="1.4" aria-hidden="true">
+          <g opacity=".5">
+            <path d="M120 60 H280 M120 90 H280 M120 120 H280 M120 150 H280 M120 180 H280" />
+            <path d="M120 60 V180 M152 60 V180 M184 60 V180 M216 60 V180 M248 60 V180 M280 60 V180" />
+          </g>
+          <rect x="184" y="90" width="32" height="30" fill="#b6d98a" opacity=".8" stroke="none"/>
+          <rect x="152" y="120" width="32" height="30" fill="#8fb6c9" opacity=".7" stroke="none"/>
+          <rect x="216" y="120" width="32" height="30" fill="#c9b892" opacity=".7" stroke="none"/>
+          <rect x="184" y="150" width="32" height="30" fill="#ff8fa3" opacity=".7" stroke="none"/>
+          <path d="M300 200 H360" stroke-dasharray="3 6" opacity=".35"/>
+        </svg>
+      </div>
+      <div class="body">
+        <h2>像素画板 · PIXEL STUDIO</h2>
+        <div class="en">8-BIT PIXEL ART EDITOR · CANVAS</div>
+        <p>一块复古 8-bit 像素画布，画你自己的像素世界。可调画布尺寸、选调色板，支持撤销 / 重做 / 清空，内置爱心、史莱姆示例模板，可切换网格与扫描线显示效果，画完一键导出 PNG 图片。</p>
+        <div class="chips"><span>Canvas 绘图</span><span>撤销重做</span><span>调色板</span><span>扫描线</span><span>导出 PNG</span></div>
+        <span class="go">打开像素画板</span>
+      </div>
+    </a>
+
+  </div>
+</main>
+
+<footer>
+  <span>© 2026 王福鑫 WANG FUXIN</span>
+  <span>交互网站设计 · INTERACTIVE WEB</span>
+  <a href="#" onclick="event.preventDefault();history.back()">回到上一级 ↑</a>
+</footer>
+
+<script>
+/* SECTION: reveal */
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
+}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* SECTION: grid-bg 背景网格动效 */
+const cv=document.getElementById('grid-bg');
+if(cv){
+  const ctx=cv.getContext('2d');
+  let W,H,dpr,t0=performance.now(),run=true;
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function fit(){dpr=Math.min(devicePixelRatio||1,2);W=cv.clientWidth;H=cv.clientHeight;
+    cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);}
+  function draw(now){
+    ctx.clearRect(0,0,W,H);
+    const t=(now-t0)/1000,step=46,off=(t*9)%step;
+    ctx.strokeStyle='rgba(182,217,138,.07)';ctx.lineWidth=1;
+    for(let x=-step+off;x<W+step;x+=step){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    for(let y=-step+off;y<H+step;y+=step){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+    ctx.fillStyle='rgba(182,217,138,.5)';
+    for(let x=0;x<W;x+=step){for(let y=0;y<H;y+=step){
+      const p=Math.sin((x+y)*.01+t*1.1)*.5+.5;
+      if(p>.86){ctx.beginPath();ctx.arc(x+off,y+off,1.6,0,6.283);ctx.fill();}
+    }}
+    if(run&&!reduced)requestAnimationFrame(draw);
+  }
+  fit();addEventListener('resize',()=>{fit();if(reduced)draw(performance.now());});
+  if(reduced){draw(performance.now());}
+  else{new IntersectionObserver(([e])=>{const was=run;run=e.isIntersecting;if(run&&!was)requestAnimationFrame(draw);}).observe(cv);requestAnimationFrame(draw);}
+}
+</script>
+<script src="../../assets/premium-fx.js"></script>
+</body>
+</html>

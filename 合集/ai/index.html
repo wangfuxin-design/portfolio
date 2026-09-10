@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 视频专区 · AI SHOWREEL</title>
+<meta name="description" content="用 ComfyUI 工作流串联 MiniMax H3 与 Seedance 2.0 创作的 AI 视频作品集">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2300f0ff'/%3E%3Cstop offset='1' stop-color='%23ff2ec4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%2305060f'/%3E%3Cpath d='M24 18l24 14-24 14z' fill='url(%23g)'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#05060f;
+  --cyan:#00f0ff;
+  --pink:#ff2ec4;
+  --violet:#7c6cff;
+  --text:#e8ecf8;
+  --muted:#9aa3c0;
+  --dim:#8b93b0;
+  --line:rgba(255,255,255,.08);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:"Segoe UI","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  overflow-x:hidden;
+}
+[hidden]{display:none!important}
+::selection{background:rgba(0,240,255,.35)}
+::-webkit-scrollbar{width:10px}
+::-webkit-scrollbar-track{background:#070812}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#0e4a55,#3d1e4a);border-radius:6px}
+::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,#12596a,#55275f)}
+
+/* ---------- background layers ---------- */
+#bg{position:fixed;inset:0;z-index:-4}
+.blob{position:fixed;border-radius:50%;filter:blur(130px);z-index:-3;pointer-events:none;opacity:.45}
+.b1{width:46vw;height:46vw;background:#123a6b;left:-12vw;top:-14vh;animation:drift 24s ease-in-out infinite alternate}
+.b2{width:38vw;height:38vw;background:#4c1d5e;right:-10vw;top:20vh;animation:drift 30s ease-in-out infinite alternate-reverse}
+.b3{width:32vw;height:32vw;background:#0b4f4f;left:26vw;bottom:-16vh;animation:drift 27s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translate(7vw,5vh) scale(1.18)}}
+#cursorGlow{
+  position:fixed;left:0;top:0;width:560px;height:560px;border-radius:50%;
+  pointer-events:none;z-index:-2;transform:translate(-50%,-50%);
+  background:radial-gradient(circle,rgba(0,240,255,.09),rgba(255,46,196,.05) 42%,transparent 70%);
+}
+@media (pointer:coarse){#cursorGlow{display:none}}
+
+/* ---------- nav ---------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 4vw;
+  background:linear-gradient(180deg,rgba(5,6,15,.8),rgba(5,6,15,.25));
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.2em;font-size:14px}
+.logo-dot{width:10px;height:10px;border-radius:50%;background:conic-gradient(var(--cyan),var(--pink),var(--cyan));box-shadow:0 0 14px var(--cyan);animation:spin 3s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.nav nav a{color:var(--muted);text-decoration:none;font-size:13px;margin-left:26px;letter-spacing:.12em;transition:.25s}
+.nav nav a:hover{color:var(--cyan);text-shadow:0 0 12px rgba(0,240,255,.8)}
+
+/* ---------- hero ---------- */
+.hero{min-height:92vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:130px 6vw 60px;position:relative}
+.kicker{font-family:Consolas,monospace;color:var(--cyan);letter-spacing:.38em;font-size:clamp(10px,1.4vw,13px);margin-bottom:24px;text-shadow:0 0 14px rgba(0,240,255,.6)}
+.title{font-size:clamp(42px,9vw,104px);line-height:1.08;font-weight:900;letter-spacing:.02em}
+.title em{
+  font-style:normal;
+  background:linear-gradient(120deg,var(--cyan),var(--violet) 38%,var(--pink) 72%,var(--cyan));
+  background-size:300% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:hue 8s linear infinite;
+  filter:drop-shadow(0 0 28px rgba(124,108,255,.45));
+}
+@keyframes hue{to{background-position:300% 0}}
+.sub{max-width:640px;color:var(--muted);margin:26px 0 40px;line-height:2;font-size:15px}
+.stats{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:44px}
+.stat{min-width:112px;padding:14px 22px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.03);backdrop-filter:blur(8px);transition:.3s}
+.stat:hover{border-color:rgba(0,240,255,.4);transform:translateY(-3px)}
+.stat b{display:block;font-size:24px;font-variant-numeric:tabular-nums;background:linear-gradient(90deg,var(--cyan),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat span{font-size:12px;color:var(--dim);letter-spacing:.22em}
+.cta{
+  display:inline-flex;align-items:center;gap:10px;padding:15px 38px;border-radius:999px;
+  font-weight:700;letter-spacing:.1em;text-decoration:none;color:#04121a;
+  background:linear-gradient(120deg,var(--cyan),var(--violet),var(--pink));background-size:220% 100%;
+  animation:hue 6s linear infinite;
+  box-shadow:0 0 34px rgba(0,240,255,.35),0 0 70px rgba(255,46,196,.18);
+  transition:transform .25s;
+}
+.cta:hover{transform:translateY(-3px) scale(1.03)}
+.scroll-cue{position:absolute;bottom:28px;left:50%;width:1px;height:52px;overflow:hidden}
+.scroll-cue::before{content:"";position:absolute;left:0;top:-40%;width:100%;height:40%;background:linear-gradient(180deg,transparent,var(--cyan));animation:cue 1.8s ease-in-out infinite}
+@keyframes cue{to{top:110%}}
+
+/* ---------- marquee ---------- */
+.marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:15px 0;background:rgba(255,255,255,.015)}
+.marquee-track{display:flex;width:max-content;animation:mq 30s linear infinite}
+.mq{display:flex;gap:52px;padding-right:52px;white-space:nowrap;font-family:Consolas,monospace;font-size:13px;letter-spacing:.3em;color:rgba(255,255,255,.3)}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* ---------- works ---------- */
+.works{max-width:1320px;margin:0 auto;padding:96px 4vw 30px}
+.sec-head{display:flex;flex-wrap:wrap;gap:22px;justify-content:space-between;align-items:flex-end;margin-bottom:30px}
+.sec-head h2{font-size:30px;font-weight:800;position:relative;padding-bottom:12px}
+.sec-head h2 span{margin-left:14px;font-size:12px;letter-spacing:.42em;color:var(--cyan);font-family:Consolas,monospace;font-weight:400;vertical-align:middle}
+.sec-head h2::after{content:"";position:absolute;left:0;bottom:0;width:64px;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--cyan),var(--pink));box-shadow:0 0 12px rgba(0,240,255,.6)}
+.tools{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{padding:8px 18px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--muted);font-size:13px;cursor:pointer;transition:.25s;font-family:inherit}
+.chip small{opacity:.55;margin-left:5px}
+.chip:hover{color:#fff;border-color:rgba(0,240,255,.5);box-shadow:0 0 14px rgba(0,240,255,.15)}
+.chip.active{color:#04121a;font-weight:700;background:linear-gradient(120deg,var(--cyan),var(--violet));border-color:transparent;box-shadow:0 0 18px rgba(0,240,255,.35)}
+#search{padding:10px 18px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:#fff;outline:none;width:210px;font-size:13px;transition:.25s;font-family:inherit}
+#search::placeholder{color:var(--dim)}
+#search:focus{border-color:rgba(0,240,255,.6);box-shadow:0 0 16px rgba(0,240,255,.22)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(330px,100%),1fr));gap:26px;perspective:1400px}
+.card{
+  position:relative;border-radius:18px;overflow:hidden;cursor:pointer;
+  background:rgba(255,255,255,.03);border:1px solid var(--line);
+  opacity:0;transform:translateY(28px);
+  transition:opacity .7s ease,transform .7s ease,box-shadow .35s ease,border-color .35s ease;
+}
+.card.in{opacity:1;transform:none}
+.card.revealed{transition:transform .22s ease,box-shadow .3s ease,border-color .3s ease}
+.card:hover{border-color:rgba(0,240,255,.55);box-shadow:0 14px 44px rgba(0,0,0,.5),0 0 36px rgba(0,240,255,.16),0 0 90px rgba(255,46,196,.09)}
+.card.hide{display:none}
+.card.broken{opacity:.45;cursor:default}
+.media{position:relative;aspect-ratio:16/9;background:#000;overflow:hidden}
+.media::before{content:"";position:absolute;inset:0;z-index:3;background:linear-gradient(100deg,transparent 35%,rgba(255,255,255,.06) 50%,transparent 65%) #0b0d1c;background-size:220% 100%;animation:shimmer 1.6s linear infinite;transition:opacity .5s}
+.card.ready .media::before,.card.broken .media::before{opacity:0;animation-play-state:paused}
+@keyframes shimmer{to{background-position:-220% 0}}
+.media img.poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .35s}
+.media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s;background:#000}
+.media.playing video{opacity:1}
+.media.playing img.poster{opacity:0}
+.media::after{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,transparent 55%,rgba(3,4,12,.75));pointer-events:none}
+.scan{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0;transition:opacity .4s;mix-blend-mode:overlay;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(0,0,0,.35) 3px 4px)}
+.card:hover .scan{opacity:.5}
+.dur{position:absolute;top:12px;right:12px;z-index:4;padding:4px 10px;border-radius:8px;font-size:11px;font-family:Consolas,monospace;background:rgba(3,4,12,.6);border:1px solid rgba(255,255,255,.14);color:#cfd6ee;backdrop-filter:blur(6px)}
+.play-badge{
+  position:absolute;right:14px;bottom:12px;z-index:4;width:46px;height:46px;border-radius:50%;
+  display:grid;place-items:center;font-size:15px;color:var(--cyan);
+  background:rgba(0,240,255,.12);border:1px solid rgba(0,240,255,.5);backdrop-filter:blur(6px);
+  opacity:0;transform:scale(.6);transition:.3s;
+}
+.card:hover .play-badge{opacity:1;transform:scale(1)}
+.info{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:15px 18px}
+.info h3{font-size:15px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.series{flex-shrink:0;font-size:11px;letter-spacing:.12em;color:var(--dim);border:1px solid var(--line);padding:4px 11px;border-radius:999px}
+.empty{margin:30px auto;padding:60px 20px;max-width:420px;text-align:center;color:var(--dim);border:1px dashed rgba(255,255,255,.15);border-radius:16px;font-size:14px;letter-spacing:.1em}
+
+/* ---------- about ---------- */
+.about{max-width:1320px;margin:0 auto;padding:80px 4vw 90px}
+.about h2{font-size:26px;font-weight:800;margin-bottom:18px}
+.about h2 span{margin-left:14px;font-size:12px;letter-spacing:.42em;color:var(--cyan);font-family:Consolas,monospace;font-weight:400;vertical-align:middle}
+.about p{max-width:760px;color:var(--muted);line-height:2.1;font-size:14.5px}
+.tags{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.tag{padding:7px 16px;border-radius:999px;font-size:12px;font-family:Consolas,monospace;letter-spacing:.12em;color:var(--cyan);border:1px solid rgba(0,240,255,.3);background:rgba(0,240,255,.05)}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line);padding:34px 4vw;text-align:center;color:var(--dim);font-size:12.5px;letter-spacing:.14em}
+footer b{background:linear-gradient(90deg,var(--cyan),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:700}
+
+/* ---------- lightbox ---------- */
+.lightbox{
+  position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;
+  padding:6vh 9vw 8vh;
+  background:rgba(3,4,12,.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  animation:lbin .28s ease;
+}
+@keyframes lbin{from{opacity:0}to{opacity:1}}
+.lb-stage{width:min(1080px,100%);animation:stagein .32s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes stagein{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}
+#lbVideo{display:block;width:100%;max-height:74vh;border-radius:16px;background:#000;border:1px solid rgba(0,240,255,.35);box-shadow:0 0 60px rgba(0,240,255,.16),0 0 150px rgba(124,108,255,.12)}
+.lb-meta{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px 4px 0;font-size:13px;color:var(--dim);letter-spacing:.08em}
+.lb-meta #lbTitle{color:#fff;font-weight:700;font-size:15px}
+.lb-btn{
+  width:52px;height:52px;border-radius:50%;flex-shrink:0;cursor:pointer;
+  border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.05);color:#fff;
+  font-size:19px;transition:.25s;font-family:inherit;
+}
+.lb-btn:hover{border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 18px rgba(0,240,255,.4)}
+.lb-prev{position:absolute;left:3vw;top:50%;transform:translateY(-50%)}
+.lb-next{position:absolute;right:3vw;top:50%;transform:translateY(-50%)}
+.lb-close{position:absolute;top:22px;right:26px}
+@media (max-width:760px){
+  .lightbox{padding:56px 4vw 96px}
+  .lb-prev{left:calc(50% - 64px);top:auto;bottom:26px;transform:none}
+  .lb-next{right:calc(50% - 64px);top:auto;bottom:26px;transform:none}
+  .sec-head{flex-direction:column;align-items:flex-start}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
+  .card{opacity:1;transform:none}
+}
+</style>
+
+/* 返回上一级 · 右上角 */
+.back-top{position:fixed;top:18px;right:22px;z-index:9999;display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border:2px solid #111;background:#fff;color:#111;font-size:12px;font-weight:700;letter-spacing:.08em;text-decoration:none;box-shadow:4px 4px 0 0 #111;transition:transform .25s ease,box-shadow .25s ease,background .25s ease;cursor:pointer;}
+.back-top:hover,.back-top:focus-visible{background:#111;color:#fff;transform:translate(-2px,-2px);box-shadow:6px 6px 0 0 #111;outline:none;}
+.back-top:active{transform:translate(0,0);box-shadow:0 0 0 0 #111;}
+@media(max-width:720px){.back-top{top:10px;right:10px;padding:8px 12px;font-size:11px;}}
+</head>
+<body>
+<a class="back-top" href="#" onclick="event.preventDefault();history.back()">← 返回上一级</a>
+
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="blob b1" aria-hidden="true"></div>
+<div class="blob b2" aria-hidden="true"></div>
+<div class="blob b3" aria-hidden="true"></div>
+<div id="cursorGlow" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="logo"><span class="logo-dot"></span>AI·SHOWREEL</div>
+  <nav>
+    
+    <a href="#works">作品</a>
+    <a href="#about">关于</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <p class="kicker">// AI GENERATED VIDEO SHOWREEL</p>
+  <h1 class="title">AI 视频<em>专区</em></h1>
+  <p class="sub">用 ComfyUI 工作流串联 MiniMax H3 与 Seedance 2.0 创作的动态影像——从一段提示词到一帧帧流动的光影，这里收录了每一份想象力的具象化。</p>
+  <div class="stats">
+    <div class="stat"><b id="statCount">0</b><span>部作品</span></div>
+    <div class="stat"><b id="statSeries">0</b><span>个系列</span></div>
+    <div class="stat"><b id="statDuration">—</b><span>总时长</span></div>
+    <div class="stat"><b>HD</b><span>高清画质</span></div>
+  </div>
+  <a class="cta" href="#works">进入画廊 ↓</a>
+  <div class="scroll-cue" aria-hidden="true"></div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <div class="mq"><span>ComfyUI</span><span>✦</span><span>MiniMax H3</span><span>✦</span><span>Seedance 2.0</span><span>✦</span><span>Image-to-Video</span><span>✦</span><span>Text-to-Video</span><span>✦</span><span>RTX 超分辨率</span><span>✦</span><span>AI 剪辑</span><span>✦</span><span>生成式影像</span><span>✦</span></div>
+    <div class="mq"><span>ComfyUI</span><span>✦</span><span>MiniMax H3</span><span>✦</span><span>Seedance 2.0</span><span>✦</span><span>Image-to-Video</span><span>✦</span><span>Text-to-Video</span><span>✦</span><span>RTX 超分辨率</span><span>✦</span><span>AI 剪辑</span><span>✦</span><span>生成式影像</span><span>✦</span></div>
+  </div>
+</div>
+
+<main id="works" class="works">
+  <div class="sec-head">
+    <h2>作品画廊<span>WORKS</span></h2>
+    <div class="tools">
+      <div class="chips" id="chips"></div>
+      <input id="search" type="text" placeholder="搜索作品…" aria-label="搜索作品">
+    </div>
+  </div>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" hidden>没有匹配的作品,换个关键词试试</div>
+</main>
+
+<section id="about" class="about">
+  <h2>关于本站<span>ABOUT</span></h2>
+  <p>这里展示的视频均由 AI 端到端生成：通过 ComfyUI 工作流串联 MiniMax H3 与 Seedance 2.0 完成图生视频(I2V)与文生视频(T2V)创作，再经 RTX 超分辨率放大与后期剪辑，最终呈现为眼前这些流动的画面。</p>
+  <div class="tags">
+    <span class="tag">ComfyUI</span><span class="tag">MiniMax H3</span><span class="tag">Seedance 2.0</span><span class="tag">I2V</span><span class="tag">T2V</span><span class="tag">RTX Upscale</span><span class="tag">AI 剪辑</span>
+  </div>
+</section>
+
+<footer>© 2026 <b>AI SHOWREEL</b> · 每一帧,皆由想象力驱动</footer>
+
+<div class="lightbox" id="lightbox" hidden>
+  <button class="lb-btn lb-close" id="lbClose" aria-label="关闭">✕</button>
+  <button class="lb-btn lb-prev" id="lbPrev" aria-label="上一个">←</button>
+  <div class="lb-stage">
+    <video id="lbVideo" controls playsinline muted></video>
+    <div class="lb-meta"><span id="lbTitle"></span><span id="lbIndex"></span></div>
+  </div>
+  <button class="lb-btn lb-next" id="lbNext" aria-label="下一个">→</button>
+</div>
+
+<noscript><p style="text-align:center;padding:40px">需要启用 JavaScript 才能浏览作品。</p></noscript>
+
+<script>
+'use strict';
+/* ---------------- data ---------------- */
+let ITEMS = [];
+const FALLBACK_FILES = [
+  "01-书房少年.mp4",
+  "02-侠女破阵.mp4",
+  "03-上街.mp4",
+  "04-湖畔别墅.mp4",
+  "05-产品宣传.mp4",
+  "06-少女肖像.mp4",
+  "07-操场独行.mp4",
+  "08-园区景观.mp4",
+  "09-庭院疾步.mp4",
+  "10-战斗场景.mp4",
+  "11-语音助手.mp4",
+  "12-古市长街.mp4"
+];
+const FALLBACK_DUR = {
+  "01-书房少年.mp4": 47.93,
+  "02-侠女破阵.mp4": 4.88,
+  "03-上街.mp4": 14.95,
+  "04-湖畔别墅.mp4": 9.71,
+  "05-产品宣传.mp4": 18.65,
+  "06-少女肖像.mp4": 12.42,
+  "07-操场独行.mp4": 36.27,
+  "08-园区景观.mp4": 17.97,
+  "09-庭院疾步.mp4": 15.84,
+  "10-战斗场景.mp4": 17.72,
+  "11-语音助手.mp4": 32.02,
+  "12-古市长街.mp4": 31.02
+};
+const FALLBACK_SERIES = {
+  "01-书房少年.mp4": "角色",
+  "02-侠女破阵.mp4": "古风",
+  "03-上街.mp4": "产品",
+  "04-湖畔别墅.mp4": "建筑",
+  "05-产品宣传.mp4": "产品",
+  "06-少女肖像.mp4": "角色",
+  "07-操场独行.mp4": "动漫",
+  "08-园区景观.mp4": "建筑",
+  "09-庭院疾步.mp4": "古风",
+  "10-战斗场景.mp4": "古风",
+  "11-语音助手.mp4": "产品",
+  "12-古市长街.mp4": "古风"
+};
+const seriesOf = (n) => FALLBACK_SERIES[n] || '其他';
+const srcOf = f => encodeURI('videos/' + f);
+const thumbOf = f => encodeURI('videos/thumbs/' + f.replace(/\.mp4$/i, '') + '.jpg');
+const $ = s => document.querySelector(s);
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const fmt = s => {
+  if (!isFinite(s) || s <= 0) return '--:--';
+  s = Math.max(0, Math.round(s));
+  return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+};
+const sk = n => { const m = n.match(/^(\d+)月(\d+)日/); return m ? (+m[1] * 100 + +m[2]) : 99999; };
+const normItem = (raw, durMap) => {
+  if (typeof raw === 'string') return { file: raw, duration: durMap[raw] || 0, series: FALLBACK_SERIES[raw] || '' };
+  if (raw && typeof raw.file === 'string') {
+    return {
+      file: raw.file,
+      duration: +raw.duration || 0,
+      series: typeof raw.series === 'string' && raw.series ? raw.series : (FALLBACK_SERIES[raw.file] || '')
+    };
+  }
+  return null;
+};
+
+async function loadItems() {
+  const byFile = new Map();
+  const durMap = { ...FALLBACK_DUR };
+  try {
+    const r = await fetch('videos.json', { cache: 'no-store' });
+    if (r.ok) {
+      const list = await r.json();
+      if (Array.isArray(list)) {
+        list.forEach(raw => {
+          const it = normItem(raw, durMap);
+          if (it) {
+            if (it.duration) durMap[it.file] = it.duration;
+            byFile.set(it.file, { file: it.file, duration: it.duration || durMap[it.file] || 0, series: it.series || FALLBACK_SERIES[it.file] || '' });
+          }
+        });
+      }
+    }
+  } catch (e) { }
+  if (!byFile.size) {
+    try {
+      const r = await fetch('videos/', { cache: 'no-store' });
+      if (r.ok) {
+        const html = await r.text();
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        doc.querySelectorAll('a[href]').forEach(a => {
+          const href = decodeURIComponent(a.getAttribute('href').split('?')[0].split('#')[0]);
+          if (/\.mp4$/i.test(href)) {
+            const file = href.replace(/^\.?\//, '').split('/').pop();
+            byFile.set(file, { file, duration: durMap[file] || 0, series: FALLBACK_SERIES[file] || '' });
+          }
+        });
+      }
+    } catch (e) { }
+  }
+  if (!byFile.size) FALLBACK_FILES.forEach(f => byFile.set(f, { file: f, duration: durMap[f] || 0, series: FALLBACK_SERIES[f] || '' }));
+  return [...byFile.values()].sort((a, b) => a.file.localeCompare(b.file, 'zh-Hans-CN', { numeric: true }));
+}
+
+(async () => {
+  ITEMS = await loadItems();
+
+/* ---------------- build cards (static thumbs only) ---------------- */
+const grid = $('#grid');
+const cards = ITEMS.map(item => {
+  const file = item.file;
+  const name = file.replace(/\.mp4$/, '');
+  const card = document.createElement('article');
+  card.className = 'card';
+  card.dataset.file = file;
+  card.dataset.name = name;
+  card.dataset.series = item.series || seriesOf(file);
+  card.dataset.dur = item.duration || '';
+  card.innerHTML =
+    '<div class="media">' +
+      '<img class="poster" alt="" loading="lazy" decoding="async" src="' + thumbOf(file) + '">' +
+      '<video muted loop playsinline preload="none"></video>' +
+      '<div class="scan"></div>' +
+      '<span class="dur">' + fmt(item.duration) + '</span>' +
+      '<span class="play-badge">▶</span>' +
+    '</div>' +
+    '<div class="info"><h3 title="' + name.replace(/"/g, '&quot;') + '">' + name + '</h3>' +
+    '<span class="series">' + card.dataset.series + '</span></div>';
+  grid.appendChild(card);
+  card.classList.add('ready');
+  return card;
+});
+
+/* total duration from metadata */
+const totalSec = ITEMS.reduce((s, it) => s + (it.duration || 0), 0);
+{
+  const m = Math.round(totalSec / 60), s = Math.round(totalSec % 60);
+  $('#statDuration').textContent = m + ' 分 ' + String(s).padStart(2, '0') + ' 秒';
+}
+
+/* series chips */
+const chipsBox = $('#chips');
+const seriesList = [...new Set(cards.map(c => c.dataset.series))];
+$('#statCount').textContent = cards.length;
+$('#statSeries').textContent = seriesList.length;
+let activeSeries = '全部', query = '';
+function makeChip(label, count) {
+  const b = document.createElement('button');
+  b.className = 'chip' + (label === '全部' ? ' active' : '');
+  b.innerHTML = label + '<small>' + count + '</small>';
+  b.addEventListener('click', () => {
+    activeSeries = label;
+    chipsBox.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', c === b));
+    applyFilter();
+  });
+  chipsBox.appendChild(b);
+}
+makeChip('全部', cards.length);
+seriesList.forEach(s => makeChip(s, cards.filter(c => c.dataset.series === s).length));
+
+$('#search').addEventListener('input', e => { query = e.target.value.trim().toLowerCase(); applyFilter(); });
+
+let visList = cards.slice();
+function applyFilter() {
+  let shown = 0;
+  cards.forEach(card => {
+    const ok = (activeSeries === '全部' || card.dataset.series === activeSeries) &&
+               (!query || card.dataset.name.toLowerCase().includes(query));
+    card.classList.toggle('hide', !ok);
+    if (ok) { shown++; card.classList.add('in'); }
+  });
+  $('#empty').hidden = shown > 0;
+  visList = cards.filter(c => !c.classList.contains('hide'));
+}
+
+/* ---------------- reveal on scroll ---------------- */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      en.target.classList.add('in');
+      setTimeout(() => en.target.classList.add('revealed'), 950);
+      io.unobserve(en.target);
+    }
+  });
+}, { threshold: .12, rootMargin: '0px 0px -6% 0px' });
+cards.forEach(c => io.observe(c));
+
+/* ---------------- lazy hover video (only on demand) ---------------- */
+function ensureVideo(card) {
+  let v = card.querySelector('video');
+  if (v.dataset.ready === '1') return v;
+  v.src = srcOf(card.dataset.file);
+  v.dataset.ready = '1';
+  return v;
+}
+function stopHoverVideo(card) {
+  const v = card.querySelector('video');
+  v.pause();
+  card.querySelector('.media').classList.remove('playing');
+}
+
+const lightbox = $('#lightbox');
+cards.forEach(card => {
+  card.addEventListener('mouseenter', () => {
+    if (!lightbox.hidden) return;
+    const v = ensureVideo(card);
+    const play = () => v.play().then(() => card.querySelector('.media').classList.add('playing')).catch(() => {});
+    if (v.readyState >= 2) play();
+    else v.addEventListener('loadeddata', play, { once: true });
+  });
+  card.addEventListener('mouseleave', () => stopHoverVideo(card));
+});
+
+/* ---------------- 3D tilt ---------------- */
+if (matchMedia('(pointer:fine)').matches && !reduceMotion) {
+  cards.forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - .5;
+      const y = (e.clientY - r.top) / r.height - .5;
+      card.style.transform = 'translateY(-6px) rotateX(' + (-y * 5) + 'deg) rotateY(' + (x * 5) + 'deg)';
+    });
+    card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+  });
+}
+
+/* ---------------- lightbox (load full video only when opened) ---------------- */
+const lbVideo = $('#lbVideo');
+let idx = 0;
+function openLb(i) {
+  if (!visList.length) return;
+  idx = (i + visList.length) % visList.length;
+  const card = visList[idx];
+  cards.forEach(c => stopHoverVideo(c));
+  lbVideo.src = srcOf(card.dataset.file);
+  $('#lbTitle').textContent = card.dataset.name;
+  $('#lbIndex').textContent = (idx + 1) + ' / ' + visList.length;
+  lightbox.hidden = false;
+  document.body.style.overflow = 'hidden';
+  lbVideo.play().catch(() => {});
+}
+function closeLb() {
+  lbVideo.pause();
+  lbVideo.removeAttribute('src');
+  lbVideo.load();
+  lightbox.hidden = true;
+  document.body.style.overflow = '';
+}
+$('#lbPrev').addEventListener('click', () => openLb(idx - 1));
+$('#lbNext').addEventListener('click', () => openLb(idx + 1));
+$('#lbClose').addEventListener('click', closeLb);
+lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLb(); });
+document.addEventListener('keydown', e => {
+  if (lightbox.hidden) return;
+  if (e.key === 'Escape') closeLb();
+  else if (e.key === 'ArrowRight') openLb(idx + 1);
+  else if (e.key === 'ArrowLeft') openLb(idx - 1);
+});
+grid.addEventListener('click', e => {
+  const card = e.target.closest('.card');
+  if (!card || card.classList.contains('broken')) return;
+  const i = visList.indexOf(card);
+  if (i > -1) openLb(i);
+});
+
+})();
+
+/* ---------------- particles + cursor glow ---------------- */
+const bg = $('#bg'), bctx = bg.getContext('2d');
+const glow = $('#cursorGlow');
+let W, H, dpr, parts = [];
+const HUES = [187, 265, 315];
+function sizeBg() {
+  dpr = Math.min(devicePixelRatio || 1, 2);
+  W = bg.width = innerWidth * dpr;
+  H = bg.height = innerHeight * dpr;
+  const n = Math.min(90, Math.floor(innerWidth / 15));
+  parts = Array.from({ length: n }, () => ({
+    x: Math.random() * W, y: Math.random() * H,
+    r: (0.7 + Math.random() * 1.8) * dpr,
+    vx: (Math.random() - .5) * .22 * dpr,
+    vy: (Math.random() - .5) * .22 * dpr,
+    hue: HUES[Math.random() * HUES.length | 0]
+  }));
+}
+sizeBg();
+addEventListener('resize', sizeBg);
+let mx = innerWidth / 2, my = innerHeight / 2, gx = mx, gy = my;
+addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function frame() {
+  bctx.clearRect(0, 0, W, H);
+  for (const p of parts) {
+    p.x += p.vx; p.y += p.vy;
+    if (p.x < 0) p.x += W; if (p.x > W) p.x -= W;
+    if (p.y < 0) p.y += H; if (p.y > H) p.y -= H;
+    bctx.beginPath();
+    bctx.fillStyle = 'hsla(' + p.hue + ',100%,72%,.55)';
+    bctx.arc(p.x, p.y, p.r, 0, 6.283);
+    bctx.fill();
+  }
+  const link = 120 * dpr;
+  for (let i = 0; i < parts.length; i++) {
+    for (let j = i + 1; j < parts.length; j++) {
+      const a = parts[i], b = parts[j];
+      const dx = a.x - b.x, dy = a.y - b.y, d = Math.hypot(dx, dy);
+      if (d < link) {
+        bctx.strokeStyle = 'hsla(190,100%,70%,' + ((1 - d / link) * .12).toFixed(3) + ')';
+        bctx.lineWidth = dpr * .6;
+        bctx.beginPath(); bctx.moveTo(a.x, a.y); bctx.lineTo(b.x, b.y); bctx.stroke();
+      }
+    }
+  }
+  gx += (mx - gx) * .07; gy += (my - gy) * .07;
+  glow.style.left = gx + 'px'; glow.style.top = gy + 'px';
+  requestAnimationFrame(frame);
+}
+if (!reduceMotion) frame();
+else { gx = mx; gy = my; glow.style.left = gx + 'px'; glow.style.top = gy + 'px'; }
+</script>
+<script src="../assets/premium-fx.js"></script>
+</body>
+</html>

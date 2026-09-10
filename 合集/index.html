@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>王福鑫 · 环境设计作品集 | 方寸之间 · 想象之上</title>
+<meta name="description" content="王福鑫环境设计作品集——城市中央公园、山海乡村更新、企业共享花园三个景观设计方案，以及 AI 视频、交互网站设计、数字孪生三类跨界实验。青岛理工大学艺术与设计学院。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230d110f'/%3E%3Cpath d='M4 22 L12 10 L17 17 L21 12 L28 22' fill='none' stroke='%239ec3a8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+/* ============================================================
+   王福鑫 · 环境设计作品集 总集合页
+   暗色展厅风：暖黑底 × 宋体大标题 × 等高线动效
+   ============================================================ */
+:root{
+  --bg:#0d110f;            /* 暖黑，带一点苔绿 */
+  --bg-soft:#131a16;       /* 条目悬浮面 */
+  --ink:#e9ece7;           /* 米白 */
+  --dim:#8b968d;           /* 次级灰绿 */
+  --faint:rgba(233,236,231,.42);
+  --line:rgba(233,236,231,.10);
+  --moss:#9ec3a8;          /* 苔绿点缀 */
+  --sand:#c9b892;          /* 沙金，仅少量 */
+  --serif:"Songti SC","STSong","SimSun",Georgia,"Times New Roman",serif;
+  --sans:-apple-system,"PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+  --ease:cubic-bezier(.22,.61,.21,1);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.8;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;}
+::selection{background:var(--moss);color:#0d110f;}
+a{color:inherit;}
+::-webkit-scrollbar{width:10px;}
+::-webkit-scrollbar-thumb{background:#242c26;border-radius:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+
+/* ---------- 顶部导航 ---------- */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;
+  padding:20px 6vw;transition:background .4s ease,border-color .4s ease,padding .4s ease;border-bottom:1px solid transparent;}
+nav.scrolled{background:rgba(13,17,15,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom-color:var(--line);padding:14px 6vw;}
+nav .logo{display:flex;align-items:baseline;gap:12px;text-decoration:none;}
+nav .logo b{font-size:15px;letter-spacing:.42em;font-weight:600;}
+nav .logo span{font-size:10px;letter-spacing:.3em;color:var(--dim);}
+nav .menu{display:flex;gap:38px;}
+nav .menu a{font-size:12.5px;letter-spacing:.24em;color:var(--faint);text-decoration:none;position:relative;transition:color .3s;}
+nav .menu a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:1px;background:var(--moss);transition:width .35s var(--ease);}
+nav .menu a:hover{color:var(--ink);}
+nav .menu a:hover::after{width:100%;}
+@media(max-width:700px){
+  nav{padding:14px 5vw;}
+  nav.scrolled{padding:12px 5vw;}
+  nav .logo b{font-size:14px;letter-spacing:.26em;white-space:nowrap;}
+  nav .logo span{display:none;}
+  nav .menu{gap:20px;}
+  nav .menu a{font-size:12px;letter-spacing:.1em;white-space:nowrap;}
+}
+
+/* ---------- 首屏 ---------- */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;position:relative;
+  padding:140px 6vw 90px;overflow:hidden;}
+#terrain{position:absolute;inset:0;width:100%;height:100%;z-index:0;}
+.hero>*{position:relative;z-index:1;}
+.hero .kicker{display:inline-flex;align-items:center;gap:14px;align-self:flex-start;font-size:11.5px;
+  letter-spacing:.44em;color:var(--moss);border:1px solid rgba(158,195,168,.28);padding:9px 20px 9px 24px;border-radius:99px;margin-bottom:52px;}
+.hero .kicker i{width:5px;height:5px;border-radius:50%;background:var(--moss);display:inline-block;}
+.hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(54px,10.5vw,138px);line-height:1.14;letter-spacing:.04em;}
+.hero h1 .l2{display:block;padding-left:clamp(60px,14vw,220px);color:var(--faint);}
+.hero .sub{margin-top:48px;max-width:560px;color:var(--dim);font-size:14.5px;line-height:2.1;}
+.hero .sub b{color:var(--ink);font-weight:500;}
+.hero .meta-row{margin-top:34px;display:flex;gap:34px;flex-wrap:wrap;font-size:11px;letter-spacing:.26em;color:var(--dim);}
+.hero .meta-row span{display:flex;align-items:center;gap:10px;}
+.hero .meta-row i{width:22px;height:1px;background:var(--sand);display:inline-block;}
+.hero .scroll-hint{position:absolute;bottom:34px;left:6vw;display:flex;flex-direction:column;align-items:flex-start;gap:16px;
+  font-size:10.5px;letter-spacing:.4em;color:var(--dim);z-index:1;}
+.hero .sline{width:1px;height:44px;display:block;}
+.hero .sline.t{background:linear-gradient(var(--moss),transparent);animation:dripT 2.6s var(--ease) infinite;}
+.hero .sline.b{background:linear-gradient(transparent,var(--moss));animation:dripB 2.6s var(--ease) infinite;}
+@keyframes dripT{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}
+  55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+@keyframes dripB{0%{transform:scaleY(0);transform-origin:bottom}45%{transform:scaleY(1);transform-origin:bottom}
+  55%{transform:scaleY(1);transform-origin:top}100%{transform:scaleY(0);transform-origin:top}}
+.hero .coord{position:absolute;bottom:34px;right:6vw;font-size:10px;letter-spacing:.3em;color:rgba(233,236,231,.22);z-index:1;}
+
+/* ---------- 通用 section ---------- */
+section{padding:120px 6vw;}
+.sec-head{display:flex;align-items:baseline;gap:24px;margin-bottom:76px;}
+.sec-head .no{font-family:Georgia,serif;font-style:italic;font-size:13px;color:var(--sand);letter-spacing:.2em;}
+.sec-head h2{font-family:var(--serif);font-weight:400;font-size:clamp(28px,3.6vw,44px);letter-spacing:.16em;}
+.sec-head .en{margin-left:auto;font-size:10.5px;letter-spacing:.34em;color:var(--dim);}
+@media(max-width:700px){.sec-head .en{display:none;}}
+
+/* ---------- 作品条目 ---------- */
+#works .list{border-top:1px solid var(--line);}
+.work{display:grid;grid-template-columns:120px 1fr 218px;gap:clamp(24px,4vw,64px);align-items:center;
+  padding:64px 8px;border-bottom:1px solid var(--line);text-decoration:none;position:relative;
+  transition:background .45s ease;}
+.work:hover{background:linear-gradient(90deg,rgba(158,195,168,.05),transparent 70%);}
+.work .num{font-family:Georgia,serif;font-style:italic;font-size:clamp(54px,6vw,84px);line-height:1;
+  color:transparent;-webkit-text-stroke:1px rgba(233,236,231,.22);transition:all .45s var(--ease);}
+.work:hover .num{-webkit-text-stroke:1px var(--moss);transform:translateX(6px);}
+.work h3{font-family:var(--serif);font-weight:400;font-size:clamp(27px,3.4vw,42px);letter-spacing:.1em;line-height:1.3;transition:letter-spacing .5s var(--ease);}
+.work:hover h3{letter-spacing:.14em;}
+.work .en-tag{margin-top:10px;font-size:10.5px;letter-spacing:.32em;color:var(--dim);}
+.work .desc{margin-top:20px;max-width:600px;color:var(--dim);font-size:13.5px;line-height:2;}
+.work .chips{margin-top:22px;display:flex;gap:10px;flex-wrap:wrap;}
+.work .chips span{font-size:11px;letter-spacing:.16em;color:var(--faint);border:1px solid var(--line);padding:5px 14px;border-radius:99px;}
+.work .go{margin-top:26px;display:inline-flex;align-items:center;gap:12px;font-size:12px;letter-spacing:.3em;color:var(--moss);}
+.work .go::after{content:"→";font-family:Georgia,serif;transition:transform .35s var(--ease);}
+.work:hover .go::after{transform:translateX(8px);}
+.work .cover{width:100%;aspect-ratio:190/230;border:1px solid var(--line);border-radius:2px;overflow:hidden;
+  position:relative;transition:border-color .45s;}
+.work:hover .cover{border-color:rgba(158,195,168,.4);}
+.work .cover svg{width:100%;height:100%;display:block;transition:transform .5s var(--ease);}
+.work:hover .cover svg{transform:scale(1.05);}
+.work .cover .tag{position:absolute;top:12px;left:14px;font-size:8.5px;letter-spacing:.3em;color:rgba(233,236,231,.4);z-index:2;}
+.cover1{background:linear-gradient(160deg,#15241d,#0b1210 70%);}
+.cover2{background:linear-gradient(160deg,#14202a,#0b1116 70%);}
+.cover3{background:linear-gradient(160deg,#241f18,#100e0b 70%);}
+.cover1 svg{stroke:#9ec3a8;}
+.cover2 svg{stroke:#8fb6c9;}
+.cover3 svg{stroke:#c9b892;}
+.coverAI{background:linear-gradient(160deg,#0c1022,#0a0a14 70%);}
+.coverWeb{background:linear-gradient(160deg,#16241a,#0a110c 70%);}
+.coverTwin{background:linear-gradient(160deg,#0e2430,#07131a 70%);}
+.coverWeb svg{stroke:#b6d98a;}
+.coverTwin svg{stroke:#5fd0e8;}
+.lab-group{display:flex;align-items:center;gap:20px;margin:78px 0 6px;}
+.lab-group .ln{flex:1;height:1px;background:var(--line);}
+.lab-group .lt{font-size:11px;letter-spacing:.46em;color:var(--dim);white-space:nowrap;}
+.lab-group .lt b{color:var(--moss);font-weight:600;letter-spacing:.4em;}
+.works-more{padding:42px 8px;text-align:center;border-bottom:1px solid var(--line);}
+.works-more span{display:inline-block;font-size:11.5px;letter-spacing:.5em;color:var(--dim);text-indent:.5em;}
+.works-more em{display:block;margin-top:8px;font-family:Georgia,serif;font-style:italic;font-size:9.5px;letter-spacing:.3em;color:rgba(233,236,231,.22);}
+.cover svg .sun{fill:var(--sand);stroke:none !important;}
+.cover svg .ghost{fill:rgba(233,236,231,.16);stroke:none !important;font-family:var(--serif);}
+@media(max-width:960px){
+  .work{grid-template-columns:1fr;gap:26px;padding:52px 4px;}
+  .work .num{font-size:44px;}
+  .work .cover{max-width:250px;}
+  .work .num{order:-1;}
+}
+
+/* ---------- 关于 ---------- */
+#about .grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(40px,7vw,110px);}
+#about .portrait{position:relative;border:1px solid var(--line);padding:34px 30px;background:var(--bg-soft);overflow:hidden;}
+#about .portrait::before{content:"山";position:absolute;right:14px;bottom:-30px;font-family:var(--serif);
+  font-size:170px;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(233,236,231,.08);pointer-events:none;}
+#about .portrait p{font-size:14.5px;line-height:2.25;color:var(--dim);position:relative;}
+#about .portrait p b{color:var(--ink);font-weight:500;}
+#about .portrait .sig{margin-top:26px;font-family:var(--serif);letter-spacing:.3em;font-size:15px;color:var(--sand);}
+#about dl{display:grid;grid-template-columns:auto 1fr;gap:0;font-size:13.5px;}
+#about dt{padding:20px 0;color:var(--dim);letter-spacing:.2em;width:96px;border-bottom:1px solid var(--line);}
+#about dd{padding:20px 0;border-bottom:1px solid var(--line);}
+#about dd .small{display:block;font-size:11px;letter-spacing:.22em;color:var(--dim);margin-top:2px;}
+#about .tags{margin-top:34px;display:flex;flex-wrap:wrap;gap:10px;}
+#about .tags span{font-size:11.5px;letter-spacing:.2em;border:1px solid rgba(158,195,168,.25);color:var(--moss);
+  padding:7px 16px;border-radius:99px;}
+@media(max-width:900px){#about .grid{grid-template-columns:1fr;}}
+
+/* ---------- 联系 ---------- */
+#contact{text-align:center;padding-bottom:150px;}
+#contact .say{font-family:var(--serif);font-weight:400;font-size:clamp(30px,5vw,58px);letter-spacing:.14em;line-height:1.5;}
+#contact .say em{font-style:normal;color:var(--moss);}
+#contact .cards{margin-top:64px;display:flex;justify-content:center;gap:22px;flex-wrap:wrap;}
+#contact .cards a{display:block;text-decoration:none;border:1px solid var(--line);border-radius:3px;
+  padding:22px 40px;transition:all .35s var(--ease);}
+#contact .cards a:hover{border-color:var(--moss);transform:translateY(-4px);background:rgba(158,195,168,.05);}
+#contact .cards .k{font-size:10.5px;letter-spacing:.34em;color:var(--dim);}
+#contact .cards .v{margin-top:8px;font-size:15px;letter-spacing:.08em;}
+#contact .note{margin-top:40px;font-size:12px;letter-spacing:.2em;color:var(--dim);}
+
+/* ---------- 页脚 ---------- */
+footer{border-top:1px solid var(--line);padding:36px 6vw;display:flex;justify-content:space-between;
+  gap:16px;flex-wrap:wrap;font-size:11px;letter-spacing:.22em;color:var(--dim);}
+footer a{color:var(--faint);text-decoration:none;}
+footer a:hover{color:var(--moss);}
+
+/* ---------- 鼠标跟随（仅桌面精确指针启用） ---------- */
+#glow{position:fixed;left:0;top:0;width:620px;height:620px;border-radius:50%;pointer-events:none;z-index:2;
+  background:radial-gradient(circle,rgba(158,195,168,.065),transparent 62%);
+  transform:translate(-50%,-50%);opacity:0;transition:opacity .5s;mix-blend-mode:screen;}
+#glow-core{position:fixed;left:0;top:0;width:190px;height:190px;border-radius:50%;pointer-events:none;z-index:2;
+  background:radial-gradient(circle,rgba(196,224,203,.11),transparent 65%);
+  transform:translate(-50%,-50%);opacity:0;transition:opacity .5s;mix-blend-mode:screen;}
+.work::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .45s;
+  background:radial-gradient(460px circle at var(--mx,50%) var(--my,50%),rgba(158,195,168,.09),transparent 62%);}
+.work:hover::before{opacity:1;}
+.work::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .45s;
+  padding:1px;
+  background:radial-gradient(340px circle at var(--mx,50%) var(--my,50%),rgba(158,195,168,.6),rgba(158,195,168,.12) 45%,transparent 72%);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;}
+.work:hover::after{opacity:1;}
+@media(prefers-reduced-motion:reduce){#glow,#glow-core{display:none;}}
+@media(hover:hover) and (pointer:fine){
+  body.cursor-on,body.cursor-on a,body.cursor-on button{cursor:none;}
+  #cur-dot{position:fixed;left:0;top:0;width:6px;height:6px;border-radius:50%;background:var(--moss);
+    z-index:300;pointer-events:none;}
+  #cur-ring{position:fixed;left:0;top:0;width:30px;height:30px;border-radius:50%;
+    border:1px solid rgba(158,195,168,.45);z-index:300;pointer-events:none;
+    transition:width .3s var(--ease),height .3s var(--ease),border-color .3s;}
+  #cur-ring.on{width:52px;height:52px;border-color:rgba(158,195,168,.16);}
+  #cur-ghost{position:fixed;left:0;top:0;width:58px;height:58px;border-radius:50%;
+    border:1px dashed rgba(158,195,168,.16);z-index:299;pointer-events:none;}
+}
+
+/* ---------- 渐入 ---------- */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 1s var(--ease),transform 1s var(--ease);transition-delay:var(--d,0s);}
+.reveal.in{opacity:1;transform:none;}
+@media(prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none;transition:none;}
+  .hero .sline{animation:none;}
+  *{scroll-behavior:auto !important;}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="logo" href="#top"><b>WANG FUXIN</b></a>
+  <div class="menu">
+    <a href="#works">作品</a>
+    <a href="#about">关于</a>
+    <a href="#contact">联系</a>
+  </div>
+</nav>
+
+<!-- ============ 首屏 ============ -->
+<header class="hero" id="top">
+  <canvas id="terrain" aria-hidden="true"></canvas>
+  <span class="kicker reveal"><i></i>ENVIRONMENTAL DESIGN · PORTFOLIO</span>
+  <h1>
+    <span class="reveal" style="--d:.08s">方寸之间</span>
+    <span class="l2 reveal" style="--d:.2s">想象之上</span>
+  </h1>
+  <p class="sub reveal" style="--d:.34s">
+    环境设计作品合集——三处落地的场所：一座<b>泉脉之上的城市中央公园</b>，一个<b>山海相望的百年渔村</b>，一座<b>关于流动与构筑的企业花园</b>；以及三个仍在生长的实验：<b>AI 生成影像</b>、<b>可交互的网站</b>、<b>数字孪生场景</b>。
+  </p>
+  <div class="meta-row reveal" style="--d:.46s">
+    <span><i></i>青岛理工大学 · 艺术与设计学院</span>
+    <span><i></i>环境设计</span>
+  </div>
+  <div class="scroll-hint"><i class="sline t"></i><span>SCROLL</span><i class="sline b"></i></div>
+  <div class="coord">36°06′N · 120°22′E — QINGDAO</div>
+</header>
+
+<!-- ============ 精选作品 ============ -->
+<section id="works">
+  <div class="sec-head reveal">
+    <span class="no">No.01</span>
+    <h2>作品</h2>
+    <span class="en">SELECTED WORKS · 03 PROJECTS + 03 LABS</span>
+  </div>
+
+  <div class="list">
+
+    <div class="lab-group reveal"><span class="lt">设计方案 · <b>LANDSCAPE</b></span><span class="ln"></span></div>
+
+    <!-- 01 青峦望海 -->
+    <a class="work reveal" href="01-青峦望海·青山村.html">
+      <div class="num">01</div>
+      <div>
+        <h3>青峦望海 · 青山村</h3>
+        <div class="en-tag">LAOSHAN · QINGSHAN VILLAGE LANDSCAPE DESIGN</div>
+        <p class="desc">背倚青山茶园，面朝太清海湾——对崂山六百年渔村老村委片区的低干预改造。保留红瓦石墙与海草房记忆，让山海在台地、剧场与观景平台之间重新相连。</p>
+        <div class="chips"><span>乡村景观更新</span><span>青岛 · 崂山</span><span>课程设计 · 2026</span></div>
+        <span class="go">查看完整项目</span>
+      </div>
+      <div class="cover cover1">
+        <span class="tag">QINGSHAN VILLAGE</span>
+        <svg viewBox="0 0 190 230" fill="none" stroke-width="1.2" aria-hidden="true">
+          <circle class="sun" cx="140" cy="52" r="13"/>
+          <path d="M10 118 L52 70 L86 108 L118 78 L150 112 L180 88" stroke-linejoin="round"/>
+          <path d="M10 140 L44 104 L78 132 L112 100 L146 134 L180 108" opacity=".55" stroke-linejoin="round"/>
+          <path d="M10 162 Q50 154 95 162 T180 162" opacity=".4"/>
+          <path d="M10 178 Q50 170 95 178 T180 178" opacity=".3"/>
+          <path d="M10 194 Q50 186 95 194 T180 194" opacity=".2"/>
+          <text class="ghost" x="24" y="88" font-size="30" writing-mode="tb" letter-spacing="6">山海</text>
+        </svg>
+      </div>
+    </a>
+
+    <!-- 02 泉汇西枢 -->
+    <a class="work reveal" href="02-泉汇西枢.html">
+      <div class="num">02</div>
+      <div>
+        <h3>泉汇西枢 · 济南西中央公园</h3>
+        <div class="en-tag">JINAN WEST CENTRAL PARK · LANDSCAPE DESIGN</div>
+        <p class="desc">泉脉汇于西站枢纽——立足济南西站客流与地铁 TOD，沿中央公园中轴组织广场、水岸与林带，让换乘的人潮在一座公园里慢下来。</p>
+        <div class="chips"><span>城市中央公园</span><span>济南 · 西站片区</span><span>景观设计</span></div>
+        <span class="go">查看完整项目</span>
+      </div>
+      <div class="cover cover2">
+        <span class="tag">JINAN WEST PARK</span>
+        <svg viewBox="0 0 190 230" fill="none" stroke-width="1.2" aria-hidden="true">
+          <circle cx="95" cy="112" r="18"/>
+          <circle cx="95" cy="112" r="38" opacity=".6"/>
+          <circle cx="95" cy="112" r="58" opacity=".38"/>
+          <circle cx="95" cy="112" r="78" opacity=".2"/>
+          <path d="M95 8 L95 48 M95 176 L95 216 M8 112 L44 112 M146 112 L182 112" opacity=".5"/>
+          <path d="M42 60 L66 84 M148 60 L124 84 M42 164 L66 140 M148 164 L124 140" opacity=".3"/>
+          <path d="M20 205 Q60 196 95 205 T172 203" opacity=".35"/>
+          <circle cx="95" cy="112" r="3.5" fill="#8fb6c9" stroke="none"/>
+        </svg>
+      </div>
+    </a>
+
+    <!-- 03 流·筑未来 -->
+    <a class="work reveal" href="流筑未来景观设计展示页.html">
+      <div class="num">03</div>
+      <div>
+        <h3>流·筑未来 · 企业生态共享花园</h3>
+        <div class="en-tag">CORPORATE SHARED GARDEN · INTERNSHIP PROJECT</div>
+        <p class="desc">以"流动"与"构筑"为双母题——曲线园路串联环形空间，混凝土被转译为坐凳与艺术构筑，织成企业展示、员工交流与生态休闲共栖的花园。</p>
+        <div class="chips"><span>企业园区景观</span><span>淄博 · 产业片区</span><span>综合实习 · 2026</span></div>
+        <span class="go">查看完整项目</span>
+      </div>
+      <div class="cover cover3">
+        <span class="tag">FLOW &amp; CAST</span>
+        <svg viewBox="0 0 190 230" fill="none" stroke-width="1.2" aria-hidden="true">
+          <circle cx="112" cy="92" r="44" opacity=".85"/>
+          <circle cx="112" cy="92" r="30" opacity=".35"/>
+          <path d="M8 176 C 48 176, 52 132, 92 132 S 150 176, 182 168" opacity=".7"/>
+          <path d="M8 192 C 52 192, 60 150, 100 150 S 156 190, 182 184" opacity=".4"/>
+          <rect x="34" y="66" width="26" height="26" transform="rotate(12 47 79)" opacity=".6"/>
+          <path d="M24 214 H166" stroke-dasharray="2 7" opacity=".35"/>
+          <circle cx="34" cy="66" r="2.5" fill="#c9b892" stroke="none"/>
+        </svg>
+      </div>
+    </a>
+
+    <!-- 未完待续（设计方案） -->
+    <div class="works-more reveal"><span>未 完 待 续</span><em>TO BE CONTINUED …</em></div>
+
+    <!-- ============ 跨界实验 ============ -->
+    <div class="lab-group reveal"><span class="lt">跨界实验 · <b>LAB</b></span><span class="ln"></span></div>
+
+    <!-- 04 AI 视频专区 -->
+    <a class="work reveal" href="ai/index.html">
+      <div class="num">04</div>
+      <div>
+        <h3>AI 视频专区 · 生成影像实验场</h3>
+        <div class="en-tag">AI SHOWREEL · MINIMAX H3 &amp; SEEDANCE 2.0</div>
+        <p class="desc">设计之外，另一双看世界的眼睛——用 ComfyUI 工作流串联 MiniMax H3 与 Seedance 2.0 完成的图生视频 / 文生视频实验，经超分辨率放大与剪辑后的流动画面。</p>
+        <div class="chips"><span>AI 视频</span><span>MiniMax H3</span><span>Seedance 2.0</span><span>I2V / T2V</span></div>
+        <span class="go">进入 AI 视频专区</span>
+      </div>
+      <div class="cover coverAI">
+        <span class="tag">AI SHOWREEL</span>
+        <svg viewBox="0 0 190 230" fill="none" stroke-width="1.2" aria-hidden="true">
+          <defs>
+            <linearGradient id="aig" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#00f0ff"/><stop offset="1" stop-color="#ff2ec4"/>
+            </linearGradient>
+          </defs>
+          <path d="M20 38 H170" stroke="url(#aig)" opacity=".35"/>
+          <path d="M20 54 H170" stroke="url(#aig)" opacity=".2"/>
+          <path d="M20 70 H170" stroke="url(#aig)" opacity=".1"/>
+          <circle cx="95" cy="126" r="34" stroke="url(#aig)" opacity=".9"/>
+          <circle cx="95" cy="126" r="47" stroke="url(#aig)" opacity=".28"/>
+          <path d="M87 111 L115 126 L87 141 Z" stroke="url(#aig)"/>
+          <path d="M30 186 H160" stroke="url(#aig)" stroke-dasharray="3 8" opacity=".4"/>
+          <path d="M30 200 H160" stroke="url(#aig)" stroke-dasharray="3 8" opacity=".2"/>
+        </svg>
+      </div>
+    </a>
+
+    <!-- 05 交互网站设计 -->
+    <a class="work reveal" href="lab/web/index.html">
+      <div class="num">05</div>
+      <div>
+        <h3>交互网站设计 · 可操作的小应用</h3>
+        <div class="en-tag">INTERACTIVE WEB · FRONT-END MINI APPS</div>
+        <p class="desc">把设计意图做成能上手把玩的网页——一座可换材质、摆家具、切光照的 3D 全屋设计工坊，和一块能画、能撤销、能导出 PNG 的 8-bit 像素画板。点开即玩，无需安装。</p>
+        <div class="chips"><span>3D 全屋设计</span><span>像素画板</span><span>Three.js</span><span>纯前端交互</span></div>
+        <span class="go">进入交互网站设计</span>
+      </div>
+      <div class="cover coverWeb">
+        <span class="tag">INTERACTIVE WEB</span>
+        <svg viewBox="0 0 190 230" fill="none" stroke-width="1.2" aria-hidden="true">
+          <rect x="34" y="42" width="122" height="82" rx="4" opacity=".8"/>
+          <path d="M34 60 H156" opacity=".5"/>
+          <circle cx="44" cy="51" r="2.6"/><circle cx="54" cy="51" r="2.6"/><circle cx="64" cy="51" r="2.6"/>
+          <rect x="46" y="72" width="44" height="40" rx="2" opacity=".4"/>
+          <path d="M100 78 H146 M100 90 H138 M100 102 H146" opacity=".35"/>
+          <path d="M52 150 L74 172 L52 194" opacity=".7" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M98 198 H150" stroke-dasharray="2 7" opacity=".4"/>
+          <circle cx="138" cy="172" r="3" fill="#b6d98a" stroke="none"/>
+        </svg>
+      </div>
+    </a>
+
+    <!-- 06 数字孪生 -->
+    <a class="work reveal" href="lab/twin/云璟天悦·数字孪生社区.html">
+      <div class="num">06</div>
+      <div>
+        <h3>数字孪生 · 云璟天悦智慧社区</h3>
+        <div class="en-tag">DIGITAL TWIN · SMART COMMUNITY PLATFORM</div>
+        <p class="desc">把一座社区搬进浏览器——Three.js 搭建的可旋转 3D 场景叠加实时数据看板：能耗、电梯、安防、车流、环境监测与事件流，并能一键进入室内孪生看全屋水电。</p>
+        <div class="chips"><span>数字孪生</span><span>智慧社区</span><span>Three.js + ECharts</span><span>数据看板</span></div>
+        <span class="go">进入数字孪生</span>
+      </div>
+      <div class="cover coverTwin">
+        <span class="tag">DIGITAL TWIN</span>
+        <svg viewBox="0 0 190 230" fill="none" stroke-width="1.2" aria-hidden="true">
+          <path d="M95 36 L150 64 L150 130 L95 158 L40 130 L40 64 Z" opacity=".55" stroke-linejoin="round"/>
+          <path d="M95 36 L95 96 M95 96 L150 64 M95 96 L40 64 M95 96 L95 158" opacity=".4"/>
+          <path d="M62 178 H128 M50 192 H140" stroke-dasharray="3 7" opacity=".45"/>
+          <circle cx="95" cy="96" r="4" fill="#5fd0e8" stroke="none"/>
+          <circle cx="150" cy="64" r="2.6" opacity=".7"/><circle cx="40" cy="64" r="2.6" opacity=".7"/>
+          <rect x="118" y="46" width="34" height="20" rx="2" opacity=".35"/>
+          <path d="M124 53 H146 M124 59 H140" opacity=".5"/>
+        </svg>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ============ 关于 ============ -->
+<section id="about">
+  <div class="sec-head reveal">
+    <span class="no">No.02</span>
+    <h2>关于</h2>
+    <span class="en">ABOUT ME</span>
+  </div>
+  <div class="grid">
+    <div class="portrait reveal">
+      <p>关注<b>空间与人的关系</b>——从文脉、生态到具体使用，习惯从分析出发，经多轮推演走向完整表达，讲清一个空间的来龙去脉。</p>
+      <p style="margin-top:18px">作品跨越城市公园、乡村更新与企业园区的<b>景观方案</b>，也延伸到<b>AI 生成影像</b>、<b>可交互网站</b>与<b>数字孪生场景</b>——同一套空间思维，多种媒介去表达。正在把它们一件一件搬到线上。</p>
+      <div class="sig">王福鑫 · WANG FUXIN</div>
+    </div>
+    <div class="reveal" style="--d:.15s">
+      <dl>
+        <dt>院校</dt><dd>青岛理工大学 <span class="small">SCHOOL OF ART AND DESIGN · QINGDAO UNIVERSITY OF TECHNOLOGY</span></dd>
+        <dt>专业</dt><dd>环境设计 · 环设 233 <span class="small">ENVIRONMENTAL DESIGN</span></dd>
+        <dt>方向</dt><dd>景观 · 室内 · AI 影像 · 交互网站 · 数字孪生</dd>
+        <dt>状态</dt><dd>在读 · 欢迎交流与实习联系</dd>
+      </dl>
+      <div class="tags">
+        <span>方案推演</span><span>空间表达</span><span>效果表现</span><span>交互原型</span><span>AI 创作</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 联系 ============ -->
+<section id="contact">
+  <div class="say reveal">空间、设计，与一切<em>有意思的事</em>，我都感兴趣。</div>
+  <div class="cards reveal" style="--d:.12s">
+    <a href="mailto:2903960465@qq.com"><div class="k">EMAIL</div><div class="v">2903960465@qq.com</div></a>
+    <a href="tel:13326214783"><div class="k">TEL</div><div class="v">133 2621 4783</div></a>
+    <a href="https://wangfuxin-design.github.io/" target="_blank" rel="noopener"><div class="k">PORTFOLIO</div><div class="v">wangfuxin-design.github.io</div></a>
+  </div>
+  <p class="note reveal" style="--d:.2s">回复可能稍慢，但每一封都会认真读。</p>
+</section>
+
+<footer>
+  <span>© 2026 王福鑫 WANG FUXIN</span>
+  <span>青岛理工大学 · 艺术与设计学院 · 环境设计</span>
+  <a href="#top">回到顶部 ↑</a>
+</footer>
+
+<script>
+/* ---------- 导航滚动态 ---------- */
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40),{passive:true});
+
+/* ---------- 锚点平滑滚动 ---------- */
+const prefersReduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
+  const target=document.querySelector(a.getAttribute('href'));
+  if(target){e.preventDefault();target.scrollIntoView({behavior:prefersReduced?'auto':'smooth'});}
+}));
+
+/* ---------- 渐入 ---------- */
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
+}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ---------- 鼠标跟随：双层光晕 / 三层光标 / 卡片高光+边框光 / 封面视差 / 首屏标题视差 ---------- */
+const finePointer=matchMedia('(hover:hover) and (pointer:fine)').matches;
+const motionOK=!matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(finePointer&&motionOK){
+  document.body.classList.add('cursor-on');
+  const mk=id=>{const el=document.createElement('div');el.id=id;document.body.appendChild(el);return el;};
+  const glow=mk('glow'),glowCore=mk('glow-core'),dot=mk('cur-dot'),ring=mk('cur-ring'),ghost=mk('cur-ghost');
+  const h1a=document.querySelector('.hero h1 span'),h1b=document.querySelector('.hero h1 .l2');
+  let mx=innerWidth/2,my=innerHeight/3,seen=false;
+  let gx=mx,gy=my,g2x=mx,g2y=my,rx=mx,ry=my,fx=mx,fy=my,hx=0,hy=0;
+  addEventListener('mousemove',e=>{
+    mx=e.clientX;my=e.clientY;
+    if(!seen){seen=true;gx=g2x=rx=fx=mx;gy=g2y=ry=fy=my;glow.style.opacity=1;glowCore.style.opacity=1;}
+    dot.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`;
+    const card=e.target.closest('.work');
+    if(card){
+      const r=card.getBoundingClientRect();
+      card.style.setProperty('--mx',(e.clientX-r.left)+'px');
+      card.style.setProperty('--my',(e.clientY-r.top)+'px');
+      const cov=card.querySelector('.cover svg');
+      if(cov){
+        const cr=cov.getBoundingClientRect();
+        const dx=((e.clientX-cr.left)/cr.width-.5)*16,dy=((e.clientY-cr.top)/cr.height-.5)*16;
+        cov.style.transform=`scale(1.06) translate(${dx.toFixed(1)}px,${dy.toFixed(1)}px)`;
+      }
+    }
+  },{passive:true});
+  document.querySelectorAll('.work').forEach(w=>w.addEventListener('mouseleave',()=>{
+    const cov=w.querySelector('.cover svg');
+    if(cov)cov.style.transform='';
+  }));
+  document.documentElement.addEventListener('mouseleave',()=>{glow.style.opacity=0;glowCore.style.opacity=0;});
+  document.documentElement.addEventListener('mouseenter',()=>{if(seen){glow.style.opacity=1;glowCore.style.opacity=1;}});
+  document.addEventListener('mouseover',e=>{
+    ring.classList.toggle('on',!!e.target.closest('a,button'));
+  });
+  (function follow(){
+    gx+=(mx-gx)*.05;gy+=(my-gy)*.05;          /* 外层大光晕：最慢 */
+    g2x+=(mx-g2x)*.16;g2y+=(my-g2y)*.16;      /* 内层光斑：最快 */
+    rx+=(mx-rx)*.16;ry+=(my-ry)*.16;          /* 中环 */
+    fx+=(mx-fx)*.055;fy+=(my-fy)*.055;        /* 外圈虚线环：最慢 */
+    hx+=(mx/innerWidth-.5-hx)*.05;hy+=(my/innerHeight-.5-hy)*.05;
+    glow.style.transform=`translate(${gx.toFixed(1)}px,${gy.toFixed(1)}px) translate(-50%,-50%)`;
+    glowCore.style.transform=`translate(${g2x.toFixed(1)}px,${g2y.toFixed(1)}px) translate(-50%,-50%)`;
+    ring.style.transform=`translate(${rx.toFixed(1)}px,${ry.toFixed(1)}px) translate(-50%,-50%)`;
+    ghost.style.transform=`translate(${fx.toFixed(1)}px,${fy.toFixed(1)}px) translate(-50%,-50%)`;
+    if(h1a)h1a.style.transform=`translate(${(hx*-8).toFixed(1)}px,${(hy*-5).toFixed(1)}px)`;
+    if(h1b)h1b.style.transform=`translate(${(hx*-15).toFixed(1)}px,${(hy*-9).toFixed(1)}px)`;
+    requestAnimationFrame(follow);
+  })();
+}
+
+/* ---------- 等高线动画 ---------- */
+const cv=document.getElementById('terrain'),ctx=cv.getContext('2d');
+let W,H,run=true,t0=performance.now();
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function fit(){
+  const dpr=Math.min(devicePixelRatio||1,2);
+  W=cv.clientWidth;H=cv.clientHeight;
+  cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+}
+function draw(now){
+  ctx.clearRect(0,0,W,H);
+  const t=(now-t0)/1000;
+  const N=10;
+  for(let i=0;i<N;i++){
+    const base=H*(0.08+0.86*i/(N-1));
+    ctx.beginPath();
+    for(let x=-10;x<=W+10;x+=7){
+      const y=base
+        +22*Math.sin(x*0.0031+i*1.35+t*0.38)
+        +13*Math.sin(x*0.0009-i*0.8+t*0.21)
+        +7*Math.sin(x*0.0058+i*2.4-t*0.55);
+      x===-10?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.strokeStyle=`rgba(158,195,168,${0.045+0.075*(i%3===0?1:i%3===1?0.55:0.3)})`;
+    ctx.lineWidth=1;
+    ctx.stroke();
+  }
+  if(run&&!reduced)requestAnimationFrame(draw);
+}
+fit();addEventListener('resize',()=>{fit();if(reduced)draw(performance.now());});
+if(reduced){draw(performance.now());}
+else{
+  new IntersectionObserver(([e])=>{
+    const was=run;run=e.isIntersecting;
+    if(run&&!was)requestAnimationFrame(draw);
+  }).observe(cv);
+  requestAnimationFrame(draw);
+}
+</script>
+<script src="./assets/premium-fx.js"></script>
+</body>
+</html>

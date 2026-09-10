@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>灵感家 · 全屋设计工坊</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛋️</text></svg>">
+<link rel="stylesheet" href="css/style.css">
+
+/* 返回上一级 · 右上角 */
+.back-top{position:fixed;top:18px;right:22px;z-index:9999;display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border:2px solid #111;background:#fff;color:#111;font-size:12px;font-weight:700;letter-spacing:.08em;text-decoration:none;box-shadow:4px 4px 0 0 #111;transition:transform .25s ease,box-shadow .25s ease,background .25s ease;cursor:pointer;}
+.back-top:hover,.back-top:focus-visible{background:#111;color:#fff;transform:translate(-2px,-2px);box-shadow:6px 6px 0 0 #111;outline:none;}
+.back-top:active{transform:translate(0,0);box-shadow:0 0 0 0 #111;}
+@media(max-width:720px){.back-top{top:10px;right:10px;padding:8px 12px;font-size:11px;}}
+</head>
+<body>
+<a class="back-top" href="#" onclick="event.preventDefault();history.back()">← 返回上一级</a>
+
+<div id="stage"></div>
+
+<header id="topbar">
+  <div class="logo">🛋️ <b>灵感家</b><span>全屋设计工坊</span></div>
+  
+  <div class="seg" id="viewSeg">
+    <button data-view="all" class="on">全景</button>
+    <button data-view="top">俯视</button>
+    <button data-view="living">客厅</button>
+    <button data-view="bedroom">卧室</button>
+  </div>
+  <div class="seg" id="modeSeg">
+    <button data-mode="day" class="on">☀️ 白天</button>
+    <button data-mode="dusk">🌇 黄昏</button>
+    <button data-mode="night">🌙 夜晚</button>
+  </div>
+  <div class="ops">
+    <button id="btnSpin" class="btn" title="自动环绕观察">🔄 环视</button>
+    <button id="btnLucky" class="btn" title="随机生成一套全屋搭配">✨ 灵感搭配</button>
+    <button id="btnShot" class="btn primary">📷 导出效果图</button>
+    <button id="btnReset" class="btn" title="恢复默认布局与材质">↩ 重置</button>
+  </div>
+</header>
+
+<aside id="panel">
+  <div class="tabs">
+    <button class="tab on" data-tab="mat">🎨 材质</button>
+    <button class="tab" data-tab="furn">🪑 家具</button>
+  </div>
+
+  <div id="tab-mat" class="tabbody on">
+    <div class="sec"><h3>地板 · 全屋</h3><div class="grid" id="floorGrid"></div></div>
+    <div class="sec"><h3>墙面 · 全屋</h3><div class="grid" id="wallGrid"></div></div>
+  </div>
+
+  <div id="tab-furn" class="tabbody">
+    <p class="tip">点击卡片把家具摆进房间；选中后可以拖动摆放、旋转、单独换材质或删除。</p>
+    <div class="furn-grid" id="furnGrid"></div>
+  </div>
+</aside>
+
+<div id="selPanel">
+  <div class="sel-head">
+    <b id="selName">—</b>
+    <div class="sel-ops">
+      <button id="rotL" class="mini" title="向左旋转 45°">↺</button>
+      <button id="rotR" class="mini" title="向右旋转 45°">↻</button>
+      <button id="selDel" class="mini danger" title="删除该家具">🗑</button>
+      <button id="selClose" class="mini" title="取消选择">✕</button>
+    </div>
+  </div>
+  <div id="selSlots" class="slot-tabs"></div>
+  <div id="selSwatches" class="swatch-row"></div>
+  <p class="drag-tip">按住家具可直接拖动摆放 · 快捷键：R 旋转 / Delete 删除 / Esc 取消选择</p>
+</div>
+
+<div id="hint">左键拖动旋转视角 ｜ 右键拖动平移 ｜ 滚轮缩放 ｜ 点击家具：换材质 / 拖动 / 旋转 / 删除</div>
+<div id="toast"></div>
+
+<div id="loading">
+  <div class="ld-icon">🛋️</div>
+  <div class="ld-text">灵感家 · 正在布置房间…</div>
+</div>
+
+<script src="lib/three.min.js"></script>
+<script src="lib/OrbitControls.js"></script>
+<script src="js/app.js"></script>
+<script src="../../../assets/premium-fx.js"></script>
+</body>
+</html>

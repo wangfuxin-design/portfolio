@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>作品集延伸项目 · 图片预览</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0d0d0f;color:#fff;font-family:"PingFang SC","Microsoft YaHei",sans-serif;min-height:100vh}
+header{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:16px 24px;background:rgba(13,13,15,.75);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.08)}
+header a{color:#fff;text-decoration:none;font-size:14px;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:8px 16px}
+header a:hover{background:#fff;color:#111}
+header h1{font-size:15px;font-weight:600;letter-spacing:.06em}
+main{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;padding:88px 24px 40px;max-width:1200px;margin:0 auto}
+figure{margin:0;border:2px solid #fff;border-radius:2px;overflow:hidden;background:#1a1a1c;box-shadow:4px 4px 0 #000}
+img{width:100%;height:auto;display:block;vertical-align:middle}
+figcaption{padding:10px 12px;font-size:12px;color:rgba(255,255,255,.55);letter-spacing:.08em}
+</style>
+</head>
+<body>
+<header>
+  <a href="javascript:history.back()">← 返回上一级</a>
+  <h1>作品集延伸项目</h1>
+  <span></span>
+</header>
+<main>
+<figure><img src="./s9-1.jpg" alt="图 1" loading="lazy" /><figcaption>图 1</figcaption></figure>
+<figure><img src="./s9-2.jpg" alt="图 2" loading="lazy" /><figcaption>图 2</figcaption></figure>
+</main>
+</body>
+</html>

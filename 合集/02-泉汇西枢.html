@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>济南西中央公园 · 泉汇西枢 | 王福鑫 环境设计</title>
+<meta name="description" content="济南西中央公园设计方案——泉汇西枢：立足济南西站客流与地铁TOD布局的城市中央公园，含区位、人流、气候、交通分析，总平面与效果图表现。">
+<style>
+/* ============================================================
+   济南西中央公园 · 泉汇西枢 —— 项目展示页
+   极简画廊风 × 粗野主义细节（黑色块 + 硬阴影 + 立体层次）
+   ============================================================ */
+:root{
+  --bg:#fafaf8;
+  --ink:#141414;
+  --gray:#8a8a86;
+  --line:#e4e4e0;
+  --serif:"Songti SC","SimSun",Georgia,serif;
+  --sans:-apple-system,"PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased;}
+::selection{background:var(--ink);color:var(--bg);}
+
+/* ---------- 导航（粗野风按钮） ---------- */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;
+  padding:18px 5vw;background:rgba(250,250,248,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);}
+nav .logo{font-size:14px;letter-spacing:.35em;font-weight:600;text-decoration:none;color:var(--ink);
+  padding:9px 16px;background:#111;color:#fafaf8;border-radius:3px;box-shadow:3px 3px 0 rgba(20,20,20,.18);}
+nav .menu{display:flex;gap:14px;flex-wrap:wrap;justify-content:flex-end;}
+nav .menu a{font-size:13px;letter-spacing:.18em;color:var(--ink);font-weight:600;text-decoration:none;
+  padding:9px 18px;background:#fff;border:2px solid #111;border-radius:3px;
+  box-shadow:3px 3px 0 #111;transition:all .15s ease;}
+nav .menu a:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 #111;background:#111;color:#fafaf8;}
+nav .menu a:active{transform:translate(1px,1px);box-shadow:2px 2px 0 #111;}
+@media(max-width:1060px){
+  nav{padding:12px 4vw;}
+  nav .menu{gap:8px;}
+  nav .menu a{padding:6px 11px;font-size:12px;box-shadow:2px 2px 0 #111;}
+}
+
+/* ---------- 首屏（黑色块 + 立体标题 + 描边水印） ---------- */
+header{min-height:92vh;display:flex;flex-direction:column;justify-content:center;padding:120px 5vw 80px;border-bottom:1px solid var(--line);position:relative;overflow:hidden;}
+header::before{content:"泉";position:absolute;right:3vw;bottom:-4vh;font-family:var(--serif);
+  font-size:clamp(240px,34vw,480px);line-height:1;color:transparent;
+  -webkit-text-stroke:1.5px rgba(20,20,20,.10);pointer-events:none;user-select:none;z-index:0;}
+header>*{position:relative;z-index:1;}
+header .kicker{display:inline-block;align-self:flex-start;font-size:12px;letter-spacing:.42em;color:#fafaf8;
+  background:#111;padding:10px 22px 10px 26px;margin-bottom:40px;box-shadow:4px 4px 0 rgba(20,20,20,.14);}
+header h1{font-family:var(--serif);font-size:clamp(40px,7.5vw,96px);font-weight:400;letter-spacing:.06em;line-height:1.18;
+  text-shadow:6px 6px 0 rgba(20,20,20,.09),12px 12px 0 rgba(20,20,20,.045);}
+header h1 .thin{color:var(--gray);font-size:.42em;vertical-align:.32em;letter-spacing:.3em;margin-left:1.2em;text-shadow:none;}
+header .sub{margin-top:44px;max-width:600px;color:var(--gray);font-size:14.5px;
+  border-left:5px solid #111;padding-left:22px;}
+header .scroll-hint{position:absolute;bottom:36px;left:5vw;font-size:11px;letter-spacing:.3em;color:var(--gray);writing-mode:vertical-rl;animation:hint 2.4s ease-in-out infinite;z-index:1;}
+@keyframes hint{0%,100%{opacity:.35}50%{opacity:1}}
+
+/* ---------- 段落 ---------- */
+section{padding:100px 5vw 80px;border-bottom:1px solid var(--line);}
+.sec-head{display:flex;align-items:baseline;gap:26px;margin-bottom:60px;}
+.sec-head .no{font-size:12px;color:#fafaf8;background:#111;padding:5px 12px;letter-spacing:.2em;}
+.sec-head h2{font-family:var(--serif);font-size:clamp(26px,3.4vw,40px);font-weight:400;letter-spacing:.14em;}
+.sec-head .en{font-size:11.5px;color:var(--gray);letter-spacing:.28em;margin-left:auto;}
+
+/* ---------- 项目概况 ---------- */
+.overview{display:grid;grid-template-columns:7fr 4fr;gap:5vw;align-items:start;}
+.overview .lead{font-size:clamp(17px,1.8vw,22px);font-family:var(--serif);letter-spacing:.05em;line-height:2;}
+.overview .lead em{font-style:normal;color:var(--gray);}
+.info-card{border:1px solid var(--line);border-top:5px solid #111;background:#fff;padding:30px 28px;
+  box-shadow:6px 6px 0 rgba(20,20,20,.07);}
+.info-card h3{font-family:var(--serif);font-size:16px;letter-spacing:.2em;font-weight:400;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line);}
+.info-card dl{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;font-size:13px;}
+.info-card dt{color:var(--gray);letter-spacing:.12em;white-space:nowrap;}
+.info-card dd{letter-spacing:.05em;}
+@media(max-width:860px){.overview{display:block;}.info-card{margin-top:40px;}}
+
+/* ---------- 通用图块 ---------- */
+.pic{position:relative;overflow:hidden;cursor:zoom-in;background:#eee;border:1px solid var(--line);
+  box-shadow:5px 5px 0 rgba(20,20,20,.06);transition:box-shadow .3s ease,transform .3s ease;}
+.pic img{width:100%;display:block;transition:transform 1.1s cubic-bezier(.2,.6,.2,1);}
+.pic:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 rgba(20,20,20,.10);}
+.pic:hover img{transform:scale(1.035);}
+.pic::after{content:"查看大图 +";position:absolute;bottom:18px;right:18px;font-size:11px;letter-spacing:.2em;color:#fafaf8;
+  background:#111;padding:7px 14px;border-radius:2px;opacity:0;transition:opacity .4s;}
+.pic:hover::after{opacity:1;}
+.cap{margin-top:14px;display:flex;justify-content:space-between;align-items:baseline;gap:16px;border-top:1px solid var(--line);padding-top:14px;}
+.cap h3{font-family:var(--serif);font-size:clamp(17px,1.9vw,22px);font-weight:400;letter-spacing:.1em;}
+.cap span{font-size:11.5px;color:var(--gray);letter-spacing:.15em;white-space:nowrap;}
+.cap p{margin-top:8px;font-size:13.5px;color:#555;max-width:640px;}
+
+/* ---------- 分析图（2列） ---------- */
+.analysis-grid{display:grid;grid-template-columns:1fr 1fr;gap:5vw 4vw;}
+.analysis-grid figure:nth-child(3),.analysis-grid figure:nth-child(4){margin-top:60px;}
+@media(max-width:860px){.analysis-grid{display:block;}.analysis-grid figure{margin-top:50px;}.analysis-grid figure:first-child{margin-top:0;}}
+
+/* ---------- 策略（立体卡片 + 黑色编号） ---------- */
+.theme-line{font-family:var(--serif);font-size:clamp(20px,2.6vw,30px);letter-spacing:.12em;line-height:1.9;margin-bottom:20px;
+  border-left:6px solid #111;padding-left:24px;}
+.theme-line .en{font-size:.5em;color:var(--gray);letter-spacing:.3em;display:block;margin-top:10px;}
+.strategy-intro{max-width:660px;color:#555;font-size:14px;margin-bottom:56px;padding-left:30px;}
+.strategy-grid{display:grid;grid-template-columns:1fr 1fr;gap:34px;}
+.strategy{background:#fff;padding:34px 30px;border:1px solid var(--line);
+  box-shadow:5px 5px 0 rgba(20,20,20,.07);transition:all .25s ease;}
+.strategy:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 rgba(20,20,20,.11);}
+.strategy .s-no{display:inline-block;font-size:11px;color:#fafaf8;background:#111;padding:5px 12px;letter-spacing:.25em;}
+.strategy h3{font-family:var(--serif);font-size:clamp(18px,2vw,23px);font-weight:400;letter-spacing:.1em;margin:14px 0 4px;}
+.strategy .s-tag{font-size:11.5px;color:var(--gray);letter-spacing:.15em;margin-bottom:16px;}
+.strategy p{font-size:13.5px;color:#555;}
+@media(max-width:860px){.strategy-grid{grid-template-columns:1fr;}}
+
+/* ---------- 推演 ---------- */
+.draft-grid{display:grid;grid-template-columns:1fr 1fr;gap:5vw;margin-top:80px;}
+@media(max-width:860px){.draft-grid{display:block;}.draft-grid figure:last-child{margin-top:50px;}}
+
+/* ---------- 总平面 ---------- */
+.master{margin-bottom:70px;}
+.sub-figs{display:grid;grid-template-columns:repeat(3,1fr);gap:3vw;}
+@media(max-width:860px){.sub-figs{grid-template-columns:1fr;}.sub-figs figure{margin-top:40px;}.sub-figs figure:first-child{margin-top:0;}}
+
+/* ---------- 效果图 ---------- */
+.render-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:5vw 4vw;}
+.render-grid figure.wide{grid-column:1 / -1;}
+@media(max-width:860px){.render-grid{grid-template-columns:1fr;}}
+
+/* ---------- 页脚 ---------- */
+footer{padding:90px 5vw 60px;display:flex;flex-wrap:wrap;gap:60px;justify-content:space-between;align-items:flex-end;}
+footer .f-name{font-family:var(--serif);font-size:clamp(30px,4vw,52px);font-weight:400;letter-spacing:.12em;line-height:1.3;}
+footer .f-contact{font-size:13px;color:var(--gray);line-height:2.1;text-align:right;}
+footer .f-contact a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line);transition:border-color .3s;}
+footer .f-contact a:hover{border-color:var(--ink);}
+footer .copy{width:100%;margin-top:50px;padding-top:22px;border-top:1px solid var(--line);font-size:11px;color:var(--gray);letter-spacing:.15em;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+
+/* ---------- 灯箱 ---------- */
+.lightbox{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;flex-direction:column;background:rgba(12,12,12,.94);padding:4vh 4vw;}
+.lightbox.on{display:flex;}
+.lightbox img{max-width:92vw;max-height:80vh;object-fit:contain;box-shadow:0 30px 90px rgba(0,0,0,.5);}
+.lightbox .cap{color:#bbb;font-size:12px;letter-spacing:.2em;margin-top:20px;border:none;padding-top:0;display:block;}
+.lightbox .close{position:absolute;top:26px;right:32px;color:#ddd;font-size:26px;cursor:pointer;line-height:1;background:none;border:none;font-weight:300;}
+.lightbox .close:hover{color:#fff;}
+
+/* ---------- 滚动显现 ---------- */
+.reveal{opacity:0;transform:translateY(36px);transition:opacity 1s ease,transform 1s cubic-bezier(.2,.6,.2,1);}
+.reveal.vis{opacity:1;transform:none;}
+nav .menu a.nav-cta{background:#111;color:#fff;margin-left:10px;box-shadow:3px 3px 0 #ff6900;border-radius:999px;padding:8px 18px;border:2px solid #111;}
+nav .menu a.nav-cta:hover{background:#ff6900;color:#fff;border-color:#ff6900;transform:translate(-1px,-1px);box-shadow:4px 4px 0 #111;}
+</style>
+
+/* 返回上一级 · 右上角 */
+.back-top{position:fixed;top:18px;right:22px;z-index:9999;display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border:2px solid #111;background:#fff;color:#111;font-size:12px;font-weight:700;letter-spacing:.08em;text-decoration:none;box-shadow:4px 4px 0 0 #111;transition:transform .25s ease,box-shadow .25s ease,background .25s ease;cursor:pointer;}
+.back-top:hover,.back-top:focus-visible{background:#111;color:#fff;transform:translate(-2px,-2px);box-shadow:6px 6px 0 0 #111;outline:none;}
+.back-top:active{transform:translate(0,0);box-shadow:0 0 0 0 #111;}
+@media(max-width:720px){.back-top{top:10px;right:10px;padding:8px 12px;font-size:11px;}}
+</head>
+<body>
+<a class="back-top" href="#" onclick="event.preventDefault();history.back()">← 返回上一级</a>
+
+<nav>
+  <a class="logo" href="#top">泉汇西枢</a>
+  <div class="menu">
+
+    <a href="#overview">概&nbsp;况</a>
+    <a href="#analysis">分&nbsp;析</a>
+    <a href="#strategy">策&nbsp;略</a>
+    <a href="#master">总平面</a>
+    <a href="#render">效果图</a>
+    <a href="#planting">植&nbsp;物</a>
+  <a class="nav-cta" href="#" onclick="event.preventDefault();history.back()">返回</a>
+  </div>
+</nav>
+
+<header id="top">
+  <p class="kicker">JINAN&nbsp;WEST&nbsp;CENTRAL&nbsp;PARK&nbsp;·&nbsp;LANDSCAPE&nbsp;DESIGN</p>
+  <h1>泉汇西枢<span class="thin">济南西中央公园</span></h1>
+  <p class="sub">泉脉汇于西站枢纽——立足济南西站客流、地铁 TOD 与中央公园中轴布局，面向过境游客与市民双重人群，让"出站即入园"，成为泉城面向世界的门户客厅。</p>
+  <span class="scroll-hint">SCROLL</span>
+</header>
+
+<!-- ==================== 01 项目概况 ==================== -->
+<section id="overview">
+  <div class="sec-head">
+    <span class="no">01</span>
+    <h2>项目概况</h2>
+    <span class="en">OVERVIEW</span>
+  </div>
+  <div class="overview reveal">
+    <div>
+      <p class="lead">设计以<em>"泉汇西枢"</em>为主题：横向迎宾、纵向脉连——以东西主路为迎宾中轴，从泉源广场出发，经核心泉溪水景抵达城市休闲广场；提取趵突泉、明府城泉渠肌理融入铺装与景观小品，全园散布微型泉涌旱景，让百年泉韵在枢纽门户处缓缓显影。</p>
+      <p style="margin-top:28px;max-width:640px;color:#555;font-size:14px;">地块位于济南西站东侧，被威海路、日照路、淄博路、东营路围合，毗邻地铁 1、2、4 号线与省会大剧院、山东国际会展中心。地铁 50 米受限范围决定了公园以软质景观为主的形态：大草坪、自然缓坡与浅溪，在合规的前提下营造最丰富的空间体验。</p>
+    </div>
+    <div class="info-card">
+      <h3>项目信息</h3>
+      <dl>
+        <dt>项目名称</dt><dd>济南西中央公园</dd>
+        <dt>设计主题</dt><dd>泉汇西枢</dd>
+        <dt>项目类型</dt><dd>城市公园 · TOD 枢纽门户</dd>
+        <dt>项目地点</dt><dd>山东 · 济南 · 槐荫区</dd>
+        <dt>设计者</dt><dd>王福鑫 · 环设 233</dd>
+        <dt>指导教师</dt><dd>王辉</dd>
+        <dt>课程</dt><dd>《综合设计 II》课程作业</dd>
+        <dt>完成时间</dt><dd>2026 年 5 月</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 02 前期分析 ==================== -->
+<section id="analysis">
+  <div class="sec-head">
+    <span class="no">02</span>
+    <h2>前期分析</h2>
+    <span class="en">SITE&nbsp;ANALYSIS</span>
+  </div>
+  <div class="analysis-grid">
+    <figure class="reveal">
+      <div class="pic" data-cap="济南西中央公园 · 区位分析">
+        <img src="quwei.jpg" alt="区位分析" loading="lazy">
+      </div>
+      <div class="cap"><h3>区位分析</h3><span>LOCATION</span>
+        <p>城市绿心 · 枢纽门户 · 活力节点——从国家、省域、城市到槐荫片区的四级区位解读，叠加 500m / 1000m 生活圈与周边济南西站、会展中心、腊山河公园等要素联系。</p>
+      </div>
+    </figure>
+    <figure class="reveal">
+      <div class="pic" data-cap="济南西中央公园 · 区位与人流分析">
+        <img src="renliu.jpg" alt="区位与人流分析" loading="lazy">
+      </div>
+      <div class="cap"><h3>人流分析</h3><span>PEDESTRIAN&nbsp;FLOW</span>
+        <p>工作日以商业办公人群为主、居民区老年人群居多，周末节假日青年与游客聚集；西侧地铁出入口高峰人流最盛，是公园的主要导入源。</p>
+      </div>
+    </figure>
+    <figure class="reveal">
+      <div class="pic" data-cap="济南西中央公园 · 气候分析">
+        <img src="qihou.jpg" alt="气候分析" loading="lazy">
+      </div>
+      <div class="cap"><h3>气候分析</h3><span>CLIMATE</span>
+        <p>暖温带半湿润大陆性季风气候，年均气温 13.9°C，降水集中于 6–9 月，春季风速最大——防风固沙、雨季排水、夏季遮阳与冬季向阳空间成为设计应对要点。</p>
+      </div>
+    </figure>
+    <figure class="reveal">
+      <div class="pic" data-cap="济南西中央公园 · 交通可达性分析">
+        <img src="jiaotong.jpg" alt="交通可达性分析" loading="lazy">
+      </div>
+      <div class="cap"><h3>交通可达性</h3><span>ACCESSIBILITY</span>
+        <p>北园高架、经十路、京台高速与三环西路构成快速通道，1、2、4 号线地铁辐射，步行 15 分钟可达省会大剧院与市美术馆，立体交通便捷。</p>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- ==================== 03 设计策略与推演 ==================== -->
+<section id="strategy">
+  <div class="sec-head">
+    <span class="no">03</span>
+    <h2>设计策略</h2>
+    <span class="en">DESIGN&nbsp;STRATEGY</span>
+  </div>
+  <p class="theme-line reveal">横轴迎宾 · 纵脉连通<span class="en">ONE&nbsp;AXIS,&nbsp;SPRING&nbsp;NETWORK</span></p>
+  <p class="strategy-intro reveal">泉脉汇于西站枢纽，立足济南西站客流、地铁 TOD 与中央公园中轴布局，面向过境游客与市民双重人群，四大策略贯穿场地。</p>
+  <div class="strategy-grid reveal">
+    <div class="strategy">
+      <span class="s-no">STRATEGY 01</span>
+      <h3>一轴迎宾 · 枢引泉脉</h3>
+      <p class="s-tag">空间策略</p>
+      <p>以东西主路为迎宾中轴：西起地铁西站出入口泉源广场，经中部核心水景节点，抵达东侧城市休闲广场。西侧入口大面积铺装集散场地化解西站瞬时客流；中轴采用泉纹铺装、列植垂柳，以线性水景模拟泉溪。中轴中心做下沉旱喷浅泉水景，不深挖地基，适配地铁 50m 受限区。</p>
+    </div>
+    <div class="strategy">
+      <span class="s-no">STRATEGY 02</span>
+      <h3>泉韵塑景 · 一城会客</h3>
+      <p class="s-tag">文脉策略</p>
+      <p>提取趵突泉、明府城泉井与泉渠肌理，转译到地面铺装、景观景墙与座椅小品之中；全园布置多处微型泉涌旱景，打造泉城微型缩影，方便外地游客短时打卡、直观感受济南泉文化，契合西站门户的展示职能。</p>
+    </div>
+    <div class="strategy">
+      <span class="s-no">STRATEGY 03</span>
+      <h3>轨园相融 · 柔化受限</h3>
+      <p class="s-tag">用地合规策略</p>
+      <p>地铁 50 米受限范围全域以大草坪、自然缓坡与浅溪软质景观为主，不设厚重构筑物与深挖基础；轨道与地铁出入口和公园无缝衔接，实现出站即入园，分流枢纽拥堵人流，达成交通与绿地一体化。</p>
+    </div>
+    <div class="strategy">
+      <span class="s-no">STRATEGY 04</span>
+      <h3>旅民兼顾 · 多元分区</h3>
+      <p class="s-tag">功能策略</p>
+      <p>旅客集散区服务中转旅客短时歇脚与行李寄存；泉景核心区承载游客打卡观光；休闲活动区供本地居民健身与亲子活动；生态涵养区以密林绿地降噪隔离西站车流，四区各得其所。</p>
+    </div>
+  </div>
+  <div class="draft-grid">
+    <figure class="reveal">
+      <div class="pic" data-cap="济南西中央公园 · 方案推演 草图一">
+        <img src="draft-1.jpg" alt="方案推演草图一" loading="lazy">
+      </div>
+      <div class="cap"><h3>方案推演 · 草图一</h3><span>DRAFT&nbsp;01</span>
+        <p>线稿推演：以环形园路串联全园，确立中央水面与圆形核心节点的骨架。</p>
+      </div>
+    </figure>
+    <figure class="reveal">
+      <div class="pic" data-cap="济南西中央公园 · 方案推演 草图二">
+        <img src="draft-2.jpg" alt="方案推演草图二" loading="lazy">
+      </div>
+      <div class="cap"><h3>方案推演 · 草图二</h3><span>DRAFT&nbsp;02</span>
+        <p>手绘深化：细化建筑组团、中心圆庭与环路动线，功能组团逐步落位。</p>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- ==================== 04 总平面与分析图 ==================== -->
+<section id="master">
+  <div class="sec-head">
+    <span class="no">04</span>
+    <h2>总平面</h2>
+    <span class="en">MASTER&nbsp;PLAN</span>
+  </div>
+  <figure class="master reveal">
+    <div class="pic" data-cap="济南西中央公园 · 总平面鸟瞰">
+      <img src="aerial.jpg" alt="总平面鸟瞰渲染" loading="lazy">
+    </div>
+    <div class="cap"><h3>总平面鸟瞰</h3><span>AERIAL&nbsp;VIEW</span>
+      <p>中央泉湖与金莲雕塑构成全园焦点，环形剧场、木构廊架、湿地栈道与运动场地由蜿蜒的园路串联，周边密林围合出安静的城市绿心。</p>
+    </div>
+  </figure>
+  <div class="sub-figs">
+    <figure class="reveal">
+      <div class="pic" data-cap="济南西中央公园 · 总平面图">
+        <img src="plan-1.jpg" alt="总平面图" loading="lazy">
+      </div>
+      <div class="cap"><h3>总平面图</h3><span>PLAN&nbsp;A</span></div>
+    </figure>
+    <figure class="reveal">
+      <div class="pic" data-cap="济南西中央公园 · 总平面图（深化）">
+        <img src="plan-2.jpg" alt="总平面图深化" loading="lazy">
+      </div>
+      <div class="cap"><h3>总平面图 · 深化</h3><span>PLAN&nbsp;B</span></div>
+    </figure>
+    <figure class="reveal">
+      <div class="pic" data-cap="济南西中央公园 · 功能分区分析">
+        <img src="zone.jpg" alt="功能分区分析" loading="lazy">
+      </div>
+      <div class="cap"><h3>功能分区</h3><span>ZONING</span></div>
+    </figure>
+  </div>
+</section>
+
+<!-- ==================== 05 效果图 ==================== -->
+<section id="render">
+  <div class="sec-head">
+    <span class="no">05</span>
+    <h2>效果图</h2>
+    <span class="en">RENDERINGS</span>
+  </div>
+  <div class="render-grid">
+    <figure class="wide reveal">
+      <div class="pic" data-cap="济南西中央公园 · 泉湖全景">
+        <img src="render-5.jpg" alt="泉湖全景鸟瞰" loading="lazy">
+      </div>
+      <div class="cap"><h3>泉湖全景</h3><span>LAKE&nbsp;PANORAMA</span>
+        <p>雕塑广场、弧形看台与湖面旱喷——泉景核心区的完整序列。</p>
+      </div>
+    </figure>
+    <figure class="reveal">
+      <div class="pic" data-cap="济南西中央公园 · 泉源广场">
+        <img src="render-6.jpg" alt="泉源广场金莲雕塑" loading="lazy">
+      </div>
+      <div class="cap"><h3>泉源广场</h3><span>SPRING&nbsp;PLAZA</span>
+        <p>金莲雕塑立于泉湖中心，旱喷阵列环绕，是迎宾轴线的起点。</p>
+      </div>
+    </figure>
+    <figure class="reveal">
+      <div class="pic" data-cap="济南西中央公园 · 主题雕塑广场">
+        <img src="render-8.jpg" alt="主题雕塑广场" loading="lazy">
+      </div>
+      <div class="cap"><h3>主题雕塑广场</h3><span>SCULPTURE&nbsp;PLAZA</span>
+        <p>环形泉纹铺装环抱雕塑水景，花境岛屿点缀其间。</p>
+      </div>
+    </figure>
+    <figure class="reveal">
+      <div class="pic" data-cap="济南西中央公园 · 泉景核心区">
+        <img src="render-3.jpg" alt="泉景核心区木构廊架" loading="lazy">
+      </div>
+      <div class="cap"><h3>泉景核心区</h3><span>CORE&nbsp;AREA</span>
+        <p>木构廊架、林间观景圆台与滨水凉亭，在绿荫间舒展。</p>
+      </div>
+    </figure>
+    <figure class="reveal">
+      <div class="pic" data-cap="济南西中央公园 · 生态湿地">
+        <img src="render-2.jpg" alt="生态湿地" loading="lazy">
+      </div>
+      <div class="cap"><h3>生态湿地</h3><span>WETLAND</span>
+        <p>湿地水景与多边形观景平台，芦苇与花境共生的生态段落。</p>
+      </div>
+    </figure>
+    <figure class="reveal">
+      <div class="pic" data-cap="济南西中央公园 · 林间高架栈道">
+        <img src="render-1.jpg" alt="林间高架栈道" loading="lazy">
+      </div>
+      <div class="cap"><h3>林间高架栈道</h3><span>TREETOP&nbsp;WALK</span>
+        <p>木质架空步道穿行于密林之上，连接观景平台与休憩节点。</p>
+      </div>
+    </figure>
+    <figure class="reveal">
+      <div class="pic" data-cap="济南西中央公园 · 滨水花境与木栈道">
+        <img src="render-4.jpg" alt="滨水花境与木栈道" loading="lazy">
+      </div>
+      <div class="cap"><h3>滨水花境</h3><span>WATERFRONT</span>
+        <p>石墙花境、木质栈道与水面相接，静谧的滨水漫步段落。</p>
+      </div>
+    </figure>
+    <figure class="wide reveal">
+      <div class="pic" data-cap="济南西中央公园 · 泉湖与金莲雕塑">
+        <img src="render-7.jpg" alt="泉湖金莲雕塑鸟瞰" loading="lazy">
+      </div>
+      <div class="cap"><h3>泉湖 · 金莲雕塑</h3><span>LOTUS&nbsp;FOUNTAIN</span>
+        <p>约二十组旱喷环绕金莲雕塑呈弧形阵列，构成全园最具识别度的画面。</p>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- ==================== 06 植物策略 ==================== -->
+<section id="planting">
+  <div class="sec-head">
+    <span class="no">06</span>
+    <h2>植物策略</h2>
+    <span class="en">PLANTING</span>
+  </div>
+  <figure class="reveal">
+    <div class="pic" data-cap="济南西中央公园 · 植物策略">
+      <img src="planting.jpg" alt="植物策略展板" loading="lazy">
+    </div>
+    <div class="cap"><h3>多层次 · 四季景观 · 生态低碳</h3><span>PLANTING&nbsp;STRATEGY</span>
+      <p>乔木、灌木、地被与水生植物四层共构植物空间；分区配置兼顾四季观赏与生物多样性，八大盘区从入口展示到林间漫步各有性格。</p>
+    </div>
+  </figure>
+</section>
+
+<!-- ==================== 联系 ==================== -->
+<footer id="contact">
+  <div>
+    <p class="f-name">王福鑫</p>
+    <p style="color:var(--gray);font-size:13px;margin-top:12px;letter-spacing:.2em;">环境设计 · ENVIRONMENTAL&nbsp;DESIGN</p>
+  </div>
+  <div class="f-contact">
+    <p>电话&nbsp;/&nbsp;<a href="tel:13326214783">133 2621 4783</a></p>
+    <p>邮箱&nbsp;/&nbsp;<a href="mailto:2903960465@qq.com">2903960465@qq.com</a></p>
+    <p>青岛理工大学&nbsp;·&nbsp;艺术与设计学院</p>
+  </div>
+  <div class="copy">
+    <span>© 2026 WANG&nbsp;FUXIN</span>
+    <span>济南西中央公园 · 泉汇西枢</span>
+  </div>
+</footer>
+
+<!-- 灯箱 -->
+<div class="lightbox" id="lightbox">
+  <button class="close" id="lbClose">&times;</button>
+  <img id="lbImg" src="" alt="">
+  <p class="cap" id="lbCap"></p>
+</div>
+
+<script>
+(function(){
+  var lb=document.getElementById('lightbox'),
+      lbImg=document.getElementById('lbImg'),
+      lbCap=document.getElementById('lbCap');
+  function openLb(src,cap){
+    lbImg.src=src; lbCap.textContent=cap||'';
+    lb.classList.add('on'); document.body.style.overflow='hidden';
+  }
+  function closeLb(){lb.classList.remove('on'); document.body.style.overflow='';}
+  document.querySelectorAll('.pic').forEach(function(el){
+    el.addEventListener('click',function(){
+      openLb(el.querySelector('img').src, el.getAttribute('data-cap'));
+    });
+  });
+  document.getElementById('lbClose').addEventListener('click',closeLb);
+  lb.addEventListener('click',function(e){ if(e.target===lb) closeLb(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeLb(); });
+
+  // 滚动显现（含兜底）
+  var reveals=document.querySelectorAll('.reveal');
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(en){
+      if(en.isIntersecting){en.target.classList.add('vis');io.unobserve(en.target);}
+    });
+  },{threshold:.12});
+  reveals.forEach(function(el){io.observe(el);});
+  setTimeout(function(){
+    reveals.forEach(function(el){el.classList.add('vis');});
+  },2500);
+})();
+</script>
+<script src="./assets/premium-fx.js"></script>
+</body>
+</html>

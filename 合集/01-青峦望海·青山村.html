@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="CG9IFDfygKInPucLxSxwuq">
+<head data-page-node-id="Qcoe2JqBbYdtGEiDE7hqPz">
+<meta charset="UTF-8" data-page-node-id="qhH6uNMNz0WXOljtCrSp1P">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="fIoTX4Z5vRlCOmAWnXQ942">
+<title>青峦望海 · 崂山青山村景观设计</title>
+<meta name="description" content="崂山青山村老村委片区景观设计：青峦望海。从基地解读、气候与人群分析，到胶东文脉转译与山海观景茶室方案的完整设计过程。" data-page-node-id="WCns3tZ491VC2521KtrjmV">
+<style>
+/* ============================================================
+   极简画廊风 · 项目展示页（与作品集主站同一视觉语言）
+   图片来源：青山村景观设计.pptx 提取压缩后上传
+   ============================================================ */
+:root{
+  --bg:#fafaf8;
+  --ink:#141414;
+  --gray:#8a8a86;
+  --line:#e4e4e0;
+  --sea:#141414;
+  --serif:"Songti SC","SimSun",Georgia,serif;
+  --sans:-apple-system,"PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased;}
+::selection{background:var(--ink);color:var(--bg);}
+
+/* SECTION: nav — 对齐主站 */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;
+  height:64px;padding:0 clamp(16px,4vw,40px);background:rgba(255,255,255,.88);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid transparent;transition:border-color .25s ease,box-shadow .25s ease;}
+nav.is-scrolled{border-bottom-color:var(--line);box-shadow:0 1px 0 rgba(0,0,0,.03);}
+nav .logo{display:inline-flex;align-items:center;gap:10px;font-size:14px;letter-spacing:.18em;font-weight:600;text-decoration:none;color:var(--ink);}
+nav .logo::before{content:"青";width:34px;height:34px;border-radius:10px;background:#111;color:#fff;
+  display:grid;place-items:center;font-size:13px;letter-spacing:0;font-weight:700;}
+nav .menu{display:flex;align-items:center;gap:4px;flex-wrap:wrap;justify-content:flex-end;}
+nav .menu a{font-size:13px;letter-spacing:.12em;color:#111;font-weight:600;text-decoration:none;
+  padding:8px 16px;background:#fff;border:2px solid #111;border-radius:3px;
+  box-shadow:3px 3px 0 #111;transition:transform .15s ease,box-shadow .15s ease,background .15s ease,color .15s ease;}
+nav .menu a:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 #111;background:#111;color:#fafaf8;}
+nav .menu a:active{transform:translate(1px,1px);box-shadow:2px 2px 0 #111;}
+nav .menu a.nav-cta{background:#111;color:#fff;margin-left:10px;box-shadow:3px 3px 0 #ff6900;border-radius:999px;padding:8px 18px;}
+nav .menu a.nav-cta:hover{background:#ff6900;color:#fff;border-color:#ff6900;transform:translate(-1px,-1px);box-shadow:4px 4px 0 #111;}
+@media(max-width:720px){
+  nav{height:auto;min-height:56px;padding:10px 14px;flex-wrap:wrap;}
+  nav .logo{font-size:12px;letter-spacing:.1em;}
+  nav .logo::before{width:28px;height:28px;font-size:11px;}
+  nav .menu{gap:2px;}
+  nav .menu a{font-size:11.5px;padding:6px 9px;}
+}
+.back-top{position:fixed;top:12px;right:18px;z-index:120;display:inline-flex;align-items:center;gap:6px;
+  padding:8px 14px;border:1px solid var(--line);background:rgba(255,255,255,.92);
+  color:#111;font-size:12px;font-weight:600;letter-spacing:.06em;text-decoration:none;
+  border-radius:999px;backdrop-filter:blur(10px);transition:background .2s ease,color .2s ease,border-color .2s ease;}
+.back-top:hover{background:#111;color:#fff;border-color:#111;}
+.back-top:focus-visible{outline:2px solid #ff6900;outline-offset:2px;}
+@media(max-width:720px){.back-top{top:8px;right:10px;padding:6px 11px;font-size:11px;}}
+
+/* SECTION: hero */
+header{min-height:92vh;display:flex;flex-direction:column;justify-content:center;padding:120px 5vw 0;position:relative;border-bottom:1px solid var(--line);overflow:hidden;}
+header::before{content:"海";position:absolute;right:3vw;bottom:8vh;font-family:var(--serif);
+  font-size:clamp(240px,30vw,440px);line-height:1;color:transparent;
+  -webkit-text-stroke:1.5px rgba(20,20,20,.10);pointer-events:none;user-select:none;z-index:0;}
+header>*{position:relative;z-index:1;}
+header .kicker{display:inline-block;align-self:flex-start;font-size:12px;letter-spacing:.42em;color:#fafaf8;
+  background:#111;padding:10px 22px 10px 26px;margin-bottom:26px;box-shadow:4px 4px 0 rgba(20,20,20,.14);}
+header h1{font-family:var(--serif);font-size:clamp(44px,8vw,104px);font-weight:400;letter-spacing:.08em;line-height:1.16;
+  text-shadow:6px 6px 0 rgba(20,20,20,.09),12px 12px 0 rgba(20,20,20,.045);}
+header h1 .thin{color:var(--gray);font-size:.34em;vertical-align:.34em;letter-spacing:.28em;margin-left:1.1em;text-shadow:none;}
+header .sub{margin-top:36px;max-width:640px;color:#555;font-size:14.5px;}
+header .hero-meta{display:flex;flex-wrap:wrap;gap:12px 34px;margin-top:34px;font-size:12.5px;color:var(--gray);letter-spacing:.14em;}
+header .hero-meta b{color:var(--ink);font-weight:500;}
+.hero-strip{margin-top:60px;margin-left:-5vw;margin-right:-5vw;height:52vh;min-height:340px;overflow:hidden;background:#e9e9e5;cursor:zoom-in;position:relative;}
+.hero-strip img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.4s cubic-bezier(.2,.6,.2,1);}
+.hero-strip:hover img{transform:scale(1.03);}
+.hero-strip .cap{position:absolute;bottom:16px;right:22px;font-size:11px;letter-spacing:.22em;color:#fff;background:rgba(20,20,20,.5);padding:6px 13px;border-radius:2px;}
+.scroll-hint{position:absolute;bottom:calc(52vh + 18px);right:5vw;font-size:11px;letter-spacing:.3em;color:var(--gray);writing-mode:vertical-rl;animation:hint 2.4s ease-in-out infinite;}
+@keyframes hint{0%,100%{opacity:.35}50%{opacity:1}}
+
+/* SECTION: sections-common */
+section{padding:100px 5vw 84px;border-bottom:1px solid var(--line);}
+.sec-head{display:flex;align-items:baseline;gap:26px;margin-bottom:58px;}
+.sec-head .no{font-size:12px;color:#fafaf8;background:#111;padding:5px 12px;letter-spacing:.2em;}
+.sec-head h2{font-family:var(--serif);font-size:clamp(26px,3.4vw,40px);font-weight:400;letter-spacing:.14em;}
+.sec-head .en{font-size:11.5px;color:var(--gray);letter-spacing:.28em;margin-left:auto;}
+
+/* SECTION: work-blocks */
+.work{margin-bottom:110px;}
+.work:last-child{margin-bottom:0;}
+.pic{position:relative;overflow:hidden;cursor:zoom-in;background:#eee;border:1px solid var(--line);
+  box-shadow:5px 5px 0 rgba(20,20,20,.06);transition:box-shadow .3s ease,transform .3s ease;}
+.pic:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 rgba(20,20,20,.10);}
+.pic img{width:100%;display:block;transition:transform 1.1s cubic-bezier(.2,.6,.2,1);}
+.pic:hover img{transform:scale(1.035);}
+.pic::after{content:"查看大图 +";position:absolute;bottom:18px;right:18px;font-size:11px;letter-spacing:.2em;color:#fff;
+  background:rgba(20,20,20,.55);padding:7px 14px;border-radius:2px;opacity:0;transition:opacity .4s;}
+.pic:hover::after{opacity:1;}
+.pic .fallback{display:none;position:absolute;inset:0;background:linear-gradient(135deg,#e6e6e2,#d8d8d3);color:var(--gray);
+  font-size:12px;letter-spacing:.2em;align-items:center;justify-content:center;}
+.pic.noimg img{display:none;}
+.pic.noimg .fallback{display:flex;}
+.meta{display:flex;justify-content:space-between;align-items:baseline;padding-top:22px;border-top:1px solid var(--line);margin-top:22px;}
+.meta h3{font-family:var(--serif);font-size:clamp(19px,2.2vw,25px);font-weight:400;letter-spacing:.1em;}
+.meta .idx{font-size:12px;color:var(--gray);letter-spacing:.2em;white-space:nowrap;margin-left:24px;}
+.tags{margin-top:10px;font-size:12px;color:var(--gray);letter-spacing:.12em;}
+.desc{margin-top:14px;max-width:680px;color:#555;font-size:14px;}
+.w-odd{display:grid;grid-template-columns:7fr 5fr;gap:5vw;align-items:end;}
+.w-even{display:grid;grid-template-columns:5fr 7fr;gap:5vw;align-items:end;}
+.w-even .pic{order:-1;}
+.txt{padding-bottom:8px;}
+.thumbs{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px;grid-column:1 / -1;}
+.thumbs .thumb{width:170px;height:110px;overflow:hidden;cursor:zoom-in;position:relative;background:#e9e9e5;border:1px solid var(--line);}
+.thumbs .thumb img{width:100%;height:100%;object-fit:cover;opacity:.88;transition:opacity .3s,transform .3s;display:block;}
+.thumbs .thumb:hover img{opacity:1;transform:translateY(-3px);}
+
+/* SECTION: smaller-images —— 基地解读/设计策略/方案设计 图片列收窄 */
+#site .w-odd,#site .w-even,#strategy .w-odd,#strategy .w-even,#design .w-odd,#design .w-even{grid-template-columns:1fr 1fr;}
+#site .desc,#strategy .desc,#design .desc{max-width:none;}
+.work:has(> .thumbs){grid-template-columns:minmax(0,5fr) minmax(0,7fr)!important;grid-template-areas:"pic txt" "pic thumbs"!important;align-items:start;}
+.work:has(> .thumbs) .pic{grid-area:pic;}
+.work:has(> .thumbs) .txt{grid-area:txt;align-self:end;}
+.work:has(> .thumbs) .thumbs{grid-area:thumbs;grid-column:auto;align-self:end;margin-top:26px;}
+#design .draft-item{display:block;margin-bottom:100px;}
+#design .draft-item .pic{max-width:440px;}
+#design .draft-item .desc{max-width:none;}
+
+/* SECTION: strategy-cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-top:34px;}
+.card{background:var(--bg);padding:30px 26px;transition:all .3s ease;box-shadow:4px 4px 0 rgba(20,20,20,.05);}
+.card:hover{background:#fff;transform:translate(-2px,-2px);box-shadow:7px 7px 0 rgba(20,20,20,.10);}
+.card h3{font-family:var(--serif);font-size:17px;font-weight:400;letter-spacing:.08em;margin-bottom:8px;}
+.card .r-tag{font-size:11px;color:var(--sea);letter-spacing:.15em;margin-bottom:14px;}
+.card p{font-size:13px;color:#555;}
+
+/* SECTION: climate-data */
+.data-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin:30px 0 44px;}
+.data-cell{background:#fff;padding:26px 22px;text-align:center;}
+.data-cell .v{font-family:var(--serif);font-size:clamp(22px,2.6vw,32px);letter-spacing:.04em;}
+.data-cell .k{font-size:11.5px;color:var(--gray);letter-spacing:.18em;margin-top:8px;}
+
+/* SECTION: mini-grid —— 立面/剖面小图集 */
+.mini-head{display:flex;justify-content:space-between;align-items:baseline;margin:70px 0 20px;border-top:1px solid var(--line);padding-top:22px;}
+.mini-head h3{font-family:var(--serif);font-size:20px;font-weight:400;letter-spacing:.1em;}
+.mini-head .idx{font-size:12px;color:var(--gray);letter-spacing:.2em;}
+.mini-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.mini-grid .m-item .pic{height:128px;background:#fff;}
+.mini-grid .m-item img{width:100%;height:128px;object-fit:contain;object-position:center;}
+.mini-grid figcaption{font-size:11.5px;color:var(--gray);letter-spacing:.14em;margin-top:8px;text-align:center;}
+
+/* SECTION: gallery */
+.gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:34px;}
+.gallery .pic img{height:100%;object-fit:cover;}
+.gallery .g-cap{font-size:12px;color:var(--gray);letter-spacing:.14em;margin-top:12px;}
+.final-board{margin-top:80px;}
+.render-video{max-width:620px;margin:70px auto 0;}
+.render-video .frame{border:1px solid var(--line);background:#000;box-shadow:5px 5px 0 rgba(20,20,20,.06);overflow:hidden;}
+.render-video video{width:100%;display:block;}
+.render-video figcaption{font-size:12px;color:var(--gray);letter-spacing:.14em;margin-top:12px;display:flex;justify-content:space-between;}
+@media(max-width:760px){.render-video{max-width:100%;}}
+.final-board .pic{background:#111;}
+.final-board img{max-height:none;}
+
+/* SECTION: footer */
+footer{padding:90px 5vw 60px;display:flex;flex-wrap:wrap;gap:60px;justify-content:space-between;align-items:flex-end;}
+footer .f-name{font-family:var(--serif);font-size:clamp(30px,4vw,52px);font-weight:400;letter-spacing:.12em;line-height:1.3;}
+footer .f-contact{font-size:13px;color:var(--gray);line-height:2.1;text-align:right;}
+footer .copy{width:100%;margin-top:50px;padding-top:22px;border-top:1px solid var(--line);font-size:11px;color:var(--gray);letter-spacing:.15em;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+
+/* SECTION: lightbox */
+.lightbox{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;flex-direction:column;background:rgba(12,12,12,.94);padding:4vh 4vw;}
+.lightbox.on{display:flex;}
+.lightbox img{max-width:92vw;max-height:80vh;object-fit:contain;box-shadow:0 30px 90px rgba(0,0,0,.5);}
+.lightbox .cap{color:#bbb;font-size:12px;letter-spacing:.2em;margin-top:20px;text-align:center;}
+.lightbox .close{position:absolute;top:26px;right:32px;color:#ddd;font-size:26px;cursor:pointer;line-height:1;background:none;border:none;font-weight:300;}
+.lightbox .close:hover{color:#fff;}
+
+/* SECTION: reveal */
+.reveal{opacity:0;transform:translateY(36px);transition:opacity 1s ease,transform 1s cubic-bezier(.2,.6,.2,1);}
+.reveal.vis{opacity:1;transform:none;}
+
+/* SECTION: responsive */
+#history .history-feature{grid-template-columns:minmax(0,5fr) minmax(0,7fr)!important;grid-template-areas:"pic side" "pic txt"!important;align-items:start;}
+#history .history-feature .pic{grid-area:pic;max-width:640px;}
+#history .history-feature .side-thumb{grid-area:side;width:100%;max-width:380px;height:220px;margin-bottom:30px;}
+#history .history-feature .side-thumb img{width:100%;height:100%;object-fit:cover;}
+#history .history-feature .txt{grid-area:txt;align-self:end;}
+#strategy .case-crop .pic{height:560px;}
+#strategy .case-crop .pic img{height:100%;object-fit:cover;object-position:center bottom;}
+#site .site03-shrink .pic{max-width:420px;}
+@media(max-width:1180px){
+  nav{padding:14px 4vw;}
+  nav .menu{gap:8px;}
+  nav .menu a{font-size:12px;padding:7px 12px;box-shadow:2px 2px 0 #111;}
+}
+@media(max-width:860px){
+  nav .menu{gap:6px;}
+  nav .menu a{font-size:11.5px;padding:6px 10px;letter-spacing:.02em;}
+  .w-odd,.w-even{display:block;}
+  .w-even .pic{order:0;}
+  .txt{padding-bottom:0;margin-top:22px;}
+  .gallery{grid-template-columns:1fr;}
+  .mini-grid{grid-template-columns:repeat(2,1fr);}
+  .thumbs .thumb{width:calc(50% - 6px);height:104px;}
+  .scroll-hint{display:none;}
+  header{padding-top:96px;}
+}
+</style>
+
+</head>
+<body data-page-node-id="0yNEUGeQDKr94UnhuEDoVy">
+<!-- SECTION: nav -->
+<nav data-page-node-id="D1LjgIQtToMt5Ha3cX07Cc">
+  <a class="logo" href="#top" data-page-node-id="EyKfn7qnzGVAbSiX6PyDsC">青巒望海</a>
+  <div class="menu" data-page-node-id="xmGoABPzQTutbUv5TBIrI7">
+
+    <a href="#site" data-page-node-id="Xrc8Jk7eEoFtCFfqfc1Hnp">基地解读</a>
+    <a href="#history" data-page-node-id="7cHfJzlTxulwHOLoqIFMmm">历史沿革</a>
+    <a href="#strategy" data-page-node-id="UIpKHDdAWoGFEg9R14D7aa">设计策略</a>
+    <a href="#design" data-page-node-id="q3mwyJEDAKRmAiWyF1JNun">方案设计</a>
+    <a href="#renders" data-page-node-id="cJUAl1Twi6pRXRvkbPy13O">效果表现</a>
+    <a href="#about" data-page-node-id="ecLd7J1SxwMd50wm5zPAEm">项目信息</a><a class="nav-cta" href="#" onclick="event.preventDefault();history.back()">返回</a>
+  </div>
+</nav>
+
+<!-- SECTION: hero -->
+<header id="top" data-page-node-id="m4h1VwFkKeRGz5AjyKMCJC">
+  <p class="kicker" data-page-node-id="Vk0NFjG8ls1e9WoGGO6Tl5">LAOSHAN&nbsp;·&nbsp;QINGSHAN&nbsp;VILLAGE&nbsp;LANDSCAPE&nbsp;DESIGN</p>
+  <h1 data-page-node-id="90DIf4GtBtRrO8nLuxaRH8">青峦望海<span class="thin" data-page-node-id="GH1ichVDRzuthEKBdvg7EV">崂山青山村景观设计</span></h1>
+  <p class="sub" data-page-node-id="6u0GqKuQHKFhPkF75XG06z">"青峦"指代场地背靠的青山茶园，是乡村的生态根基与自然底色；"望海"凸显村落面海而居的独特区位，承载渔村人文记忆与开阔视野。设计以尊重自然、延续文脉、山海相融为核心，低干预改造老村委片区，让建筑、茶田与山海有机共生。</p>
+  <div class="hero-meta" data-page-node-id="RDLPWT17CQvGLHTRnaYVt9">
+    <span data-page-node-id="wYJDEEnZAkIklKgE8WrPcE">场地 / <b data-page-node-id="bYnu0abU3ddgrfy7F9nnGv">青岛 · 崂山区王哥庄街道青山村</b></span>
+    <span data-page-node-id="dkdCIa3TAUlRmqIWqZeu9G">类型 / <b data-page-node-id="FC8PZ8j4Dmuiv8MknxRhFL">乡村景观更新 · 课程作业</b></span>
+    <span data-page-node-id="bK7sHMCUMpVIqCZAZAwsjh">时间 / <b data-page-node-id="BksIcWuLB9Gk9p73nU6BqD">2026.4</b></span>
+  </div>
+  <span class="scroll-hint" data-page-node-id="Yu5I7JVNZX3KpCUb0EunOt">SCROLL</span>
+  <div class="hero-strip pic" data-cap="青峦望海 · 建筑组团鸟瞰" data-page-node-id="uOsTj0DeDw346SsBXk7HaK">
+    <img src="assets/hero-qingshan.jpg" alt="青峦望海方案建筑组团鸟瞰">
+    <span class="fallback" data-page-node-id="22O32tWwT2TQaTdHkcDvwt">图片加载失败</span>
+    <span class="cap" data-page-node-id="kGffyKRmVh8l7Bzz9zfPOA">青峦望海 · 建筑组团鸟瞰</span>
+  </div>
+</header>
+
+<!-- SECTION: site-analysis -->
+<section id="site" data-page-node-id="iBsMEoXUt626b5MbvBzHdS">
+  <div class="sec-head" data-page-node-id="3uc2SDtcAHT4FDqTBcE17B">
+    <span class="no" data-page-node-id="UBh2Do9nClXstvIJpjKimp">01</span>
+    <h2 data-page-node-id="tlGMCtRPIBGdB3OWYBP4xG">基地解读</h2>
+    <span class="en" data-page-node-id="jKFqQvzHmZIK9iPXNcN5M4">SITE&nbsp;READING</span>
+  </div>
+
+  <article class="work w-odd reveal" data-page-node-id="apLFCQ50FQhbSIv38DHuYu">
+    <div class="pic" data-cap="区位分析 · 青山村区位示意" data-page-node-id="DE9RptyohrpAhgopk7xEoR">
+      <img data-image="https://workspace-cdn.uzone.com/f4a126328bbb4018b23118ae1149b1bf%2Fo%2F1788525683576-c.jpg?auth_key=1791117683-0-0-ef77aca5444826bfc9c35db10a4cd485" alt="青山村区位分析图" loading="lazy" data-page-node-id="1eOD7CtWyKrhVJeAmfzgQ3">
+      <span class="fallback" data-page-node-id="fIqpy3BsBkt5sB7JCdzN46">图片加载失败</span>
+    </div>
+    <div class="txt" data-page-node-id="cWzLHE0xCduaL5kSVuewga">
+      <div class="meta" data-page-node-id="zg8Y4lLFeNeU2G1xan1rYi"><h3 data-page-node-id="VcMVYsDOqXhEzXgbln5k0x">区位与交通</h3><span class="idx" data-page-node-id="VDcBZbQE3H7FJjCj7EMCTz">SITE&nbsp;01</span></div>
+      <p class="tags" data-page-node-id="QqVwP1LduukURPGkztJZ6H">崂山太清游览区核心 / 7.2公里海岸线 / 600余年古村落</p>
+      <p class="desc" data-page-node-id="J069JbJecHjbFLVXDMjWpf">青山村地处崂山风景区太清游览区核心地带，北依狮子峰，南邻青山湾，占据崂山东南端背山面海的优越区位。村落依托 7.2 公里曲折海岸线与险峻山体，造就了"依山而建、层层叠叠"的梯田景观，至今保留红瓦石墙、海草房等典型胶东民居风貌。基地内部道路已具雏形，但人车混行、公共停车不足等痛点亟需通过设计优化。</p>
+    </div>
+    <div class="thumbs" data-page-node-id="6bJM1ORvbiDZPyREm9ImmA">
+      <div class="thumb" data-cap="卫星影像 · 基地概况" data-page-node-id="4D8Zb59sDoaYv0XWCXymL2">
+        <img data-image="https://workspace-cdn.uzone.com/dacdc22cb7e44907b449ee0a7119731e%2Fo%2F1788525687761-c.jpg?auth_key=1791117688-0-0-597a4405810206946f10b09ba3042e0a" alt="基地卫星影像" loading="lazy" data-page-node-id="BrgOchQBaqqUe0ytgYuh1J">
+      </div>
+      <div class="thumb" data-cap="村庄体块模型 · 现状鸟瞰">
+        <img src="assets/site-mass.jpg" alt="村庄体块模型鸟瞰" loading="lazy">
+      </div>
+    </div>
+  </article>
+
+  <article class="work w-even reveal" data-page-node-id="SAuK05uaAzexCkaS8hEhW1">
+    <div class="pic" data-cap="地形地貌 · 坡度分析" data-page-node-id="imkuBiPR9HoaWM5NBgv0YK">
+      <img data-image="https://workspace-cdn.uzone.com/3f6028832b8c439980310ec116c6756d%2Fo%2F1788525692615-c.jpg?auth_key=1791117692-0-0-77a38b5d17f1d5d43bc60f1cf6096387" alt="地形坡度分析图" loading="lazy" data-page-node-id="MPAEiMHDPfeiFXEb9raf1n">
+      <span class="fallback" data-page-node-id="nXCFLqFnPG89fMgiO2K5rr">图片加载失败</span>
+    </div>
+    <div class="txt" data-page-node-id="97sMExyOhKGqzK0rStIE8z">
+      <div class="meta" data-page-node-id="npkCDFJtLtePb7b94XxOBj"><h3 data-page-node-id="vrXlSKvzpDNmXJSQuac3fF">地形地貌</h3><span class="idx" data-page-node-id="Ij5mB9L5o8JbTNBHzLtHUy">SITE&nbsp;02</span></div>
+      <p class="tags" data-page-node-id="nXhA8lWrpQtYwhatjux6Wx">高程 / 坡度 / 坡向 三维分析</p>
+      <p class="desc" data-page-node-id="E25wsOw3nFG8lLYSOGYruS">基地地势整体略有起伏，形成丰富的竖向地形层次；大部分区域坡度小于 15°，适宜建筑与道路布局，局部陡坡结合景观做生态化处理。基地主要朝向为南向与东向，日照充足、通风良好。设计策略：顺应地形肌理，最大化利用自然条件，实现建筑与环境的有机融合。</p>
+    </div>
+    <div class="thumbs">
+      <div class="thumb" data-cap="村庄肌理 · 现状平面">
+        <img src="assets/site-texture.jpg" alt="村庄肌理现状平面" loading="lazy">
+      </div>
+    </div>
+  </article>
+
+  <article class="work w-odd reveal site03-shrink" data-page-node-id="GRemQAWHAlOREjJE0tRDtQ">
+    <div class="pic" data-cap="生态资源 · 古树与水系实景" data-page-node-id="mP9eNq1Awf89VT1HpXGW85">
+      <img data-image="https://workspace-cdn.uzone.com/db01a28cc38147a49b184813f03790b8%2Fo%2F1788525697463-c.jpg?auth_key=1791117697-0-0-831f4ae34fafab94b99c8e62fd46b8fd" alt="古树与自然水系实景" loading="lazy" data-page-node-id="mGcL25sCHsG1bqO1WnIYRP">
+      <span class="fallback" data-page-node-id="zDeCeQsd1JU2ljCUbWu0zW">图片加载失败</span>
+    </div>
+    <div class="txt" data-page-node-id="pJbvX6QJwIfLazHLFs6SH3">
+      <div class="meta" data-page-node-id="P2aAlC66KZcYOaDEhyQIGp"><h3 data-page-node-id="aZJrpjuhXtW7XIY742luml">生态资源与气候</h3><span class="idx" data-page-node-id="OKPHe9X9nfdcHkeT2AoS0c">SITE&nbsp;03</span></div>
+      <p class="tags" data-page-node-id="CjeZ5iHx9dO9azJlH6mni3">古树名木 / 自然水系 / 暖温带季风气候</p>
+      <p class="desc" data-page-node-id="voZYBB9PhVQIIXxDwYdgCY">基地内保留国槐、银杏等古树名木与大量乡土树种，生态价值基底高；现存自然池塘与多条灌溉沟渠水系连通良好；土壤以砂质壤土为主，深厚透气，适宜多种乔灌木生长。设计策略：保护现有古树与水系，最小化人工干预，营造近自然的生态景观。</p>
+      <p class="desc" data-page-node-id="eqHuwr9uQNDDELHvK3EtFG">气候应对：青岛属暖温带季风气候，四季分明、温和湿润（年均温 12~13℃、年降水 600~800mm）。夏季湿热多雨，注重遮阳通风、透水铺装与雨水花园；冬季寒冷干燥，采用南向布局与防风林；海洋性气候湿度大，选用耐腐蚀材料并加强通风防潮，打造四季可用的公共空间。</p>
+      <p class="desc" data-page-node-id="mJCIOLjJCXQVSK4TumoWWI">人群需求：本地村民需要日常休闲、健身、社交与养老服务；游客追求特色餐饮、精品民宿与文化体验；村委关注会议培训与村民接待空间。设计兼顾多方利益，创造主客共享的共生空间。</p>
+    </div>
+  </article>
+</section>
+
+<!-- SECTION: history -->
+<section id="history" data-page-node-id="9wMYtDCJH2DPQiUaeGwVqK">
+  <div class="sec-head" data-page-node-id="HnZ6zJDfZPYFQVOugFpWWa">
+    <span class="no" data-page-node-id="fErnJ09NnhXLB1W0HF13LB">02</span>
+    <h2 data-page-node-id="LxtHzFpWMyGynLo7cFRMcB">历史沿革</h2>
+    <span class="en" data-page-node-id="nZTkPz2R7QaKN09xGfCINt">HISTORY&nbsp;&amp;&nbsp;CONTEXT</span>
+  </div>
+
+  <article class="work w-odd reveal history-feature" data-page-node-id="YHA3or58p1HRLm9v6208op">
+    <div class="pic" data-cap="百年青岛 · 历史沿革" data-page-node-id="uNL1O3ZP4BuKNURlkOKDOp">
+      <img data-image="https://workspace-cdn.uzone.com/0fc72b52f4704b7ab334ecd0b8db471f%2Fo%2F1788529559658-c.jpg?auth_key=1791121559-0-0-9031b0522336f5826a14cbf47cc7be28" alt="百年青岛历史沿革海报" loading="lazy" data-page-node-id="59HjUBcrWuDFxMv4Ofhn2x">
+      <span class="fallback" data-page-node-id="ePPdBfXCuPawRXwviGtji3">图片加载失败</span>
+    </div>
+    <div class="thumb side-thumb" data-cap="青岛 · 手绘城市地图" data-page-node-id="4928tJRayYBfr9pr7SnU7r">
+      <img data-image="https://workspace-cdn.uzone.com/d2ae5904544c4738ae5c457b5bcfc05b%2Fo%2F1788529555023-c.jpg?auth_key=1791121555-0-0-7cc0f06aae3a606840e9a14ab3850b42" alt="青岛手绘城市地图" loading="lazy" data-page-node-id="gAvB9iCD7RUBliF84za5JQ">
+    </div>
+    <div class="txt" data-page-node-id="fLDFxAlFG4F28zc0vVXfaj">
+      <div class="meta" data-page-node-id="3FqytwlniIMScH4it2Z4Tt"><h3 data-page-node-id="fFmqWC55koKwg16vb09iRG">百年青岛 · 城市记忆</h3><span class="idx" data-page-node-id="0ixhsCd64BAyxq9NGgwBNm">CITY&nbsp;HISTORY</span></div>
+      <p class="tags" data-page-node-id="idyF9Hpq2hnf3DDTHqOFiU">1891 建置 / 1914 日据 / 1949 新生 / 改革开放</p>
+      <p class="desc" data-page-node-id="m9yopm6yVs2iGGoewDWW70">青岛自 1891 年清廷建置起步，历经德占、日据时期，1949 年新中国成立后逐步发展为重要工业基地与对外开放窗口；改革开放以来更焕新为国际化海滨旅游城市。村庄聚落与城市文脉同频演进，构成场地深厚的人文底色。</p>
+    </div>
+  </article>
+
+  <div class="thumbs reveal" data-page-node-id="6PP6bAPQedd3AEFpFohCdN">
+    <div class="thumb" data-cap="山东青岛 · 城市地标符号" data-page-node-id="E1eBAjv8D5UjFstBCNP7nm">
+      <img data-image="https://workspace-cdn.uzone.com/86706608ff2e4a38806e0afa4be6f394%2Fo%2F1788529551738-c.jpg?auth_key=1791121552-0-0-d314047a2b79d6719500acda4b1c3b37" alt="山东青岛城市地标符号图" loading="lazy" data-page-node-id="9SFa3OuCpSRr8rOzpIfxV9">
+    </div>
+    
+    <div class="thumb" data-cap="老城影像 · 历史街景" data-page-node-id="gSrll3CVDazmztXqBvxYJI">
+      <img data-image="https://workspace-cdn.uzone.com/008fc447771645aaa806590299dc60d4%2Fo%2F1788529564287-c.jpg?auth_key=1791121564-0-0-492f350d726b707efab1bf1de38318be" alt="青岛老城历史街景照片" loading="lazy" data-page-node-id="uHUvKCzcuaSEFF5gcqC7Vp">
+    </div>
+  </div>
+</section>
+
+<!-- SECTION: strategy -->
+<section id="strategy" data-page-node-id="Yr71LjoWnkCElOUy4PAVWI">
+  <div class="sec-head" data-page-node-id="p1RxXnAiyomFu7PAZDscqD">
+    <span class="no" data-page-node-id="3IWos3MD0E74ThFH2zpg6A">03</span>
+    <h2 data-page-node-id="DZxztDhg6zSHVB80j2NJRI">设计策略</h2>
+    <span class="en" data-page-node-id="GrNHO1IUU91ON7211qWO0b">DESIGN&nbsp;STRATEGY</span>
+  </div>
+
+  <article class="work w-odd reveal" data-page-node-id="FIvCkLtKHOzcFeIuqY05qB">
+    <div class="pic" data-cap="文化脉络 · 胶东海草房民居" data-page-node-id="YKHD7GaBOIxwE36BfOmT2R">
+      <img data-image="https://workspace-cdn.uzone.com/b752a452b4734c4181f14861fc5bd4c6%2Fo%2F1788525708209-c.jpg?auth_key=1791117708-0-0-96db0b4d457b2a1320dc8acf2614891c" alt="胶东特色民居海草房实景" loading="lazy" data-page-node-id="dQR0Gaa3cbKZDVJhPhUFBU">
+      <span class="fallback" data-page-node-id="IwjqHJbNJUXSwxnMYDB1zN">图片加载失败</span>
+    </div>
+    <div class="txt" data-page-node-id="FrbQSOTlkOZnlE782VRjqY">
+      <div class="meta" data-page-node-id="IImNa1afF7xNQ7wPtTSTFS"><h3 data-page-node-id="N0jysRVlG8ou3TxgpoLpbW">文化脉络转译</h3><span class="idx" data-page-node-id="KoYqDIN0WBanxOGof2PiN3">CULTURE</span></div>
+      <p class="tags" data-page-node-id="FGehWrxVXT1sKj6fdtYxPF">海草房 / 窗棂纹样 / 海洋文化</p>
+      <p class="desc" data-page-node-id="Fu4ObxdvFDD36tf0uJSzDR">以"海草房"为代表的胶东民居兼具防风防潮与地域美学；提取传统窗棂纹样、屋脊曲线与赭石色调作为现代设计的视觉基因，并融入贝壳肌理、波浪形态等海洋文化元素，让空间既厚重又灵动。</p>
+    </div>
+  </article>
+
+  <article class="work w-even reveal case-crop" data-page-node-id="88bxrFXJI5M7n6AFDAG0b4">
+    <div class="pic" data-cap="案例参考 · 茶田观景平台" data-page-node-id="AjwqaiyBn5xfhzEzJIjFdf">
+      <img data-image="https://workspace-cdn.uzone.com/a90aeaeda23941488ec63faf5bf849bf%2Fo%2F1788525716390-c.jpg?auth_key=1791117716-0-0-c92f67995cb6b38f3dde60716f55d623" alt="茶田观景平台案例参考" loading="lazy" data-page-node-id="1ALoXtqSuGUHkYtgdTcobT">
+      <span class="fallback" data-page-node-id="6Z4iVbeDgPpzoz6xNBCvxo">图片加载失败</span>
+    </div>
+    <div class="txt" data-page-node-id="srl869vF9JR8iwUVW4ENBz">
+      <div class="meta" data-page-node-id="hOlkUCcdaaA4IRC0ajPofE"><h3 data-page-node-id="NQYYlpbRMQBSgeKduKQA8b">案例借鉴 · 观景台与茶室</h3><span class="idx" data-page-node-id="1WphyGaU2jVUeMDemXNrZK">CASE</span></div>
+      <p class="tags" data-page-node-id="RJOq5xX8oo25ltnRlyzkMi">低干预 / 木构 / 融于茶田</p>
+      <p class="desc" data-page-node-id="P9Eb80lUikvrNcUiqA4cyw">尊重场地等高线与茶园肌理，以轻盈木结构与通透玻璃界面消解建筑体量，将观景平台顺势嵌入梯田，不破坏茶田生产功能，最大化保留山海视野，让建筑成为观海望山的取景框。</p>
+    </div>
+    <div class="thumbs" data-page-node-id="FkAEvoN8a55ttmOGJG7DjU">
+      <div class="thumb" data-cap="案例参考 · 观景台细部" data-page-node-id="hDnlcRigZEDiVe7BF4Dush">
+              </div>
+      <div class="thumb" data-cap="观景台 · 看台视角">
+        <img src="assets/case-view.jpg" alt="观景台看台视角" loading="lazy">
+      </div>
+      <div class="thumb" data-cap="茶室 · 室内人视">
+        <img src="assets/case-teahouse.jpg" alt="茶室室内人视" loading="lazy">
+      </div>
+      <div class="thumb" data-cap="建筑 · 剖切模型">
+        <img src="assets/case-model.jpg" alt="建筑剖切木模型" loading="lazy">
+      </div>
+    </div>
+  </article>
+
+  <div class="cards reveal" data-page-node-id="a5m76UDq8SWDx4jC9sqmFX">
+    <div class="card" data-page-node-id="JqnApqbw94AMRS70H8PDkw">
+      <h3 data-page-node-id="O4DZC6VxO4pJutqgjqEDKD">保留 · 历史价值保护</h3>
+      <p class="r-tag" data-page-node-id="LbC0Vx2U3BMZXGowFEW1ia">老村委主楼等</p>
+      <p data-page-node-id="UE7Yp5gGkfxKLEgb9Goemo">对具有历史价值和地域特色的建筑，重点进行结构加固与原貌修缮，留住乡村记忆。</p>
+    </div>
+    <div class="card" data-page-node-id="ervN0XKbs8W0oQw4aW34mc">
+      <h3 data-page-node-id="M0LYRCeVdRObmwt8vmC8Fg">改造 · 功能有机更新</h3>
+      <p class="r-tag" data-page-node-id="iJLlQ062Gy9vZYVeHD3PXL">结构完好 · 功能落后</p>
+      <p data-page-node-id="wkKHzDmdhS5uKUEoMBu2rn">实施功能置换与立面改造，注入新业态，提升空间使用效率。</p>
+    </div>
+    <div class="card" data-page-node-id="9OUeeedERtsvRl65CqA6nf">
+      <h3 data-page-node-id="hZfHSYwbOSDwIjeyJjU56C">拆除 · 释放公共空间</h3>
+      <p class="r-tag" data-page-node-id="eH5tyHIGacuVsclyMFkhWJ">安全隐患 · 无保留价值</p>
+      <p data-page-node-id="LDdWd2gZ5Bgo1FbR05sdG7">拆除破旧建筑，为新建公共建筑与景观绿化腾出空间。</p>
+    </div>
+    <div class="card" data-page-node-id="MuW4Daa3l6fKrdDPLQ0Ijt">
+      <h3 data-page-node-id="amCsp8LIDq70WiAWQa8NJi">共生 · 四季主客共享</h3>
+      <p class="r-tag" data-page-node-id="5HF2lLJRsoSwpVDx4PwG2j">设计愿景</p>
+      <p data-page-node-id="gqw8DLKEwDNVj7VJCVEdTW">构建四季宜人、主客共享的乡村空间，实现生态、生活与生产的可持续发展。</p>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION: design -->
+<section id="design" data-page-node-id="wc9E4F9AkBrptirypYUB3A">
+  <div class="sec-head" data-page-node-id="1AffrCR5AQQSo98GvIAJ3A">
+    <span class="no" data-page-node-id="zZutNGVECf2EsyU0RG7Nh7">04</span>
+    <h2 data-page-node-id="NtisEb2Oyts5FOYEig63Ks">方案设计</h2>
+    <span class="en" data-page-node-id="CTZUR727GcRlNEUYwPh9i7">SCHEME&nbsp;DESIGN</span>
+  </div>
+
+  <article class="work w-odd reveal draft-item" data-page-node-id="RfMACtDK6Ru3I9kCQfYstB">
+    <div class="pic" data-cap="一草 · 总平面图" data-page-node-id="GOx8DfRsdDkUgJbuQcy9Uy">
+      <img data-image="https://workspace-cdn.uzone.com/4380762d1f744e608567d1c02804af70%2Fo%2F1788525721989-c.jpg?auth_key=1791117722-0-0-0fc73156ff1deab8e9d249c0682a60c1" alt="一草总平面图" loading="lazy" data-page-node-id="UyylQZX7pUrZ9n6plWwdr9">
+      <span class="fallback" data-page-node-id="0yofhM0q6d7lCmoNZ0YTRW">图片加载失败</span>
+    </div>
+    <div class="txt" data-page-node-id="eM9vS54VAmLToKsmfkCsKb">
+      <div class="meta" data-page-node-id="ezKmPpyHzxAGvN3cLdI2iO"><h3 data-page-node-id="8EsPwVcC0fCPlHW5inw3VA">一草 · 总平面图</h3><span class="idx" data-page-node-id="OOoNB1Dn2aQjMWGsdoyX0q">DRAFT&nbsp;Ⅰ</span></div>
+      <p class="tags" data-page-node-id="26keFOPEYSLYLkk6GNugFl">顺应等高线 / 打通山海视线通廊</p>
+      <p class="desc" data-page-node-id="QUYJq4AiHDf0n5wy7vk8lX">顺应场地等高线与村落原有肌理，打通山海视线通廊，保留茶园梯田与滨海渔港等本土特色，营造望山见海、栖居乡野的空间氛围。</p>
+    </div>
+  </article>
+
+  <article class="work w-even reveal draft-item" data-page-node-id="uLC61aLJuFOQnFPAQ4GEb3">
+    <div class="pic" data-cap="二草 · 总平面图 1:250" data-page-node-id="oeTpeZFH6lJCDTWNS97dHK">
+      <img data-image="https://workspace-cdn.uzone.com/ab20451047bc4119abbc756b6b5c6d05%2Fo%2F1788525725892-c.jpg?auth_key=1791117726-0-0-eb26601ed9e1376a29f4066b4bd9509f" alt="二草总平面图" loading="lazy" data-page-node-id="J8cjh1DynfCpo4JDoM1KI4">
+      <span class="fallback" data-page-node-id="AkxXakeyPcACYhk9FI4K1X">图片加载失败</span>
+    </div>
+    <div class="txt" data-page-node-id="HYZ8jOpMuYZGKjn7Nqejgg">
+      <div class="meta" data-page-node-id="HdJt4r4HpJzPgFY2JJCwbB"><h3 data-page-node-id="EIGlZwd2doQDVHsioVOAAl">二草 · 总平面图</h3><span class="idx" data-page-node-id="hCDg0oFTcrlrCGYwYKZkzG">DRAFT&nbsp;Ⅱ · 1:250</span></div>
+      <p class="tags" data-page-node-id="N9cMAeg2yREXIMpJsFVF3Z">茶园观景平台 / 生态景观带</p>
+      <p class="desc" data-page-node-id="8TPYGbObBBtQLgfBuUdK8u">依托茶园梯田与山海格局，打造茶园观景平台与生态景观带：轻盈木构建筑嵌入茶田，最大化保留望海视野；绿化以本土茶园为核心搭配乡土植物，延续生产功能的同时提供品茗观海的休憩体验。</p>
+    </div>
+  </article>
+
+  <article class="work w-odd reveal draft-item" data-page-node-id="GXaJ8p5IXQLQSzifsVBBZO">
+    <div class="pic" data-cap="三草 · 总平面图" data-page-node-id="M0MjZG5z4JHyyEB6QPNb7y">
+      <img data-image="https://workspace-cdn.uzone.com/07629767ccfb411f9c3c2647af035a19%2Fo%2F1788534533091-c.jpg?auth_key=1791126533-0-0-a68a53a7003909a2d7f7e195acd19862" alt="三草总平面图" loading="lazy" data-page-node-id="YP7RP5LxuEdvRwzLD1F2fg">
+      <span class="fallback" data-page-node-id="5RYPQoCLnjcFJcHPV6VV7I">图片加载失败</span>
+    </div>
+    <div class="txt" data-page-node-id="fFuHDhNUFIY6mQARUcuShw">
+      <div class="meta" data-page-node-id="67GkC7BPVzTH5UwhMq7AiV"><h3 data-page-node-id="R09hlUD62pCc0uOeLydHDY">三草 · 总平面图</h3><span class="idx" data-page-node-id="RizPa5xo5tcC1zH5V6DUDM">DRAFT&nbsp;Ⅲ</span></div>
+      <p class="tags" data-page-node-id="MTg6fmpD1DCgq8o89FLCVL">观景平台+茶室 / 景观公园 / 文化展示 / 民俗 / 品茗</p>
+      <p class="desc" data-page-node-id="JKi2wzfZSRGCdPH0aYQnOt">三草在二草基础上深化落位：观景平台与茶室承载登高望海的核心体验，环形景观公园服务村民日常休闲，文化展示与民俗空间延续村落文脉，品茗区让茶园生产与游览体验共生，水系串联各功能片区。</p>
+    </div>
+  </article>
+
+  <article class="work w-even reveal" data-page-node-id="4SqelbuwBNAYRWBw2gNccN">
+    <div class="pic" data-cap="观景平台 · 正立面图" data-page-node-id="7C0a39sNxqXv1rjV1KAHrw">
+      <img data-image="https://workspace-cdn.uzone.com/a5e2fa36274b4f3d8b1fd8d83cabff6a%2Fo%2F1788525731015-c.jpg?auth_key=1791117731-0-0-16b2137cce273802ae92cef279efe8e1" alt="观景平台正立面图" loading="lazy" data-page-node-id="AVbcCz2bBdOVcHaJdopZUk">
+      <span class="fallback" data-page-node-id="tEPU76AxrrIIsOLOccjxKO">图片加载失败</span>
+    </div>
+    <div class="txt" data-page-node-id="qR7Or2s59wJliqDmbJEbMY">
+      <div class="meta" data-page-node-id="hnF2ilYwcc7d6eHmzioCp9"><h3 data-page-node-id="o5Vop8pQBzLRQxZw9XB1rv">观景平台 · 立面</h3><span class="idx" data-page-node-id="i7KWbIHH43II8QwoHGNneX">ELEVATION</span></div>
+      <p class="tags" data-page-node-id="FFvhxIOcW78nNsw4DKUONb">胶东木构形制 / 阶梯式架空平台</p>
+      <p class="desc" data-page-node-id="yxcbG20kE9eAA7OalJZCdR">茶室提取胶东民居传统木构形制，以轻盈原木结构与通透玻璃界面消解体量，隐于茶田、融于青山；观景台以阶梯式架空平台延伸茶田视野，打造多层次观景点。</p>
+    </div>
+  </article>
+
+  <article class="work w-odd reveal" data-page-node-id="KxWv7uzlRZ3kfTM1lqw3ve">
+    <div class="pic" data-cap="建筑平面图 · 二层平面" data-page-node-id="nq4AJ84gil9GaqFnX3jFwT">
+      <img data-image="https://workspace-cdn.uzone.com/71c33fb9358a49a08957c1f3cf087962%2Fo%2F1788525732969-c.jpg?auth_key=1791117733-0-0-0864b20d1d15072cb1e7be6df79149e1" alt="建筑平面图" loading="lazy" data-page-node-id="z8AEYtnvZHyrrZKS7tVq2H">
+      <span class="fallback" data-page-node-id="CK7X73FPbaHv86yEnUkkGH">图片加载失败</span>
+    </div>
+    <div class="txt" data-page-node-id="ctk3uqde5zrnBKoDv6InT4">
+      <div class="meta" data-page-node-id="LB7Oe7kqhiOCHOcOPXokyS"><h3 data-page-node-id="iizndGwTgZk1Fy1BkXalgy">建筑 · 平面图</h3><span class="idx" data-page-node-id="BxGjpXfQbgMbcgIaNFS9Ad">FLOOR&nbsp;PLAN</span></div>
+      <p class="tags" data-page-node-id="mlhWRfDKyUeUpJVy4BuhDv">两层体量 / 文化展示厅</p>
+      <p class="desc" data-page-node-id="OwqGprIGTWw6dsOY6998Tk">主体建筑两层布局，首层承载文化展示与公共活动，二层转为观景与休憩空间，流线清晰、视野逐级抬升。</p>
+    </div>
+  </article>
+
+  <article class="work w-even reveal" data-page-node-id="4N7eBrT36uIWA3wIN8zner">
+    <div class="pic" data-cap="建筑剖面图" data-page-node-id="OUnEmTEFzB4GVh9UOqhItC">
+      <img data-image="https://workspace-cdn.uzone.com/6ea0c408c86749c0abe31be119c17492%2Fo%2F1788525734771-c.jpg?auth_key=1791117735-0-0-3b54bb60af6fba9c2d39970f3ce10c44" alt="建筑剖面图" loading="lazy" data-page-node-id="4Ugj9Tt52t7G7sgGyBNk0H">
+      <span class="fallback" data-page-node-id="vXPuVL3g8EyEPiKhKozVxE">图片加载失败</span>
+    </div>
+    <div class="txt" data-page-node-id="3EP0gFHbtwcZLVJ1RNr2ZK">
+      <div class="meta" data-page-node-id="0uDZnDyzEFHuB52yYvksh9"><h3 data-page-node-id="dK04D7L3U5MnsmY3L5fxeB">建筑 · 剖面</h3><span class="idx" data-page-node-id="DTs5LdL0GUIG60wBpIKukw">SECTION</span></div>
+      <p class="tags" data-page-node-id="3Pzy7nyErCaYtNth8Jucl9">顺应坡地 / 视线通廊</p>
+      <p class="desc" data-page-node-id="LeeOrqcAusQY1xXU9VZ62i">剖面顺应场地坡地高差层层退台，室内视线穿越茶田直抵海面，验证"望海"主题在空间中的真实可达。</p>
+    </div>
+  </article>
+
+  <div class="mini-head reveal" data-page-node-id="XedRgRJiEtNikf25GcWYa2"><h3 data-page-node-id="x4CNlLU2deLZjbR0JnEjMP">立面 · 剖面图集</h3><span class="idx" data-page-node-id="GURXlZPoRxXffu0c56zgOw">ELEVATIONS&nbsp;&amp;&nbsp;SECTIONS</span></div>
+  <div class="mini-grid reveal" data-page-node-id="uXDw0ef1eWaEZfW9iGNBQb">
+    <figure class="m-item" data-page-node-id="lcoZcWhJPoaWPCFovO29qW">
+      <div class="pic" data-cap="立面图 2-2 · 1:100" data-page-node-id="YLDv3He1QB6lBXrJjJQ2Mt"><img data-image="https://workspace-cdn.uzone.com/a79b146eee0d4135a0718fb41fc7ef18%2Fo%2F1788529535950-c.jpg?auth_key=1791126855-0-0-b443a910dc4355c3db5dcd8f15f6bacf" alt="立面图2-2" loading="lazy" data-page-node-id="BNNgDfMESlyY8fY1AGfzrI"><span class="fallback" data-page-node-id="XqF5YgayhQcTgdsALBfsJz">图片加载失败</span></div>
+      <figcaption data-page-node-id="tbmuwmR4AZlnWRq0t6OWye">立面图 2-2</figcaption>
+    </figure>
+    <figure class="m-item" data-page-node-id="T9Ri0v3EFGjpNR8dx97reL">
+      <div class="pic" data-cap="立面图 2-3 · 1:100" data-page-node-id="AKPAxykUdpI3JADygO68pI"><img data-image="https://workspace-cdn.uzone.com/27abf75894484c9c9f512134adc9f597%2Fo%2F1788529538104-c.jpg?auth_key=1791126856-0-0-abe86eafd6692e0ba32a02bcf2b07d62" alt="立面图2-3" loading="lazy" data-page-node-id="LfRekhbisxcKytbKsiDUeI"><span class="fallback" data-page-node-id="Vm1p87Y9FbjhhIsVEeNHeU">图片加载失败</span></div>
+      <figcaption data-page-node-id="R7QBHDmJvwDIuNtpNWAXF9">立面图 2-3</figcaption>
+    </figure>
+    <figure class="m-item" data-page-node-id="4bSo3mBbRtNehf4O0VcxEb">
+      <div class="pic" data-cap="青风望海 · 剖面图" data-page-node-id="a6lJbFbOhLBWCAELontd0G"><img data-image="https://workspace-cdn.uzone.com/ff9c118b5b844b828306432a7e259be5%2Fo%2F1788529540088-c.jpg?auth_key=1791126856-0-0-fb22cc8bc6dbf693d2db689bf8268f13" alt="青风望海剖面图" loading="lazy" data-page-node-id="bjik7Ni69fAHsTwgHRsK6y"><span class="fallback" data-page-node-id="ra3PMM7Z4Dse5JBF7RKZ7D">图片加载失败</span></div>
+      <figcaption data-page-node-id="fgiwlAvzWZlDUyxIpZ989X">青风望海 · 剖面</figcaption>
+    </figure>
+    <figure class="m-item" data-page-node-id="ZCyEEmNfcnCB0t9HGwIDLh">
+      <div class="pic" data-cap="剖面分析 · 一" data-page-node-id="PgoDQ6PpgXy1Sq1FzctVyZ"><img data-image="https://workspace-cdn.uzone.com/9f049dbb685c470bb330d7dc815bf454%2Fo%2F1788529541491-c.jpg?auth_key=1791126857-0-0-a73e64522104f4c315a81e213a6cdd73" alt="剖面分析图一" loading="lazy" data-page-node-id="KCXhhDa6z42aFCQIOsBOxO"><span class="fallback" data-page-node-id="WVTfFitTIVzjhFy5pwdxBN">图片加载失败</span></div>
+      <figcaption data-page-node-id="nYpiQWCQ7RMdqa0CaNAgGF">剖面分析 · 一</figcaption>
+    </figure>
+    <figure class="m-item" data-page-node-id="tnnFKBzvLGJQPucCes5YRn">
+      <div class="pic" data-cap="剖面分析 · 二" data-page-node-id="lVIHWTPTYULawUtBCtCa5a"><img data-image="https://workspace-cdn.uzone.com/d70cb1a4fba74a3e83d64784d1b911c5%2Fo%2F1788529542669-c.jpg?auth_key=1791126857-0-0-bef7a67ebef4cbd6dfc5c7d122d93c8f" alt="剖面分析图二" loading="lazy" data-page-node-id="PIbPaICuBV0UIaPMnOZJGq"><span class="fallback" data-page-node-id="T883VA2G6Gfz97kNBDxBZo">图片加载失败</span></div>
+      <figcaption data-page-node-id="eL5ohc3E6GCeRhoSahPg9F">剖面分析 · 二</figcaption>
+    </figure>
+    <figure class="m-item" data-page-node-id="2DZh9uoGTgqFZYgeRm3MVH">
+      <div class="pic" data-cap="剖面分析 · 三" data-page-node-id="3FkxNqlVbFPCy4rkL2UaHs"><img data-image="https://workspace-cdn.uzone.com/f7ce2c0fd16a4652acd412a78fd732de%2Fo%2F1788529544664-c.jpg?auth_key=1791126858-0-0-c4a34368283b47c09653ad667e601a25" alt="剖面分析图三" loading="lazy" data-page-node-id="70TlFiG74eE68Ii7nmgrIx"><span class="fallback" data-page-node-id="1SCvJGjjDvtMHY1BmMw6Ia">图片加载失败</span></div>
+      <figcaption data-page-node-id="WN1CEyzosBh13vSgcBbwN6">剖面分析 · 三</figcaption>
+    </figure>
+    <figure class="m-item" data-page-node-id="DGgo38CArZQ7OJelhXhAHk">
+      <div class="pic" data-cap="剖面分析 · 四" data-page-node-id="rx01gBXz3ntmpYklSWwZvx"><img data-image="https://workspace-cdn.uzone.com/08273fbadf5b48f08ae06fa1de1d7a47%2Fo%2F1788529546620-c.jpg?auth_key=1791126858-0-0-04c5fa82487cf4482d6e125c884d6d70" alt="剖面分析图四" loading="lazy" data-page-node-id="C5NDjDyjHeVBQl2JJSqe5F"><span class="fallback" data-page-node-id="rw8DFfazpctwGWb82em6tZ">图片加载失败</span></div>
+      <figcaption data-page-node-id="nGQM7NOhSfsE93mAsT6ZP3">剖面分析 · 四</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- SECTION: renders -->
+<section id="renders" data-page-node-id="1M6JiFNeEDRgxBKLHBAzbM">
+  <div class="sec-head" data-page-node-id="RgdXwVYuhw6XeSTVsk7bqM">
+    <span class="no" data-page-node-id="5yW5TWeXEpeVvoOjlppc7Z">05</span>
+    <h2 data-page-node-id="YFQioA2TxGyRtr2BUmvqk2">效果表现</h2>
+    <span class="en" data-page-node-id="nWAnaGbwnRDPn62MfxX984">VISUALIZATION</span>
+  </div>
+
+  <div class="gallery reveal" data-page-node-id="AruPQilAWw3sJqbR9WtX2u">
+    <div data-page-node-id="KyCoOZeYxBrq7TWiMnoxhc">
+      <div class="pic" data-cap="效果图 · 观景平台鸟瞰" data-page-node-id="tiI2OEpyssT4brTbtVUWCE">
+        <img data-image="https://workspace-cdn.uzone.com/5c8e1dc42cc3440da73561c46fea8e1b%2Fo%2F1788525736703-c.jpg?auth_key=1791117737-0-0-1048f9c637042ae30b89497ea6c17603" alt="观景平台鸟瞰效果图" loading="lazy" data-page-node-id="a943LBG43gvmBefgGd8yQr">
+        <span class="fallback" data-page-node-id="TZmHJMoG9iDlmZef86wi1i">图片加载失败</span>
+      </div>
+      <p class="g-cap" data-page-node-id="nsFE4e8SUimqYhuyU8W28v">观景平台 · 鸟瞰</p>
+    </div>
+    <div>
+      <div class="pic" data-cap="效果图 · 夜景建筑组团">
+        <img src="assets/render-night.jpg" alt="夜景建筑组团效果图" loading="lazy">
+        <span class="fallback">图片加载失败</span>
+      </div>
+      <p class="g-cap">夜景 · 建筑组团</p>
+    </div>
+    <div>
+      <div class="pic" data-cap="效果图 · 滨水台阶">
+        <img src="assets/render-steps.jpg" alt="滨水台阶透视效果图" loading="lazy">
+        <span class="fallback">图片加载失败</span>
+      </div>
+      <p class="g-cap">滨水台阶 · 透视</p>
+    </div>
+    <div data-page-node-id="iIOwU5yFfCyEzREItoHlen">
+      <div class="pic" data-cap="效果图 · 平台细部视角" data-page-node-id="gY4SGkhlVevfWhH0rYHE7D">
+        <img data-image="https://workspace-cdn.uzone.com/d6d287f549ec4ac580d08a7907cfba91%2Fo%2F1788525774775-c.jpg?auth_key=1791117775-0-0-7ca0662e1158fc3c73796e45f92155d9" alt="平台细部效果图" loading="lazy" data-page-node-id="CE25uSRb7MCSIQlayQy1vw">
+        <span class="fallback" data-page-node-id="KEmlDXzKDIre8H5mo9UAnO">图片加载失败</span>
+      </div>
+      <p class="g-cap" data-page-node-id="fxllLlXEPo1o7aB4nLLnCN">观景平台 · 细部</p>
+    </div>
+    <div>
+      <div class="pic" data-cap="效果图 · 黄昏建筑群">
+        <img src="assets/render-dusk.jpg" alt="黄昏建筑群鸟瞰效果图" loading="lazy">
+        <span class="fallback">图片加载失败</span>
+      </div>
+        <p class="g-cap">黄昏建筑群 · 鸟瞰</p>
+    </div>
+    <div>
+      <div class="pic" data-cap="效果图 · 入口庭院">
+        <img src="assets/render-entrance.jpg" alt="入口庭院效果图" loading="lazy">
+        <span class="fallback">图片加载失败</span>
+      </div>
+      <p class="g-cap">入口庭院 · 人视</p>
+    </div>
+    <div>
+      <div class="pic" data-cap="效果图 · 圆形剧场">
+        <img src="assets/render-amphi.jpg" alt="圆形剧场俯视效果图" loading="lazy">
+        <span class="fallback">图片加载失败</span>
+      </div>
+      <p class="g-cap">圆形剧场 · 俯视</p>
+    </div>
+  </div>
+
+  <figure class="render-video reveal">
+    <div class="frame">
+      <video src="assets/render-tour.mp4" autoplay muted loop playsinline></video>
+    </div>
+    <figcaption><span>动态展示 · 场地漫游（循环）</span><span>IN&nbsp;MOTION</span></figcaption>
+  </figure>
+
+  <div class="final-board reveal" data-page-node-id="TQ79Htn9h0HPn1p5Lpl0Cg">
+    <div class="meta" style="margin:0 0 22px;" data-page-node-id="EqmwAG85KELGWuC2rRYu9b"><h3 data-page-node-id="QmGHB216YoN65gB99vw02n">成果定案 · A3 展板</h3><span class="idx" data-page-node-id="j72jDCliLbETmQXXJDH3SV">FINAL&nbsp;BOARD</span></div>
+    <div class="pic" data-cap="青峦望海 · A3 成果展板（高清 300dpi）" data-primary-action data-page-node-id="AEnXN2Y3nPJYeH5N0H08qW">
+      <img data-image="https://workspace-cdn.uzone.com/18c8d93d9e9a410185c2dd1011b28ad1%2Fo%2F1788525681639-c.jpg?auth_key=1791117682-0-0-4f451ad66000e65ce8c953c5b20b3483" alt="青峦望海 A3 成果展板" loading="lazy" data-page-node-id="PEiHVduGQKKJ0YAq2Ddv2b">
+      <span class="fallback" data-page-node-id="RV727aHFQjWCEY3t7q2DS6">图片加载失败</span>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION: footer -->
+<footer id="about" data-page-node-id="030tW3pSZJb2oIytge1HYq">
+  <div data-page-node-id="6FBPLMnIsT1r7EmipCjSS0">
+    <p class="f-name" data-page-node-id="yITtkFaGhF3GMANw4EigTo">青峦望海</p>
+    <p style="color:var(--gray);font-size:13px;margin-top:12px;letter-spacing:.2em;" data-page-node-id="CZo0aBXjoiOOA61Ua9Vrl7">崂山青山村景观设计 · QINGSHAN&nbsp;VILLAGE</p>
+  </div>
+  <div class="f-contact" data-page-node-id="o2DcZzEgTHrnbtDKHXnku7">
+    <p data-page-node-id="gwly9EEwEHi2IQvLL1evaE">王福鑫 · 环设233</p>
+    <p data-page-node-id="OvFestOWkg5QDiCc34ETf5">青岛理工大学 艺术与设计学院</p>
+    <p data-page-node-id="VMeGKggc8MOXjHqXk89frb">《建筑与景观设计》课程作业 · 指导教师 高磊</p>
+    <p data-page-node-id="LcBOwAoUeirZCVw7vPc9Qt">2026 年 4 月</p>
+  </div>
+  <div class="copy" data-page-node-id="orDY5N8eeFXr5Yen9Hnlyw">
+    <span data-page-node-id="2E8KtLYOdsJ4JE9kPdlh8L">© 2026 WANG&nbsp;FUXIN</span>
+    <span data-page-node-id="cFr85VSzwsfW0en5zs5B2D">青峦望海 · 崂山青山村景观设计</span>
+  </div>
+</footer>
+
+<!-- SECTION: lightbox -->
+<div class="lightbox" id="lightbox" data-page-node-id="BG1dZRFy8OZOIZoiWNMkn1">
+  <button class="close" id="lbClose" aria-label="关闭" data-page-node-id="9SnSVLSSyE0sFWcmFNzoL5">&times;</button>
+  <img id="lbImg" src="" alt="" data-page-node-id="GCxLaope4dqHJSPPo1xONm">
+  <p class="cap" id="lbCap" data-page-node-id="si9JEUfkjWWXApIZcqpfVZ"></p>
+</div>
+
+<script>
+(function(){
+  /* SECTION: image-load —— data-image 运行时赋值 + 加载失败兜底 */
+  document.querySelectorAll('img[data-image]').forEach(function(img){
+    img.addEventListener('error',function(){
+      var p=img.closest('.pic');
+      if(p){p.classList.add('noimg');}
+    });
+    img.src=img.getAttribute('data-image');
+  });
+
+  /* SECTION: lightbox */
+  var lb=document.getElementById('lightbox'),
+      lbImg=document.getElementById('lbImg'),
+      lbCap=document.getElementById('lbCap');
+  function openLb(src,cap){
+    lbImg.src=src; lbCap.textContent=cap||'';
+    lb.classList.add('on'); document.body.style.overflow='hidden';
+  }
+  function closeLb(){lb.classList.remove('on'); document.body.style.overflow='';}
+  document.querySelectorAll('.pic').forEach(function(el){
+    el.addEventListener('click',function(){
+      var img=el.querySelector('img');
+      if(img && img.src) openLb(img.src, el.getAttribute('data-cap'));
+    });
+  });
+  document.querySelectorAll('.thumbs .thumb').forEach(function(el){
+    el.addEventListener('click',function(){
+      var img=el.querySelector('img');
+      if(img && img.src) openLb(img.src, el.getAttribute('data-cap'));
+    });
+  });
+  document.getElementById('lbClose').addEventListener('click',closeLb);
+  lb.addEventListener('click',function(e){ if(e.target===lb) closeLb(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeLb(); });
+
+  /* SECTION: reveal —— 滚动显现 */
+  var reveals=document.querySelectorAll('.reveal');
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(en){
+      if(en.isIntersecting){en.target.classList.add('vis');io.unobserve(en.target);}
+    });
+  },{threshold:.12});
+  reveals.forEach(function(el){io.observe(el);});
+  setTimeout(function(){
+    reveals.forEach(function(el){el.classList.add('vis');});
+  },2500);
+})();
+</script>
+<script src="./assets/premium-fx.js"></script>
+</body>
+</html>

@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>像素画板 · PIXEL STUDIO</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'><rect x='1' y='0' width='2' height='1' fill='%23ff004d'/><rect x='5' y='0' width='2' height='1' fill='%23ff004d'/><rect x='0' y='1' width='8' height='4' fill='%23ff004d'/><rect x='1' y='5' width='6' height='1' fill='%23ff004d'/><rect x='2' y='6' width='4' height='1' fill='%23ff004d'/><rect x='3' y='7' width='2' height='1' fill='%23ff004d'/><rect x='1' y='1' width='1' height='1' fill='%23fff1e8'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#12131f; --panel:#1d2b53; --panel2:#141c3a; --btn:#29366f;
+  --line:#0b0e1d; --ink:#fff1e8; --dim:#8b93b8;
+  --accent:#ff004d; --yellow:#ffec27; --green:#00e436; --blue:#29adff;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:"Press Start 2P","Zpix","Microsoft YaHei",ui-monospace,Consolas,monospace;
+  font-size:13px; user-select:none; -webkit-user-select:none;
+}
+/* ---------- 通用像素组件 ---------- */
+.pxbox{
+  background:var(--panel); border:3px solid var(--line);
+  box-shadow:inset 3px 3px 0 rgba(255,255,255,.09), inset -3px -3px 0 rgba(0,0,0,.35), 4px 4px 0 rgba(0,0,0,.45);
+}
+button{
+  font:inherit; color:var(--ink); background:var(--btn); border:3px solid var(--line);
+  box-shadow:inset -3px -3px 0 rgba(0,0,0,.4), inset 3px 3px 0 rgba(255,255,255,.18);
+  cursor:pointer; padding:8px 6px; line-height:1.2;
+}
+button:hover{filter:brightness(1.15);}
+button:active{transform:translate(2px,2px); box-shadow:inset 3px 3px 0 rgba(0,0,0,.4);}
+button:disabled{opacity:.35; cursor:default; transform:none; filter:none;}
+button.active{background:var(--accent); box-shadow:inset 3px 3px 0 rgba(0,0,0,.4), inset -3px -3px 0 rgba(255,255,255,.15);}
+button.tiny{padding:6px 4px; font-size:11px;}
+select,input[type="color"]{
+  font:inherit; color:var(--ink); background:var(--btn); border:3px solid var(--line);
+  box-shadow:inset -3px -3px 0 rgba(0,0,0,.4); padding:4px; cursor:pointer;
+}
+select{padding:7px 4px; width:100%;}
+/* ---------- 扫描线 ---------- */
+#scanlines{position:fixed; inset:0; z-index:99; pointer-events:none; display:none;
+  background:repeating-linear-gradient(0deg, rgba(0,0,0,.16) 0 1px, transparent 1px 3px);}
+#scanlines.on{display:block;}
+/* ---------- 头部 ---------- */
+header{display:flex; align-items:center; gap:14px; max-width:1180px; margin:0 auto; padding:18px 14px 6px;}
+#logo{width:36px; height:36px; image-rendering:pixelated;}
+header h1{font-size:17px; letter-spacing:1px;}
+header h1 span{display:block; font-size:9px; color:var(--yellow); margin-top:6px; letter-spacing:3px;}
+/* ---------- 主布局 ---------- */
+main{display:grid; grid-template-columns:86px minmax(0,1fr) 300px; gap:14px;
+  max-width:1180px; margin:0 auto; padding:12px 14px 6px; align-items:start;}
+/* 工具栏 */
+#toolbar{display:flex; flex-direction:column; gap:8px; padding:10px 8px;}
+#toolbar .tool{display:flex; flex-direction:column; align-items:center; gap:5px; padding:9px 2px; font-size:10px;}
+#toolbar .tool .ico{font-size:18px; line-height:1;}
+/* 画布区 */
+#canvasWrap{display:flex; align-items:center; justify-content:center; min-height:420px; padding:18px; overflow:hidden;}
+#board{position:relative; line-height:0;
+  background-image:conic-gradient(#20233a 25%, #191b2e 0 50%, #20233a 0 75%, #191b2e 0);
+  border:3px solid var(--line);
+  box-shadow:inset 3px 3px 0 rgba(0,0,0,.5), 4px 4px 0 rgba(0,0,0,.45);}
+#art{position:absolute; left:0; top:0; image-rendering:pixelated; cursor:crosshair; touch-action:none;}
+#gridc{position:absolute; left:0; top:0; pointer-events:none;}
+/* 右侧面板 */
+#panel{display:flex; flex-direction:column; gap:12px;}
+#panel section{padding:12px;}
+#panel h3{font-size:10px; color:var(--dim); letter-spacing:2px; margin-bottom:10px;}
+.row{display:flex; gap:6px; flex-wrap:wrap;}
+.row .grow{flex:1;}
+#sizeBtns button{flex:1; padding:8px 0; font-size:11px;}
+#palBtns button{flex:1; padding:8px 0; font-size:10px;}
+#swatches{display:grid; grid-template-columns:repeat(auto-fill,minmax(28px,1fr)); gap:6px;}
+#swatches button{aspect-ratio:1; padding:0; border-width:3px;}
+#swatches button.sel{outline:3px solid var(--yellow); outline-offset:1px;}
+.colorRow{display:flex; gap:8px; align-items:stretch; margin-top:10px;}
+#curColor{width:38px; min-height:38px; border:3px solid var(--line);
+  box-shadow:inset 2px 2px 0 rgba(255,255,255,.25), inset -2px -2px 0 rgba(0,0,0,.35);}
+#customColor{flex:1; padding:2px;}
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:6px;}
+.grid2 button{padding:8px 2px; font-size:11px;}
+.toggles button{width:100%; padding:8px 2px; font-size:11px; text-align:left;}
+.toggles button b{color:var(--yellow);}
+/* ---------- 底部状态栏 ---------- */
+footer{max-width:1180px; margin:0 auto; padding:10px 14px 18px;
+  display:flex; gap:16px; flex-wrap:wrap; font-size:10px; color:var(--dim); align-items:center;}
+footer b{color:var(--ink);}
+#saveTag{margin-left:auto; color:var(--green);}
+/* ---------- 窄屏 ---------- */
+@media (max-width:920px){
+  main{grid-template-columns:1fr;}
+  #canvasWrap{order:-1; min-height:0;}
+  #toolbar{flex-direction:row; flex-wrap:wrap; justify-content:center;}
+  #toolbar .tool{width:72px;}
+}
+</style>
+
+/* 返回上一级 · 右上角 */
+.back-top{position:fixed;top:18px;right:22px;z-index:9999;display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border:2px solid #111;background:#fff;color:#111;font-size:12px;font-weight:700;letter-spacing:.08em;text-decoration:none;box-shadow:4px 4px 0 0 #111;transition:transform .25s ease,box-shadow .25s ease,background .25s ease;cursor:pointer;}
+.back-top:hover,.back-top:focus-visible{background:#111;color:#fff;transform:translate(-2px,-2px);box-shadow:6px 6px 0 0 #111;outline:none;}
+.back-top:active{transform:translate(0,0);box-shadow:0 0 0 0 #111;}
+@media(max-width:720px){.back-top{top:10px;right:10px;padding:8px 12px;font-size:11px;}}
+</head>
+<body>
+<a class="back-top" href="#" onclick="event.preventDefault();history.back()">← 返回上一级</a>
+<div id="scanlines"></div>
+
+<header>
+  <canvas id="logo" width="8" height="8"></canvas>
+  <h1>像素画板<span>PIXEL STUDIO · 画你自己的 8-bit 世界</span></h1>
+  
+</header>
+
+<main>
+  <!-- 左侧工具 -->
+  <aside id="toolbar" class="pxbox"></aside>
+
+  <!-- 中间画布 -->
+  <section id="canvasWrap" class="pxbox">
+    <div id="board">
+      <canvas id="art"></canvas>
+      <canvas id="gridc"></canvas>
+    </div>
+  </section>
+
+  <!-- 右侧面板 -->
+  <aside id="panel">
+    <section class="pxbox">
+      <h3>画布尺寸</h3>
+      <div class="row" id="sizeBtns"></div>
+    </section>
+
+    <section class="pxbox">
+      <h3>调色板</h3>
+      <div class="row" id="palBtns"></div>
+      <div id="swatches" style="margin-top:10px;"></div>
+      <div class="colorRow">
+        <div id="curColor" title="当前颜色"></div>
+        <input type="color" id="customColor" value="#ff004d" title="自定义颜色">
+      </div>
+    </section>
+
+    <section class="pxbox">
+      <h3>操作</h3>
+      <div class="grid2">
+        <button id="undoBtn" class="tiny">↩ 撤销</button>
+        <button id="redoBtn" class="tiny">↪ 重做</button>
+        <button id="clearBtn" class="tiny">✖ 清空</button>
+        <button id="tplHeart" class="tiny">♥ 示例·爱心</button>
+        <button id="tplSlime" class="tiny">☻ 示例·史莱姆</button>
+      </div>
+    </section>
+
+    <section class="pxbox">
+      <h3>导出 PNG</h3>
+      <div class="row">
+        <select id="expScale" class="grow">
+          <option value="4">4 倍</option>
+          <option value="8">8 倍</option>
+          <option value="16" selected>16 倍</option>
+          <option value="32">32 倍</option>
+        </select>
+        <button id="expBtn" style="flex:1;">⬇ 导出</button>
+      </div>
+    </section>
+
+    <section class="pxbox toggles">
+      <h3>显示</h3>
+      <div class="grid2">
+        <button id="gridBtn" class="tiny"><b>▣</b> 网格</button>
+        <button id="scanBtn" class="tiny"><b> ≡</b> 扫描线</button>
+      </div>
+    </section>
+  </aside>
+</main>
+
+<footer>
+  <span>坐标 <b id="posTag">(--, --)</b></span>
+  <span>颜色 <b id="colorTag">#FF004D</b></span>
+  <span>快捷键 <b>B</b>画笔 <b>E</b>橡皮 <b>G</b>填充 <b>I</b>取色 <b>L</b>直线 <b>R</b>矩形 · 右键=橡皮 · Shift+矩形=实心 · Ctrl+Z 撤销</span>
+  <span id="saveTag"></span>
+</footer>
+
+<script>
+'use strict';
+/* ================= 基础数据 ================= */
+const PALETTES = {
+  'PICO-8': ['#000000','#1d2b53','#7e2553','#008751','#ab5236','#5f574f','#c2c3c7','#fff1e8',
+             '#ff004d','#ffa300','#ffec27','#00e436','#29adff','#83769c','#ff77a8','#ffccaa'],
+  'GameBoy': ['#0f380f','#306230','#8bac0f','#9bbc0f'],
+};
+const TOOLS = [
+  {id:'pencil', icon:'✏️', label:'画笔', key:'B'},
+  {id:'eraser', icon:'🧽', label:'橡皮', key:'E'},
+  {id:'fill',   icon:'🪣', label:'填充', key:'G'},
+  {id:'picker', icon:'💧', label:'取色', key:'I'},
+  {id:'line',   icon:'📏', label:'直线', key:'L'},
+  {id:'rect',   icon:'⬛', label:'矩形', key:'R'},
+];
+const TEMPLATES = {
+  heart: {map:{D:'#7e2553', R:'#ff004d', W:'#fff1e8'}, rows:[
+    '................',
+    '....DD....DD....',
+    '...DRRD..DRRD...',
+    '..DRRRRDDRRRRD..',
+    '.DRRRRRRRRRRRRD.',
+    '.DRWRRRRRRRRRRD.',
+    '.DRWRRRRRRRRRRD.',
+    '.DRRRRRRRRRRRRD.',
+    '..DRRRRRRRRRRD..',
+    '..DRRRRRRRRRRD..',
+    '...DRRRRRRRRD...',
+    '....DRRRRRRD....',
+    '.....DRRRRD.....',
+    '......DRRD......',
+    '.......DD.......',
+    '................']},
+  slime: {map:{D:'#1d2b53', G:'#00e436', B:'#000000', W:'#fff1e8'}, rows:[
+    '................',
+    '................',
+    '.....DDDDDD.....',
+    '...DDGGGGGGDD...',
+    '..DGWWGGGGGGGGD.',
+    '.DGGGGGGGGGGGGD.',
+    '.DGGBGGGGGGBGGD.',
+    '.DGGBGGGGGGBGGD.',
+    'DGGGGGGGGGGGGGGD',
+    'DGGGGGBBBBGGGGGD',
+    'DGGGGGGGGGGGGGGD',
+    '.DGGGGGGGGGGGGD.',
+    '..DDGGGGGGGGDD..',
+    '....DDDDDDDD....',
+    '................',
+    '................']},
+};
+const KEY = 'pixelStudio.v1';
+
+/* ================= 状态 ================= */
+let size = 16;
+let cells = new Array(size*size).fill(null);
+let color = '#ff004d';
+let paletteName = 'PICO-8';
+let tool = 'pencil', prevTool = 'pencil';
+let undoStack = [], redoStack = [];
+let drawing = false, eraseStroke = false, lastCell = null;
+let shapeStart = null, previewCells = null;
+let showGrid = true, disp = 480;
+
+/* ================= DOM ================= */
+const $ = id => document.getElementById(id);
+const art = $('art'), gridc = $('gridc'), board = $('board'), wrap = $('canvasWrap');
+const actx = art.getContext('2d');
+
+/* ================= 工具栏 & 面板构建 ================= */
+const toolBtns = {};
+TOOLS.forEach(t=>{
+  const b = document.createElement('button');
+  b.className = 'tool'; b.title = `${t.label} (${t.key})`;
+  b.innerHTML = `<span class="ico">${t.icon}</span><span>${t.label}</span>`;
+  b.onclick = ()=>setTool(t.id);
+  $('toolbar').appendChild(b); toolBtns[t.id] = b;
+});
+const sizeBtns = {};
+[16,24,32,48].forEach(n=>{
+  const b = document.createElement('button');
+  b.textContent = n; b.onclick = ()=>setSize(n);
+  $('sizeBtns').appendChild(b); sizeBtns[n] = b;
+});
+const palBtns = {};
+Object.keys(PALETTES).forEach(name=>{
+  const b = document.createElement('button');
+  b.textContent = name; b.onclick = ()=>setPalette(name);
+  $('palBtns').appendChild(b); palBtns[name] = b;
+});
+function setPalette(name){
+  paletteName = name;
+  Object.entries(palBtns).forEach(([n,b])=>b.classList.toggle('active', n===name));
+  const sw = $('swatches'); sw.innerHTML = '';
+  PALETTES[name].forEach(c=>{
+    const b = document.createElement('button');
+    b.style.background = c; b.title = c; b.dataset.color = c;
+    b.onclick = ()=>setColor(c);
+    sw.appendChild(b);
+  });
+  markSwatch();
+}
+function markSwatch(){
+  document.querySelectorAll('#swatches button').forEach(b=>
+    b.classList.toggle('sel', b.dataset.color.toLowerCase() === color.toLowerCase()));
+}
+function setColor(c){
+  color = c.toLowerCase();
+  $('curColor').style.background = color;
+  $('customColor').value = color;
+  $('colorTag').textContent = color.toUpperCase();
+  markSwatch();
+}
+$('customColor').addEventListener('input', e=>setColor(e.target.value));
+
+/* ================= 画布尺寸 / 布局 ================= */
+function hasContent(){ return cells.some(Boolean); }
+function setSize(n){
+  if (n === size) return;
+  if (hasContent() && !confirm('改变尺寸会清空当前画作，继续吗？')) return;
+  pushUndo();
+  size = n; cells = new Array(n*n).fill(null);
+  art.width = art.height = size;
+  Object.entries(sizeBtns).forEach(([k,b])=>b.classList.toggle('active', +k === n));
+  layout(); render(); save();
+}
+function layout(){
+  const avail = Math.max(160, wrap.clientWidth - 42);
+  const scale = Math.max(4, Math.min(40, Math.floor(avail / size)));
+  disp = scale * size;
+  board.style.width = board.style.height = disp + 'px';
+  art.style.width = art.style.height = disp + 'px';
+  gridc.style.width = gridc.style.height = disp + 'px';
+  gridc.width = gridc.height = disp;
+  board.style.backgroundSize = `${scale*2}px ${scale*2}px`;
+  drawGrid();
+}
+function drawGrid(){
+  const c = gridc.getContext('2d');
+  c.clearRect(0,0,gridc.width,gridc.height);
+  if (!showGrid) return;
+  const scale = disp / size;
+  for (let i=0;i<=size;i++){
+    const p = Math.round(i*scale);
+    c.strokeStyle = (i%8===0) ? 'rgba(255,255,255,.30)' : 'rgba(255,255,255,.10)';
+    c.beginPath(); c.moveTo(p+.5,0); c.lineTo(p+.5,disp); c.stroke();
+    c.beginPath(); c.moveTo(0,p+.5); c.lineTo(disp,p+.5); c.stroke();
+  }
+}
+window.addEventListener('resize', layout);
+
+/* ================= 渲染 ================= */
+function render(base = cells, overlay = null){
+  actx.clearRect(0,0,size,size);
+  for (let i=0;i<size*size;i++){
+    const col = (overlay && overlay[i]) || base[i];
+    if (col){ actx.fillStyle = col; actx.fillRect(i%size, (i/size)|0, 1, 1); }
+  }
+}
+
+/* ================= 撤销 / 保存 ================= */
+function pushUndo(){
+  undoStack.push(cells.slice());
+  if (undoStack.length > 60) undoStack.shift();
+  redoStack.length = 0;
+  syncHistoryBtns();
+}
+function undo(){
+  if (!undoStack.length) return;
+  redoStack.push(cells.slice());
+  cells = undoStack.pop();
+  afterEdit(); syncHistoryBtns();
+}
+function redo(){
+  if (!redoStack.length) return;
+  undoStack.push(cells.slice());
+  cells = redoStack.pop();
+  afterEdit(); syncHistoryBtns();
+}
+function syncHistoryBtns(){
+  $('undoBtn').disabled = !undoStack.length;
+  $('redoBtn').disabled = !redoStack.length;
+}
+function afterEdit(){ render(); save(); }
+function save(){
+  try{
+    localStorage.setItem(KEY, JSON.stringify({size, cells}));
+    $('saveTag').textContent = '已自动保存 ' + new Date().toLocaleTimeString('zh-CN', {hour12:false});
+  }catch(e){ $('saveTag').textContent = '保存失败（存储不可用）'; }
+}
+function flash(msg){
+  const el = $('saveTag'), old = el.dataset.msg || '';
+  el.dataset.msg = msg; el.textContent = msg; el.style.color = 'var(--yellow)';
+  clearTimeout(flash._t);
+  flash._t = setTimeout(()=>{ el.dataset.msg=''; el.style.color=''; save(); }, 1600);
+}
+
+/* ================= 绘图算法 ================= */
+function setCell(x,y,col){ cells[y*size+x] = col; }
+function lineCells(x0,y0,x1,y1,cb){
+  let dx=Math.abs(x1-x0), sx=x0<x1?1:-1, dy=-Math.abs(y1-y0), sy=y0<y1?1:-1, err=dx+dy;
+  for(;;){
+    cb(x0,y0);
+    if (x0===x1 && y0===y1) break;
+    const e2 = 2*err;
+    if (e2 >= dy){ err += dy; x0 += sx; }
+    if (e2 <= dx){ err += dx; y0 += sy; }
+  }
+}
+function floodFill(x,y,fill){
+  const target = cells[y*size+x] ?? null;
+  if (target === fill) return;
+  const st = [[x,y]];
+  while (st.length){
+    const [cx,cy] = st.pop();
+    if (cx<0||cy<0||cx>=size||cy>=size) continue;
+    if ((cells[cy*size+cx] ?? null) !== target) continue;
+    cells[cy*size+cx] = fill;
+    st.push([cx+1,cy],[cx-1,cy],[cx,cy+1],[cx,cy-1]);
+  }
+}
+function rectCells(x0,y0,x1,y1,filled,cb){
+  const [ax,bx] = x0<=x1?[x0,x1]:[x1,x0];
+  const [ay,by] = y0<=y1?[y0,y1]:[y1,y0];
+  if (filled){
+    for (let y=ay;y<=by;y++) for (let x=ax;x<=bx;x++) cb(x,y);
+  }else{
+    for (let x=ax;x<=bx;x++){ cb(x,ay); cb(x,by); }
+    for (let y=ay;y<=by;y++){ cb(ax,y); cb(bx,y); }
+  }
+}
+
+/* ================= 指针交互 ================= */
+function cellFromEvent(e){
+  const r = art.getBoundingClientRect();
+  const x = Math.floor((e.clientX - r.left) / r.width * size);
+  const y = Math.floor((e.clientY - r.top) / r.height * size);
+  if (x<0||y<0||x>=size||y>=size) return null;
+  return {x,y};
+}
+function setTool(id){
+  if (id === 'picker' && tool !== 'picker') prevTool = tool;
+  tool = id;
+  TOOLS.forEach(t=>toolBtns[t.id].classList.toggle('active', t.id===id));
+}
+art.addEventListener('contextmenu', e=>e.preventDefault());
+art.addEventListener('pointerdown', e=>{
+  const c = cellFromEvent(e); if (!c) return;
+  try{ art.setPointerCapture(e.pointerId); }catch(err){}
+  eraseStroke = (e.button === 2);
+  if (tool === 'picker'){
+    const picked = cells[c.y*size+c.x] ?? null;
+    if (picked){ setColor(picked); setTool(prevTool || 'pencil'); flash('已取色 ' + picked.toUpperCase()); }
+    else flash('这里是透明区域');
+    return;
+  }
+  drawing = true;
+  pushUndo();
+  if (tool === 'fill'){
+    floodFill(c.x, c.y, eraseStroke ? null : color);
+    drawing = false; afterEdit(); return;
+  }
+  if (tool === 'line' || tool === 'rect'){ shapeStart = c; previewCells = null; return; }
+  // 画笔 / 橡皮
+  const col = (tool === 'eraser' || eraseStroke) ? null : color;
+  setCell(c.x, c.y, col);
+  lastCell = c; render();
+});
+art.addEventListener('pointermove', e=>{
+  const c = cellFromEvent(e);
+  $('posTag').textContent = c ? `(${c.x}, ${c.y})` : '(--, --)';
+  // 自愈：鼠标按键已在别处松开（pointerup 丢失）时结束笔画，避免悬停涂色
+  if (drawing && e.pointerType === 'mouse' && e.buttons === 0){
+    drawing = false; previewCells = null; shapeStart = null;
+  }
+  if (!drawing || !c) return;
+  if (tool === 'line' || tool === 'rect'){
+    previewCells = new Array(size*size).fill(null);
+    const put = (x,y)=>{ previewCells[y*size+x] = color; };
+    if (tool === 'line') lineCells(shapeStart.x, shapeStart.y, c.x, c.y, put);
+    else rectCells(shapeStart.x, shapeStart.y, c.x, c.y, e.shiftKey, put);
+    render(cells, previewCells);
+    return;
+  }
+  const col = (tool === 'eraser' || eraseStroke) ? null : color;
+  lineCells(lastCell.x, lastCell.y, c.x, c.y, (x,y)=>setCell(x,y,col));
+  lastCell = c; render();
+});
+function endStroke(e){
+  if (!drawing) return;
+  drawing = false;
+  if (previewCells){
+    for (let i=0;i<cells.length;i++) if (previewCells[i]) cells[i] = previewCells[i];
+    previewCells = null; shapeStart = null;
+  }
+  afterEdit();
+}
+art.addEventListener('pointerup', endStroke);
+art.addEventListener('pointercancel', endStroke);
+window.addEventListener('pointerup', endStroke);
+art.addEventListener('pointerleave', ()=>{ $('posTag').textContent = '(--, --)'; });
+
+/* ================= 面板按钮 ================= */
+$('undoBtn').onclick = undo;
+$('redoBtn').onclick = redo;
+$('clearBtn').onclick = ()=>{
+  if (!hasContent()) { flash('画布已经是空的'); return; }
+  if (!confirm('确定清空整块画布吗？')) return;
+  pushUndo(); cells.fill(null); afterEdit();
+};
+function loadTemplate(name){
+  if (hasContent() && !confirm('加载示例会覆盖当前画作（可撤销），继续吗？')) return;
+  pushUndo();
+  const tpl = TEMPLATES[name];
+  if (size !== 16){ size = 16; art.width = art.height = 16; }
+  cells = new Array(256).fill(null);
+  tpl.rows.forEach((row,y)=>{
+    const r = (row + '................').slice(0,16);
+    for (let x=0;x<16;x++){
+      const ch = r[x];
+      if (ch !== '.' && tpl.map[ch]) cells[y*16+x] = tpl.map[ch];
+    }
+  });
+  Object.entries(sizeBtns).forEach(([k,b])=>b.classList.toggle('active', +k === 16));
+  layout(); afterEdit(); syncHistoryBtns();
+}
+$('tplHeart').onclick = ()=>loadTemplate('heart');
+$('tplSlime').onclick = ()=>loadTemplate('slime');
+$('expBtn').onclick = ()=>{
+  const scale = +$('expScale').value;
+  const c = document.createElement('canvas');
+  c.width = c.height = size * scale;
+  const x = c.getContext('2d');
+  for (let i=0;i<cells.length;i++){
+    if (!cells[i]) continue;
+    x.fillStyle = cells[i];
+    x.fillRect((i%size)*scale, ((i/size)|0)*scale, scale, scale);
+  }
+  const d = new Date(), pad = n=>String(n).padStart(2,'0');
+  const a = document.createElement('a');
+  a.download = `pixel-art-${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}.png`;
+  a.href = c.toDataURL('image/png');
+  a.click();
+  flash('已导出 PNG（' + c.width + '×' + c.height + '）');
+};
+$('gridBtn').onclick = function(){
+  showGrid = !showGrid;
+  this.innerHTML = showGrid ? '<b>▣</b> 网格' : '<b>▢</b> 网格';
+  this.classList.toggle('active', !showGrid);
+  drawGrid();
+};
+$('scanBtn').onclick = function(){
+  const on = $('scanlines').classList.toggle('on');
+  this.innerHTML = '<b>' + (on ? '▦' : '≡') + '</b> 扫描线';
+  this.classList.toggle('active', on);
+};
+
+/* ================= 键盘 ================= */
+window.addEventListener('keydown', e=>{
+  const tag = (e.target.tagName || '').toLowerCase();
+  if (tag === 'input' || tag === 'select' || tag === 'textarea') return;
+  if (e.ctrlKey || e.metaKey){
+    const k = e.key.toLowerCase();
+    if (k === 'z'){ e.preventDefault(); e.shiftKey ? redo() : undo(); }
+    else if (k === 'y'){ e.preventDefault(); redo(); }
+    return;
+  }
+  const t = TOOLS.find(t=>t.key.toLowerCase() === e.key.toLowerCase());
+  if (t){
+    setTool(tool === 'picker' && t.id === 'picker' ? (prevTool||'pencil') : t.id);
+  }
+});
+
+/* ================= 启动 ================= */
+function drawLogo(){
+  const rows = ['.RW..RR.','RRRRRRRR','RRRRRRRR','RRRRRRRR','.RRRRRR.','..RRRR..','...RR...','........'];
+  const map = {R:'#ff004d', W:'#fff1e8'};
+  const c = $('logo').getContext('2d');
+  rows.forEach((row,y)=>{ for (let x=0;x<8;x++){ const ch=row[x];
+    if (map[ch]){ c.fillStyle = map[ch]; c.fillRect(x,y,1,1); } }});
+}
+(function init(){
+  drawLogo();
+  setPalette('PICO-8');
+  setColor('#ff004d');
+  setTool('pencil');
+  art.width = art.height = size;
+  sizeBtns[16].classList.add('active');
+  let restored = false;
+  try{
+    const data = JSON.parse(localStorage.getItem(KEY));
+    if (data && PALETTES && data.cells && data.cells.length === data.size * data.size){
+      size = data.size; cells = data.cells;
+      art.width = art.height = size;
+      Object.entries(sizeBtns).forEach(([k,b])=>b.classList.toggle('active', +k === size));
+      restored = true;
+    }
+  }catch(e){}
+  if (!restored){
+    // 首次访问：加载史莱姆示例当 welcoming
+    const tpl = TEMPLATES.slime;
+    tpl.rows.forEach((row,y)=>{
+      const r = (row + '................').slice(0,16);
+      for (let x=0;x<16;x++){
+        const ch = r[x];
+        if (ch !== '.' && tpl.map[ch]) cells[y*16+x] = tpl.map[ch];
+      }
+    });
+    flash('首次访问已加载示例，随便涂改吧！');
+  }
+  layout(); render(); syncHistoryBtns();
+})();
+</script>
+<script src="../../assets/premium-fx.js"></script>
+</body>
+</html>

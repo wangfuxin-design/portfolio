@@ -1,0 +1,2517 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>云璟天悦 T3 户型 · 全屋智能水电孪生</title>
+<style>
+  :root {
+    --cy: #4dd8ff;
+    --am: #ffc65c;
+    --txt: #d5e4fa;
+    --dim: #7d93b8;
+    --card-bg: rgba(9, 14, 26, 0.78);
+    --card-bd: rgba(77, 216, 255, 0.16);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; }
+  body {
+    font-family: "Bahnschrift", "Segoe UI", "Microsoft YaHei", sans-serif;
+    background: #05080f;
+    color: var(--txt);
+    user-select: none;
+  }
+  #scene { position: absolute; inset: 0; z-index: 0; }
+  #scene canvas { display: block; }
+  .vignette {
+    position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background: radial-gradient(ellipse at center, transparent 52%, rgba(2,5,12,.6) 100%);
+  }
+  header {
+    position: absolute; top: 0; left: 0; right: 0; height: 62px; z-index: 3;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 22px;
+    background: linear-gradient(180deg, rgba(4,8,18,.88), rgba(4,8,18,.3) 70%, transparent);
+    pointer-events: none;
+  }
+  .h-side { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--dim); pointer-events: auto; }
+  .logo {
+    width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(77,216,255,.5); color: var(--cy); font-size: 16px;
+    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+    background: rgba(77,216,255,.08);
+  }
+  .sys-ok { display: flex; align-items: center; gap: 6px; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: #37e08a; box-shadow: 0 0 8px #37e08a; animation: blink 2s infinite; }
+  @keyframes blink { 50% { opacity: .35; } }
+  .h-center { position: absolute; left: 50%; top: 7px; transform: translateX(-50%); text-align: center; width: 660px; }
+  .h-center h1 {
+    font-size: 24px; font-weight: 600; letter-spacing: 5px;
+    background: linear-gradient(180deg, #f0e9d8 15%, #ffd98a 60%, #e8b04a 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    text-shadow: 0 0 26px rgba(255,198,92,.25);
+  }
+  .h-center .sub { font-size: 10px; letter-spacing: 5px; color: rgba(125,147,184,.75); margin-top: 1px; }
+  .clock { text-align: right; }
+  .clock .tm { font-size: 20px; color: #f2ead8; letter-spacing: 2px; font-variant-numeric: tabular-nums; }
+  .clock .dt { font-size: 11px; color: var(--dim); letter-spacing: 1px; }
+  .backlink {
+    margin-left: 10px; padding: 4px 12px; font-size: 11px; letter-spacing: 1px;
+    color: var(--cy); text-decoration: none; border-radius: 999px;
+    border: 1px solid rgba(77,216,255,.35); transition: all .2s;
+  }
+  .backlink:hover { background: rgba(77,216,255,.12); box-shadow: 0 0 12px rgba(77,216,255,.3); }
+  .b-badge {
+    padding: 4px 11px; font-size: 11px; letter-spacing: 1px; color: var(--am);
+    border: 1px solid rgba(255,198,92,.45); border-radius: 999px; background: rgba(255,198,92,.07);
+  }
+  .panel {
+    position: absolute; top: 74px; bottom: 122px; width: 316px; z-index: 2;
+    display: flex; flex-direction: column; gap: 11px;
+    overflow-y: auto; scrollbar-width: none;
+  }
+  .panel::-webkit-scrollbar { display: none; }
+  .panel.left { left: 14px; }
+  .panel.right { right: 14px; width: 330px; }
+  .card {
+    position: relative; flex-shrink: 0;
+    background: var(--card-bg); border: 1px solid var(--card-bd);
+    border-radius: 4px; padding: 10px 14px 12px;
+    backdrop-filter: blur(10px);
+  }
+  .card .c { position: absolute; width: 9px; height: 9px; border-color: rgba(255,198,92,.8); border-style: solid; }
+  .c1 { top: -1px; left: -1px; border-width: 1.5px 0 0 1.5px; }
+  .c2 { top: -1px; right: -1px; border-width: 1.5px 1.5px 0 0; }
+  .c3 { bottom: -1px; left: -1px; border-width: 0 0 1.5px 1.5px; }
+  .c4 { bottom: -1px; right: -1px; border-width: 0 1.5px 1.5px 0; }
+  .card h3 {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 600; letter-spacing: 2px;
+    padding-bottom: 8px; margin-bottom: 9px;
+    border-bottom: 1px solid rgba(255,198,92,.14);
+  }
+  .card h3::before { content: ""; width: 3px; height: 12px; background: var(--am); box-shadow: 0 0 8px var(--am); }
+  .card h3 .en { font-size: 9px; font-weight: 400; letter-spacing: 1px; color: rgba(125,147,184,.6); margin-left: auto; }
+  .big-row { display: flex; align-items: flex-end; gap: 14px; margin-bottom: 4px; }
+  .big-row .v { font-size: 34px; font-weight: 700; color: var(--am); line-height: 1; font-variant-numeric: tabular-nums; text-shadow: 0 0 18px rgba(255,198,92,.35); }
+  .big-row .v .u { font-size: 12px; color: var(--dim); font-weight: 400; margin-left: 3px; }
+  .big-row .side { margin-left: auto; text-align: right; font-size: 10px; color: var(--dim); line-height: 1.7; }
+  .big-row .side b { color: #d5e4fa; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .chart { width: 100%; }
+  .circuit { display: flex; align-items: center; gap: 8px; font-size: 11px; padding: 4.5px 0; cursor: pointer; }
+  .circuit:hover .nm { color: var(--cy); }
+  .circuit .nm { width: 74px; color: #b9cbe8; }
+  .circuit .bar { flex: 1; height: 5px; background: rgba(77,216,255,.12); border-radius: 3px; overflow: hidden; }
+  .circuit .bar i { display: block; height: 100%; width: 30%; border-radius: 3px;
+    background: linear-gradient(90deg, #d99a2b, #ffd98a); box-shadow: 0 0 6px rgba(255,198,92,.5); transition: width .6s; }
+  .circuit.hot .bar i { background: linear-gradient(90deg, #e0584a, #ff9a7a); box-shadow: 0 0 6px rgba(255,110,90,.6); }
+  .circuit .w { width: 62px; text-align: right; color: var(--dim); font-variant-numeric: tabular-nums; }
+  .circuit .st { width: 6px; height: 6px; border-radius: 50%; background: #37e08a; box-shadow: 0 0 6px #37e08a; }
+  .circuit.hot .st { background: #ffc65c; box-shadow: 0 0 6px #ffc65c; }
+  .mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .mini { background: rgba(20,40,74,.3); border: 1px solid rgba(77,216,255,.1); border-radius: 3px; padding: 7px 10px; }
+  .mini .v { font-size: 16px; color: #4dd8ff; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .mini .v .u { font-size: 9px; color: var(--dim); font-weight: 400; margin-left: 2px; }
+  .mini .k { font-size: 9px; color: var(--dim); margin-top: 2px; letter-spacing: 1px; }
+  .mini.a .v { color: var(--am); }
+  .mini.g .v { color: #37e08a; }
+  .planwrap { position: relative; }
+  #plan { width: 100%; display: block; border-radius: 3px; cursor: pointer; }
+  .legend { display: flex; flex-wrap: wrap; gap: 5px 12px; font-size: 9px; color: var(--dim); margin-top: 7px; }
+  .legend span { display: flex; align-items: center; gap: 4px; }
+  .legend i { display: inline-block; width: 13px; height: 3px; border-radius: 2px; }
+  .planhint { font-size: 9px; color: rgba(125,147,184,.6); margin-top: 6px; letter-spacing: .3px; line-height: 1.5; }
+  .rooms { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 7px; }
+  .rchip {
+    background: rgba(20,40,74,.3); border: 1px solid rgba(77,216,255,.12);
+    border-radius: 3px; padding: 6px 9px; cursor: pointer; transition: all .2s;
+  }
+  .rchip:hover { border-color: rgba(255,198,92,.5); }
+  .rchip.sel { border-color: var(--am); background: rgba(255,198,92,.09); box-shadow: 0 0 12px rgba(255,198,92,.15); }
+  .rchip .n { font-size: 11px; color: #d5e4fa; display: flex; align-items: center; gap: 5px; }
+  .rchip .n i { width: 6px; height: 6px; border-radius: 50%; background: #2a3a55; flex-shrink: 0; }
+  .rchip.lit .n i { background: #ffd98a; box-shadow: 0 0 6px #ffd98a; }
+  .rchip .t { font-size: 12px; color: var(--cy); margin-top: 3px; font-variant-numeric: tabular-nums; }
+  .rchip .t .u { font-size: 9px; color: var(--dim); }
+  .rchip .p { font-size: 9px; color: var(--dim); margin-top: 1px; font-variant-numeric: tabular-nums; }
+  .rc-head { display: flex; align-items: baseline; gap: 9px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,198,92,.18); }
+  .rc-head b { font-size: 17px; color: var(--am); letter-spacing: 2px; }
+  .rc-head span { font-size: 10px; color: var(--dim); }
+  .rc-head em { margin-left: auto; font-style: normal; font-size: 10px; color: var(--cy); cursor: pointer;
+    border: 1px solid rgba(77,216,255,.3); border-radius: 3px; padding: 1px 7px; }
+  .rc-head em:hover { background: rgba(77,216,255,.12); }
+  .rc-row { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 1px dashed rgba(77,216,255,.09); font-size: 11px; }
+  .rc-row:last-child { border-bottom: none; }
+  .rc-row .k { width: 52px; color: #b9cbe8; flex-shrink: 0; }
+  .rc-row .val { margin-left: auto; color: var(--dim); font-variant-numeric: tabular-nums; flex-shrink: 0; }
+  .rc-empty { font-size: 11px; color: rgba(125,147,184,.55); text-align: center; padding: 16px 0 10px; letter-spacing: 1px; }
+  .sw { position: relative; width: 34px; height: 17px; border-radius: 9px; border: none; cursor: pointer;
+    background: #22314a; transition: background .25s; flex-shrink: 0; padding: 0; }
+  .sw::after { content: ""; position: absolute; top: 2px; left: 2px; width: 13px; height: 13px; border-radius: 50%;
+    background: #5a6f92; transition: all .25s; }
+  .sw.on { background: rgba(255,198,92,.85); }
+  .sw.on::after { left: 19px; background: #fff8ea; }
+  .sw.cy.on { background: rgba(77,216,255,.85); }
+  .tbtn { width: 20px; height: 20px; border-radius: 3px; border: 1px solid rgba(77,216,255,.3);
+    background: rgba(20,40,74,.4); color: var(--txt); cursor: pointer; font-size: 12px; line-height: 1;
+    font-family: inherit; transition: all .2s; }
+  .tbtn:hover { border-color: var(--cy); color: var(--cy); }
+  .seg { display: flex; gap: 5px; }
+  .seg button { padding: 3px 10px; font-size: 10px; border-radius: 3px; cursor: pointer; font-family: inherit;
+    border: 1px solid rgba(77,216,255,.25); background: rgba(20,40,74,.35); color: var(--dim); transition: all .2s; }
+  .seg button:hover { color: var(--cy); border-color: var(--cy); }
+  .seg button.act { color: #0b1220; background: var(--cy); border-color: var(--cy); font-weight: 700; }
+  input[type=range] { -webkit-appearance: none; appearance: none; flex: 1; height: 4px; border-radius: 2px;
+    background: rgba(77,216,255,.18); outline: none; cursor: pointer; }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 12px; height: 12px;
+    border-radius: 50%; background: #ffd98a; box-shadow: 0 0 8px rgba(255,198,92,.7); }
+  .pos-bar { flex: 1; height: 5px; background: rgba(77,216,255,.12); border-radius: 3px; overflow: hidden; }
+  .pos-bar i { display: block; height: 100%; background: linear-gradient(90deg, #2b8fd9, #4dd8ff); border-radius: 3px; transition: width .4s; }
+  .sns { display: flex; align-items: center; gap: 8px; font-size: 11px; padding: 4.5px 0; border-bottom: 1px dashed rgba(77,216,255,.09); }
+  .sns:last-child { border-bottom: none; }
+  .sns .nm { color: #b9cbe8; }
+  .sns .v { margin-left: auto; color: #37e08a; font-size: 10px; letter-spacing: 1px; }
+  .sns .v.warn { color: #ffc65c; }
+  .sns .v.err { color: #ff7a8a; }
+  .sns .sd { width: 6px; height: 6px; border-radius: 50%; background: #37e08a; box-shadow: 0 0 6px #37e08a; flex-shrink: 0; }
+  .sns .sd.warn { background: #ffc65c; box-shadow: 0 0 6px #ffc65c; }
+  .sns .sd.err { background: #ff5a6e; box-shadow: 0 0 6px #ff5a6e; animation: blink .9s infinite; }
+  .dock {
+    position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%); z-index: 3;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+  }
+  .modes {
+    display: flex; align-items: center; gap: 7px; padding: 6px 12px;
+    background: rgba(9,14,26,.86); border: 1px solid var(--card-bd); border-radius: 6px;
+    backdrop-filter: blur(10px);
+  }
+  .modes .cap { font-size: 10px; color: var(--dim); letter-spacing: 2px; padding-right: 6px; border-right: 1px solid rgba(77,216,255,.15); white-space: nowrap; }
+  .modes button {
+    padding: 6px 14px; font-size: 12px; letter-spacing: 2px; border-radius: 4px; cursor: pointer;
+    color: var(--txt); background: rgba(20,40,74,.4); border: 1px solid rgba(77,216,255,.25);
+    font-family: inherit; transition: all .25s; white-space: nowrap;
+  }
+  .modes button:hover { border-color: var(--am); color: var(--am); box-shadow: 0 0 12px rgba(255,198,92,.2); }
+  .modes button.act { color: #0f0a04; background: linear-gradient(120deg, #ffd98a, #e8b04a); border-color: transparent; font-weight: 700; }
+  .modes .sep { width: 1px; height: 18px; background: rgba(77,216,255,.15); margin: 0 2px; }
+  .modes button.sm { padding: 6px 11px; font-size: 11px; letter-spacing: 1px; }
+  .modes button.tg.on { color: #04121a; background: rgba(77,216,255,.85); border-color: transparent; font-weight: 700; }
+  .hint { font-size: 10px; color: rgba(125,147,184,.6); letter-spacing: .5px; text-align: center; pointer-events: none; }
+  #tip {
+    position: absolute; z-index: 5; display: none; pointer-events: none;
+    padding: 4px 10px; font-size: 11px; letter-spacing: 1px;
+    color: #f2ead8; background: rgba(16,20,32,.92);
+    border: 1px solid rgba(255,198,92,.45); border-radius: 2px;
+  }
+  #tip .sub { display: block; font-size: 9px; color: var(--dim); letter-spacing: .5px; margin-top: 2px; }
+  #tip.pipe { border-color: rgba(77,216,255,.6); }
+  #tip.pipe b { color: #bfe9ff; }
+  #toasts { position: absolute; left: 50%; top: 74px; transform: translateX(-50%); z-index: 6;
+    display: flex; flex-direction: column; gap: 6px; align-items: center; pointer-events: none; }
+  .toast {
+    padding: 8px 16px; font-size: 12px; letter-spacing: 1px; border-radius: 4px;
+    background: rgba(12,18,32,.94); border: 1px solid rgba(77,216,255,.4); color: #d5e4fa;
+    backdrop-filter: blur(8px); animation: tin .3s ease; white-space: nowrap;
+  }
+  .toast.warn { border-color: rgba(255,198,92,.6); color: #ffe0a0; box-shadow: 0 0 18px rgba(255,198,92,.18); }
+  .toast.err  { border-color: rgba(255,90,110,.65); color: #ffb8c2; box-shadow: 0 0 18px rgba(255,90,110,.22); }
+  .toast.ok   { border-color: rgba(55,224,138,.5); color: #a8f0c8; }
+  @keyframes tin { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+  #loader {
+    position: absolute; inset: 0; z-index: 9;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
+    background: #05080f; transition: opacity .8s;
+  }
+  #loader.hide { opacity: 0; pointer-events: none; }
+  .hex {
+    width: 54px; height: 54px;
+    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+    background: conic-gradient(var(--am) 0 25%, rgba(255,198,92,.12) 25% 100%);
+    animation: spin 1.1s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  #loader p { font-size: 12px; letter-spacing: 4px; color: var(--dim); }
+  #loader .err { color: #ff7a8a; letter-spacing: 1px; }
+  @media (max-width: 1660px) {
+    .panel.left { width: 286px; }
+    .panel.right { width: 300px; }
+    .h-center { width: 480px; }
+    .h-center h1 { font-size: 19px; }
+    .modes button { padding: 6px 10px; font-size: 11px; letter-spacing: 1px; }
+    .modes .cap { font-size: 9px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="scene"></div>
+<div class="vignette"></div>
+
+<header>
+  <div class="h-side">
+    <div class="logo">⌂</div>
+    <div class="sys-ok"><span class="dot"></span>网关在线&nbsp;·&nbsp;设备 46 台</div>
+    <a class="backlink" id="back-comm" href="云璟天悦·数字孪生社区.html">← 返回社区</a>
+    <span class="b-badge" id="b-badge" style="display:none"></span>
+  </div>
+  <div class="h-center">
+    <h1>云璟天悦 T3 户型 · 全屋智能水电孪生</h1>
+    <div class="sub">SMART HOME · WATER &amp; POWER DIGITAL TWIN</div>
+  </div>
+  <div class="h-side clock">
+    <div>
+      <div class="tm" id="clock-tm">--:--:--</div>
+      <div class="dt" id="clock-dt">----</div>
+    </div>
+  </div>
+</header>
+
+<aside class="panel left">
+  <div class="card">
+    <i class="c c1"></i><i class="c c2"></i><i class="c c3"></i><i class="c c4"></i>
+    <h3>全屋实时用电 <span class="en">POWER</span></h3>
+    <div class="big-row">
+      <div class="v"><span id="pw-total">0</span><span class="u">W</span></div>
+      <div class="side">今日用电 <b id="pw-day">8.62</b> kWh<br>本月累计 <b>216.4</b> kWh</div>
+    </div>
+    <div class="chart" id="ch-power" style="height:142px"></div>
+  </div>
+
+  <div class="card">
+    <i class="c c1"></i><i class="c c2"></i><i class="c c3"></i><i class="c c4"></i>
+    <h3>配电箱 · 分路负荷 <span class="en">CIRCUITS</span></h3>
+    <div id="circuits"></div>
+    <div class="planhint">点击任一分路，可在 3D 中高亮对应强电桥架</div>
+  </div>
+
+  <div class="card">
+    <i class="c c1"></i><i class="c c2"></i><i class="c c3"></i><i class="c c4"></i>
+    <h3>用水系统 <span class="en">WATER</span></h3>
+    <div class="big-row" style="margin-bottom:8px">
+      <div class="v" style="color:var(--cy);text-shadow:0 0 18px rgba(77,216,255,.35)"><span id="wt-flow">0.0</span><span class="u">L/min</span></div>
+      <div class="side">今日用水 <b id="wt-day">186</b> L<br>进水压力 <b id="wt-press">0.28</b> MPa</div>
+    </div>
+    <div class="chart" id="ch-water" style="height:96px"></div>
+    <div class="mini-grid" style="margin-top:8px">
+      <div class="mini a"><div class="v"><span id="wt-heater">62</span><span class="u">℃</span></div><div class="k">热水器水温</div></div>
+      <div class="mini g"><div class="v" id="wt-valve">总阀开启</div><div class="k">入户总阀</div></div>
+    </div>
+  </div>
+</aside>
+
+<aside class="panel right">
+  <div class="card">
+    <i class="c c1"></i><i class="c c2"></i><i class="c c3"></i><i class="c c4"></i>
+    <h3>户型平面 · 24 × 16.6 m <span class="en">FLOOR PLAN</span></h3>
+    <div class="planwrap"><canvas id="plan" width="600" height="416"></canvas></div>
+    <div class="legend">
+      <span><i style="background:#ffd98a"></i>照明开启</span>
+      <span><i style="background:#38a8ff"></i>给水</span>
+      <span><i style="background:#8fa2bd"></i>排水</span>
+      <span><i style="background:#ffc65c"></i>强电</span>
+    </div>
+    <div class="planhint">点击平面图 / 3D 房间联动定位 · 数字键 1-9 快速切换</div>
+  </div>
+
+  <div class="card">
+    <i class="c c1"></i><i class="c c2"></i><i class="c c3"></i><i class="c c4"></i>
+    <h3>房间总览 <span class="en">ROOMS · 9</span></h3>
+    <div class="rooms" id="room-chips"></div>
+  </div>
+
+  <div class="card">
+    <i class="c c1"></i><i class="c c2"></i><i class="c c3"></i><i class="c c4"></i>
+    <h3>房间控制 <span class="en">CONTROL</span></h3>
+    <div id="room-ctl"><div class="rc-empty">在 3D 场景或上方点击房间进行控制</div></div>
+  </div>
+
+  <div class="card">
+    <i class="c c1"></i><i class="c c2"></i><i class="c c3"></i><i class="c c4"></i>
+    <h3>安防传感 <span class="en">SENSORS</span></h3>
+    <div class="sns"><span class="sd"></span><span class="nm">入户门磁</span><span class="v" id="s-door">关闭 · 正常</span></div>
+    <div class="sns"><span class="sd"></span><span class="nm">窗磁 × 6</span><span class="v" id="s-win">全部关闭</span></div>
+    <div class="sns"><span class="sd"></span><span class="nm">燃气泄漏</span><span class="v" id="s-gas">0.1 %LEL</span></div>
+    <div class="sns"><span class="sd"></span><span class="nm">烟雾感应</span><span class="v" id="s-smoke">正常</span></div>
+    <div class="sns"><span class="sd"></span><span class="nm">漏水绳 · 厨卫</span><span class="v" id="s-water">无漏水</span></div>
+    <div class="sns"><span class="sd"></span><span class="nm">入户总阀</span><span class="v" id="s-valve">开启 · 0.28 MPa</span></div>
+  </div>
+</aside>
+
+<div class="dock">
+  <div class="modes">
+    <span class="cap">场景模式</span>
+    <button data-mode="home">回家</button>
+    <button data-mode="movie">观影</button>
+    <button data-mode="sleep">睡眠</button>
+    <button data-mode="away">离家</button>
+    <button data-mode="alloff">全关</button>
+    <span class="sep"></span>
+    <span class="cap">昼夜</span>
+    <button class="sm" data-day="day">白天</button>
+    <button class="sm" data-day="dusk">黄昏</button>
+    <button class="sm act" data-day="night">夜景</button>
+  </div>
+  <div class="modes">
+    <span class="cap">孪生图层</span>
+    <button class="sm tg on" id="t-pipes">水电管线</button>
+    <button class="sm tg" id="t-xray">墙体透视</button>
+    <button class="sm tg" id="t-patrol">自动巡检</button>
+    <span class="sep"></span>
+    <button class="sm" id="t-home">全局视角</button>
+    <button class="sm tg on" id="t-rot">自动旋转</button>
+    <span class="sep"></span>
+    <span class="cap">应急演练</span>
+    <button class="sm" id="t-leak">模拟漏水</button>
+    <button class="sm" id="t-over">模拟过载</button>
+  </div>
+  <div class="hint">左键拖拽旋转 · 滚轮缩放 · 右键平移 · 点击灯具 / 家电 / 管线可直接操控 &nbsp;|&nbsp; 快捷键 P 管线 · X 透视 · V 巡检 · R 复位 · 1-9 房间</div>
+</div>
+
+<div id="tip"></div>
+<div id="toasts"></div>
+<div id="loader"><div class="hex"></div><p>正在构建室内孪生 · · ·</p></div>
+
+<script>
+/* ================= CDN 加载（多源回退） ================= */
+function loadOne(url) {
+  return new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = url; s.onload = res; s.onerror = rej;
+    document.head.appendChild(s);
+  });
+}
+function loadFallback(urls) {
+  return urls.reduce((p, u) => p.catch(() => loadOne(u)), Promise.reject());
+}
+const threeCDN = [
+  'https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js',
+  'https://unpkg.com/three@0.128.0/build/three.min.js',
+  'https://cdn.staticfile.org/three.js/r128/three.min.js'
+];
+const echartsCDN = [
+  'https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js',
+  'https://unpkg.com/echarts@5.4.3/dist/echarts.min.js',
+  'https://cdn.staticfile.org/echarts/5.4.3/echarts.min.js'
+];
+loadFallback(threeCDN)
+  .then(() => loadFallback(echartsCDN))
+  .then(boot)
+  .catch(() => {
+    document.getElementById('loader').innerHTML =
+      '<p class="err">资源加载失败，请检查网络后刷新重试</p>';
+  });
+
+/* ================= 工具 ================= */
+let RS = 20260910;
+function rnd() { RS = (RS * 1664525 + 1013904223) % 4294967296; return RS / 4294967296; }
+function cv(w, h) { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; }
+function texOf(canvas, srgb, rx, ry) {
+  const t = new THREE.CanvasTexture(canvas);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  if (rx || ry) t.repeat.set(rx || 1, ry || 1);
+  if (srgb) t.encoding = THREE.sRGBEncoding;
+  t.anisotropy = 8;
+  return t;
+}
+function grain(x, W, H, n, alphaMax, size) {
+  for (let i = 0; i < n; i++) {
+    x.fillStyle = 'rgba(0,0,0,' + (rnd() * alphaMax).toFixed(3) + ')';
+    x.fillRect(rnd() * W, rnd() * H, 1 + rnd() * size, 1 + rnd() * size);
+    x.fillStyle = 'rgba(255,255,255,' + (rnd() * alphaMax * 0.7).toFixed(3) + ')';
+    x.fillRect(rnd() * W, rnd() * H, 1 + rnd() * size, 1 + rnd() * size);
+  }
+}
+
+/* ================= 程序化贴图 ================= */
+function woodTex() {
+  const S = 512, c = cv(S, S), x = c.getContext('2d');
+  x.fillStyle = '#6b4a2e'; x.fillRect(0, 0, S, S);
+  const rows = 8, rh = S / rows;
+  for (let r = 0; r < rows; r++) {
+    const y0 = r * rh;
+    let x0 = -Math.floor(rnd() * 170);
+    while (x0 < S) {
+      const w = 130 + rnd() * 180;
+      const l = 0.78 + rnd() * 0.36;
+      const b = [126, 90, 55].map(v => Math.min(255, Math.round(v * l)));
+      x.fillStyle = 'rgb(' + b[0] + ',' + b[1] + ',' + b[2] + ')';
+      x.fillRect(x0 + 1, y0 + 1, w - 2, rh - 2);
+      for (let g = 0; g < 13; g++) {
+        x.strokeStyle = 'rgba(' + Math.round(b[0]*0.6) + ',' + Math.round(b[1]*0.58) + ',' + Math.round(b[2]*0.56) + ',' + (0.08 + rnd()*0.22).toFixed(2) + ')';
+        x.lineWidth = 0.6 + rnd() * 1.5;
+        const gy = y0 + 3 + rnd() * (rh - 6);
+        x.beginPath();
+        x.moveTo(x0 + 2, gy);
+        x.bezierCurveTo(x0 + w*0.3, gy + (rnd()-0.5)*4, x0 + w*0.7, gy + (rnd()-0.5)*4, x0 + w - 2, gy + (rnd()-0.5)*3);
+        x.stroke();
+      }
+      x.fillStyle = 'rgba(34,20,9,.6)';
+      x.fillRect(x0 + w - 2, y0 + 1, 2, rh - 2);
+      x0 += w;
+    }
+    x.fillStyle = 'rgba(34,20,9,.55)';
+    x.fillRect(0, y0, S, 1.6);
+  }
+  return c;
+}
+function tileTex(base, tiling, gloss) {
+  const S = 512, c = cv(S, S), x = c.getContext('2d');
+  const rc = cv(S, S), rx = rc.getContext('2d');
+  const n = tiling, s = S / n;
+  x.fillStyle = '#20242b'; x.fillRect(0, 0, S, S);
+  rx.fillStyle = '#b0b0b0'; rx.fillRect(0, 0, S, S);
+  for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) {
+    const l = 0.86 + rnd() * 0.28;
+    const col = base.map(v => Math.min(255, Math.round(v * l)));
+    x.fillStyle = 'rgb(' + col[0] + ',' + col[1] + ',' + col[2] + ')';
+    x.fillRect(i*s + 1.5, j*s + 1.5, s - 3, s - 3);
+    const rv = Math.round(gloss * 255 * (0.85 + rnd() * 0.3));
+    rx.fillStyle = 'rgb(' + rv + ',' + rv + ',' + rv + ')';
+    rx.fillRect(i*s + 1.5, j*s + 1.5, s - 3, s - 3);
+    for (let k = 0; k < 22; k++) {
+      x.fillStyle = 'rgba(255,255,255,' + (rnd()*0.05).toFixed(3) + ')';
+      x.fillRect(i*s + 2 + rnd()*(s-4), j*s + 2 + rnd()*(s-4), 1 + rnd()*2, 1);
+    }
+  }
+  grain(x, S, S, 900, 0.16, 2);
+  return { a: c, r: rc };
+}
+function plasterTex(hex) {
+  const S = 256, c = cv(S, S), x = c.getContext('2d');
+  x.fillStyle = hex; x.fillRect(0, 0, S, S);
+  for (let i = 0; i < 46; i++) {
+    const g = x.createRadialGradient(rnd()*S, rnd()*S, 2, rnd()*S, rnd()*S, 30 + rnd()*70);
+    g.addColorStop(0, 'rgba(0,0,0,0.035)');
+    g.addColorStop(1, 'rgba(0,0,0,0)');
+    x.fillStyle = g; x.fillRect(0, 0, S, S);
+  }
+  grain(x, S, S, 1800, 0.06, 1.5);
+  const rc = cv(S, S), rx = rc.getContext('2d');
+  rx.fillStyle = '#dcdcdc'; rx.fillRect(0, 0, S, S);
+  grain(rx, S, S, 2600, 0.3, 2);
+  return { a: c, r: rc };
+}
+function fabricTex(hex, weave) {
+  const S = 256, c = cv(S, S), x = c.getContext('2d');
+  x.fillStyle = hex; x.fillRect(0, 0, S, S);
+  const st = weave || 4;
+  for (let i = 0; i < S; i += st) {
+    x.fillStyle = 'rgba(0,0,0,.10)'; x.fillRect(i, 0, st * 0.45, S);
+    x.fillStyle = 'rgba(255,255,255,.055)'; x.fillRect(0, i, S, st * 0.45);
+  }
+  grain(x, S, S, 2400, 0.16, 2);
+  return c;
+}
+function stoneTex() {
+  const S = 256, c = cv(S, S), x = c.getContext('2d');
+  x.fillStyle = '#cfcac2'; x.fillRect(0, 0, S, S);
+  for (let i = 0; i < 80; i++) {
+    x.strokeStyle = 'rgba(120,118,112,' + (0.05 + rnd()*0.16).toFixed(2) + ')';
+    x.lineWidth = 0.5 + rnd() * 1.6;
+    x.beginPath();
+    const x0 = rnd()*S, y0 = rnd()*S;
+    x.moveTo(x0, y0);
+    x.bezierCurveTo(x0 + (rnd()-0.5)*90, y0 + (rnd()-0.5)*90, x0 + (rnd()-0.5)*120, y0 + (rnd()-0.5)*120, x0 + (rnd()-0.5)*160, y0 + (rnd()-0.5)*160);
+    x.stroke();
+  }
+  for (let i = 0; i < 220; i++) {
+    x.fillStyle = 'rgba(90,88,84,' + (rnd()*0.32).toFixed(2) + ')';
+    x.fillRect(rnd()*S, rnd()*S, 1 + rnd()*2, 1 + rnd()*2);
+  }
+  grain(x, S, S, 1200, 0.07, 2);
+  return c;
+}
+function rugTex() {
+  const S = 256, c = cv(S, S), x = c.getContext('2d');
+  x.fillStyle = '#3b4d69'; x.fillRect(0, 0, S, S);
+  for (let i = 0; i < 26; i++) {
+    x.strokeStyle = 'rgba(150,180,215,' + (0.05 + rnd()*0.1).toFixed(2) + ')';
+    x.lineWidth = 1 + rnd() * 3;
+    x.beginPath();
+    x.moveTo(0, rnd()*S); x.lineTo(S, rnd()*S);
+    x.stroke();
+  }
+  x.strokeStyle = 'rgba(210,225,245,.28)'; x.lineWidth = 5;
+  x.strokeRect(16, 16, S - 32, S - 32);
+  x.strokeStyle = 'rgba(120,150,190,.22)'; x.lineWidth = 2;
+  x.strokeRect(30, 30, S - 60, S - 60);
+  grain(x, S, S, 2600, 0.18, 2);
+  return c;
+}
+function aoTex() {
+  const S = 256, c = cv(S, S), x = c.getContext('2d');
+  x.clearRect(0, 0, S, S);
+  const g = x.createRadialGradient(S/2, S/2, S*0.16, S/2, S/2, S*0.74);
+  g.addColorStop(0, 'rgba(0,0,0,0)');
+  g.addColorStop(0.62, 'rgba(0,0,0,0.09)');
+  g.addColorStop(1, 'rgba(0,0,0,0.42)');
+  x.fillStyle = g; x.fillRect(0, 0, S, S);
+  const b = S * 0.11;
+  [[0, 0, S, b, 0], [0, S - b, S, b, Math.PI], [0, 0, b, S, Math.PI*0.5], [S - b, 0, b, S, -Math.PI*0.5]].forEach(e => {
+    const gg = x.createLinearGradient(e[0], e[1], e[0] + (e[4] === 0 ? 0 : (e[4] > 0 ? b : -b)) + (e[4] === Math.PI*0.5 ? b : 0), e[1] + (e[4] === 0 ? b : 0));
+    gg.addColorStop(0, 'rgba(0,0,0,0)'); gg.addColorStop(1, 'rgba(0,0,0,0)');
+  });
+  /* 四边压暗 */
+  function edge(x0, y0, w0, h0, gx0, gy0, gx1, gy1) {
+    const gg = x.createLinearGradient(gx0, gy0, gx1, gy1);
+    gg.addColorStop(0, 'rgba(0,0,0,0.40)'); gg.addColorStop(1, 'rgba(0,0,0,0)');
+    x.fillStyle = gg; x.fillRect(x0, y0, w0, h0);
+  }
+  edge(0, 0, S, b, 0, 0, 0, b);
+  edge(0, S - b, S, b, 0, S, 0, S - b);
+  edge(0, 0, b, S, 0, 0, b, 0);
+  edge(S - b, 0, b, S, S, 0, S - b, 0);
+  return c;
+}
+function flowTex() {
+  const W = 256, H = 8, c = cv(W, H), x = c.getContext('2d');
+  x.fillStyle = '#3a3a3a'; x.fillRect(0, 0, W, H);
+  const n = 8;
+  for (let i = 0; i < n; i++) {
+    const x0 = i * W / n;
+    const g = x.createLinearGradient(x0, 0, x0 + W / n, 0);
+    g.addColorStop(0, 'rgba(255,255,255,.82)');
+    g.addColorStop(0.30, 'rgba(255,255,255,.28)');
+    g.addColorStop(1, 'rgba(255,255,255,0)');
+    x.fillStyle = g; x.fillRect(x0, 0, W / n + 1, H);
+  }
+  return c;
+}
+function cityTex() {
+  const S = 128, c = cv(S, S), x = c.getContext('2d');
+  x.fillStyle = '#080c14'; x.fillRect(0, 0, S, S);
+  for (let j = 0; j < 30; j++) for (let i = 0; i < 14; i++) {
+    if (rnd() < 0.42) continue;
+    const warm = rnd() < 0.6;
+    const l = 0.4 + rnd() * 0.6;
+    x.fillStyle = warm
+      ? 'rgba(255,' + Math.round(200*l) + ',' + Math.round(130*l) + ',' + (0.5 + rnd()*0.5).toFixed(2) + ')'
+      : 'rgba(' + Math.round(150*l) + ',' + Math.round(205*l) + ',255,' + (0.4 + rnd()*0.5).toFixed(2) + ')';
+    x.fillRect(i * 9 + 2, j * 4.2 + 1, 5, 1.8);
+  }
+  return c;
+}
+function curtainTex() {
+  const S = 128, c = cv(S, S), x = c.getContext('2d');
+  x.fillStyle = '#8d6c3c'; x.fillRect(0, 0, S, S);
+  for (let i = 0; i < S; i += 6) {
+    const g = x.createLinearGradient(i, 0, i + 6, 0);
+    g.addColorStop(0, 'rgba(0,0,0,.24)');
+    g.addColorStop(0.5, 'rgba(255,235,200,.14)');
+    g.addColorStop(1, 'rgba(0,0,0,.24)');
+    x.fillStyle = g; x.fillRect(i, 0, 6, S);
+  }
+  grain(x, S, S, 900, 0.14, 2);
+  return c;
+}
+
+/* ================= 全局状态 ================= */
+const R = {};
+let selectedId = null;
+let mainValveOn = true;
+let heaterTemp = 62;
+let dayKwh = 8.62, dayWater = 186;
+let pwChart, wtChart, powerHistory = [], waterHistory = [], pwLabels = [];
+const VIEW = { pipes: true, xray: false, patrol: false, day: 'night' };
+let leakOn = false, overOn = false;
+let circuits3D = null, planPipes = null;
+
+function initRooms() {
+  const def = [
+    { id:'entry',   name:'玄关',  x1:0,  z1:0, x2:4,  z2:7,  base:15, lightMax:15, floor:'stone' },
+    { id:'living',  name:'客厅',  x1:4,  z1:0, x2:14, z2:7,  base:35, lightMax:92, ac:true,  tv:true, floor:'wood' },
+    { id:'dining',  name:'餐厅',  x1:14, z1:0, x2:19, z2:7,  base:20, lightMax:45, floor:'wood' },
+    { id:'kitchen', name:'厨房',  x1:19, z1:0, x2:24, z2:7,  base:25, lightMax:38, floor:'tileK' },
+    { id:'bed2',    name:'次卧',  x1:0,  z1:7, x2:5,  z2:14, base:25, lightMax:48, ac:true, floor:'wood' },
+    { id:'study',   name:'书房',  x1:5,  z1:7, x2:11, z2:14, base:20, lightMax:30, pc:true, floor:'wood' },
+    { id:'bath',    name:'卫生间', x1:11, z1:7, x2:14, z2:14, base:18, lightMax:25, floor:'tileB' },
+    { id:'master',  name:'主卧',  x1:14, z1:7, x2:24, z2:14, base:30, lightMax:58, ac:true, curt:true, floor:'wood' },
+    { id:'balcony', name:'阳台',  x1:17.5, z1:14, x2:23.5, z2:16.6, base:12, lightMax:20, floor:'tileB' }
+  ];
+  def.forEach(d => {
+    const r = Object.assign({
+      temp: 22 + Math.random() * 4, hum: 48 + Math.random() * 12,
+      light: { on: false, br: 70 }, sockets: true
+    }, d);
+    r.ac = d.ac ? { on: false, t: 24 } : null;
+    r.curt = d.curt ? { t: 1, cur: 1 } : null;
+    R[d.id] = r;
+  });
+  R.living.light.on = true; R.living.light.br = 80; R.living.ac.on = true; R.living.tvOn = true;
+  R.dining.light.on = true; R.dining.light.br = 60;
+  R.kitchen.light.on = true;
+  R.master.light.on = true; R.master.light.br = 45;
+  R.master.curt.t = 0.25;
+  R.entry.light.on = true;
+  R.bed2.light.on = true;
+  R.study.light.on = true;
+  R.bath.light.on = true;
+
+  R.kitchen.fixtures = [
+    { id:'fridge', name:'冰箱', icon:'🧊', on:true,  locked:true, w:130 },
+    { id:'purifier', name:'净水器', icon:'💧', on:true, w:28, flow:0.4 }
+  ];
+  R.bath.fixtures = [
+    { id:'heater', name:'电热水器', icon:'🔥', on:true, w:8, wOn:1600 },
+    { id:'bafan', name:'浴霸', icon:'☀', on:false, wOn:1100 },
+    { id:'shower', name:'淋浴', icon:'🚿', on:false, flow:8.5, w:0 }
+  ];
+  R.balcony.fixtures = [
+    { id:'washer', name:'洗衣机', icon:'🌀', on:false, wOn:480, flow:9.5 }
+  ];
+  R.study.fixtures = [
+    { id:'pc', name:'电脑', icon:'🖥', on:false, wOn:85 }
+  ];
+  R.living.fixtures = [
+    { id:'tv', name:'电视', icon:'📺', on:true, wOn:120 }
+  ];
+}
+function fx(room, id) { return (R[room].fixtures || []).find(f => f.id === id); }
+
+const CAM = {
+  entry:   { r: 9.5,  phi: 0.72, theta: 1.00, t: [2.0, 0.35, 3.7] },
+  living:  { r: 12.5, phi: 0.70, theta: 0.62, t: [9.0, 0.35, 3.4] },
+  dining:  { r: 9.8,  phi: 0.70, theta: 0.50, t: [16.5, 0.35, 3.6] },
+  kitchen: { r: 9.2,  phi: 0.74, theta: 0.95, t: [21.5, 0.35, 3.0] },
+  bed2:    { r: 9.8,  phi: 0.70, theta: -0.62, t: [2.5, 0.35, 10.6] },
+  study:   { r: 10.5, phi: 0.70, theta: -0.44, t: [8.0, 0.35, 10.6] },
+  bath:    { r: 9.2,  phi: 0.70, theta: -0.44, t: [12.5, 0.35, 10.6] },
+  master:  { r: 12.0, phi: 0.70, theta: -0.54, t: [19.5, 0.35, 10.6] },
+  balcony: { r: 9.0,  phi: 0.80, theta: -0.18, t: [20.5, 0.35, 15.4] }
+};
+const CAM_HOME = { r: 26, phi: 0.92, theta: 0.10, t: [12, 0.6, 8.0] };
+const PATROL_ORDER = ['entry','living','dining','kitchen','bed2','study','bath','master','balcony'];
+
+/* ================= 负荷计算 ================= */
+function lightW(r) { return r.light.on ? (6 + r.light.br * 0.01 * r.lightMax) : 0; }
+function acW(r) { return r.ac && r.ac.on ? 480 + Math.max(0, 30 - r.ac.t) * 45 : 0; }
+function fixtureLoad(f) { return f.on ? (f.wOn !== undefined ? f.wOn : (f.w || 0)) : (f.w || 0); }
+function socketW(r) {
+  let w = r.sockets ? r.base : 0;
+  (r.fixtures || []).forEach(f => {
+    if (f.id === 'tv' || f.id === 'pc') { if (r.sockets) w += fixtureLoad(f); }
+    else w += fixtureLoad(f);
+  });
+  return w;
+}
+function roomW(r) {
+  let w = lightW(r) + acW(r) + socketW(r);
+  if (overOn && r.id === 'kitchen') w += 2400;
+  return w;
+}
+function roomFlow(r) {
+  let f = 0;
+  (r.fixtures || []).forEach(x => { if (x.on && x.flow) f += x.flow; });
+  if (leakOn && r.id === 'bath') f += 6.0;
+  return mainValveOn ? f : 0;
+}
+function totalW() { let s = 0; for (const k in R) s += roomW(R[k]); return s; }
+function totalFlow() { let s = 0; for (const k in R) s += roomFlow(R[k]); return s; }
+
+/* ================= 主入口 ================= */
+function boot() {
+  initRooms();
+
+  const WD = ['周日','周一','周二','周三','周四','周五','周六'];
+  function tickClock() {
+    const d = new Date(), p = n => String(n).padStart(2, '0');
+    document.getElementById('clock-tm').textContent = p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());
+    document.getElementById('clock-dt').textContent = d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+WD[d.getDay()]+' · 室外 26℃';
+  }
+  tickClock(); setInterval(tickClock, 1000);
+
+  try {
+    const bp = new URLSearchParams(location.search).get('b');
+    if (bp) {
+      const el = document.getElementById('b-badge');
+      el.style.display = 'inline-block';
+      el.textContent = '来自 ' + bp + '#楼';
+    }
+  } catch (e) {}
+  document.getElementById('back-comm').addEventListener('click', function (ev) {
+    ev.preventDefault();
+    const cands = ['云璟天悦·数字孪生社区.html', 'digital-twin-community.html', '03-云璟天悦·数字孪生社区.html'];
+    fetch(cands[0], { method: 'HEAD' })
+      .then(r => { location.href = r.ok ? cands[0] : cands[1]; })
+      .catch(() => { location.href = cands[0]; });
+  });
+
+  initThree();
+  initCharts();
+  renderCircuits();
+  renderChips();
+  bindPlan();
+  drawPlan();
+  refreshLoop();
+  setInterval(refreshLoop, 2000);
+  bindModes();
+  bindDock();
+  bindKeys();
+
+  setInterval(() => {
+    if (leakOn) return;
+    const shower = fx('bath', 'shower');
+    const washer = fx('balcony', 'washer');
+    if (Math.random() < 0.5 && shower && !shower.on) {
+      shower.on = true; applyRoom3D(R.bath);
+      setTimeout(() => { shower.on = false; applyRoom3D(R.bath); }, 16000);
+    }
+    if (Math.random() < 0.35 && washer) { washer.on = !washer.on; applyRoom3D(R.balcony); }
+    updateCtlLive();
+  }, 30000);
+
+  setTimeout(() => document.getElementById('loader').classList.add('hide'), 600);
+  setTimeout(() => toast('孪生场景已就绪 · 点击房间、灯具、家电或管线可直接操控', 'ok'), 1500);
+}
+
+/* ================= 面板刷新 ================= */
+function refreshLoop() {
+  const total = totalW(), flow = totalFlow();
+  dayKwh += total * 2 / 3600 / 1000;
+  dayWater += flow * 2 / 60;
+  document.getElementById('pw-total').textContent = Math.round(total).toLocaleString();
+  document.getElementById('pw-day').textContent = dayKwh.toFixed(2);
+  document.getElementById('wt-flow').textContent = flow.toFixed(1);
+  document.getElementById('wt-day').textContent = Math.round(dayWater);
+  document.getElementById('wt-heater').textContent = heaterTemp.toFixed(0);
+  const vd = document.getElementById('wt-valve');
+  vd.textContent = mainValveOn ? '总阀开启' : '已关闭';
+  vd.style.color = mainValveOn ? '#37e08a' : '#ff7a8a';
+  const press = 0.28 - flow * 0.004;
+  document.getElementById('wt-press').textContent = (mainValveOn ? Math.max(0.02, press) : 0).toFixed(2);
+
+  const h = fx('bath', 'heater');
+  if (h && h.on) heaterTemp = Math.min(68, heaterTemp + 0.35);
+  else heaterTemp = Math.max(38, heaterTemp - 0.5);
+
+  for (const k in R) {
+    const r = R[k];
+    if (r.ac && r.ac.on) r.temp += (r.ac.t - r.temp) * 0.06 + (Math.random() - 0.5) * 0.06;
+    else r.temp += (24.5 - r.temp) * 0.012 + (Math.random() - 0.5) * 0.08;
+    r.hum += (50 - r.hum) * 0.01 + (Math.random() - 0.5) * 0.3;
+  }
+
+  const d = new Date(), p = n => String(n).padStart(2, '0');
+  const tm = p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());
+  powerHistory.push(Math.round(total)); powerHistory.shift();
+  waterHistory.push(+flow.toFixed(1)); waterHistory.shift();
+  pwLabels.push(tm); pwLabels.shift();
+  if (pwChart) {
+    pwChart.setOption({ xAxis: { data: pwLabels }, series: [{ data: powerHistory }] });
+    wtChart.setOption({ xAxis: { data: pwLabels }, series: [{ data: waterHistory }] });
+  }
+  updateCircuitBars();
+  updateChipsLive();
+  updateCtlLive();
+  drawAllLabels();
+  drawPlan();
+  syncSensorRow();
+}
+function syncSensorRow() {
+  const v = document.getElementById('s-valve');
+  const w = document.getElementById('s-water');
+  const sd = document.querySelectorAll('.sns .sd');
+  if (v) { v.textContent = mainValveOn ? '开启 · 0.28 MPa' : '已关闭 · 联锁'; v.className = 'v' + (mainValveOn ? '' : ' warn'); }
+  if (w) { w.textContent = leakOn ? '厨卫漏水 · 已报警' : '无漏水'; w.className = 'v' + (leakOn ? ' err' : ''); }
+  if (sd[4]) sd[4].className = 'sd' + (leakOn ? ' err' : '');
+  if (sd[5]) sd[5].className = 'sd' + (!mainValveOn ? ' warn' : '');
+}
+
+/* ================= 配电分路 ================= */
+const CIRCUITS = [
+  { id:'light',  name:'照明回路', max:1200, room:'living' },
+  { id:'socket', name:'插座回路', max:2200, room:'study' },
+  { id:'ac',     name:'空调回路', max:3500, room:'master' },
+  { id:'kitchen',name:'厨房回路', max:2500, room:'kitchen' },
+  { id:'bath',   name:'卫浴回路', max:3500, room:'bath' }
+];
+function circuitW(id) {
+  let s = 0;
+  for (const k in R) {
+    const r = R[k];
+    if (id === 'light') s += lightW(r);
+    else if (id === 'ac') s += acW(r);
+    else if (id === 'socket') {
+      s += r.sockets ? r.base : 0;
+      (r.fixtures || []).forEach(f => { if (f.id === 'tv' || f.id === 'pc') s += fixtureLoad(f); });
+    }
+    else if (id === 'kitchen' && k === 'kitchen') {
+      (r.fixtures || []).forEach(f => { if (f.id !== 'tv' && f.id !== 'pc') s += fixtureLoad(f); });
+      if (overOn) s += 2400;
+    }
+    else if (id === 'bath' && (k === 'bath' || k === 'balcony'))
+      (r.fixtures || []).forEach(f => { s += fixtureLoad(f); });
+  }
+  return s;
+}
+function renderCircuits() {
+  const box = document.getElementById('circuits');
+  box.innerHTML = CIRCUITS.map(c =>
+    '<div class="circuit" id="cir-' + c.id + '" data-cir="' + c.id + '" title="点击在 3D 中高亮">' +
+      '<span class="st"></span><span class="nm">' + c.name + '</span>' +
+      '<span class="bar"><i></i></span>' +
+      '<span class="w">-- W</span></div>'
+  ).join('');
+  box.querySelectorAll('.circuit').forEach(el => {
+    el.addEventListener('click', () => focusCircuit(el.dataset.cir));
+  });
+}
+function updateCircuitBars() {
+  CIRCUITS.forEach(c => {
+    const w = circuitW(c.id), el = document.getElementById('cir-' + c.id);
+    if (!el) return;
+    const pct = Math.min(100, w / c.max * 100);
+    el.querySelector('.bar i').style.width = pct + '%';
+    el.querySelector('.w').textContent = Math.round(w) + ' W';
+    el.classList.toggle('hot', pct > 55);
+  });
+  if (circuits3D) circuits3D.forEach(c => {
+    const pct = Math.max(0, Math.min(1, circuitW(c.id) / c.maxW));
+    c.mat.emissiveIntensity = 0.22 + pct * 0.95;
+    c.tex.offset.x -= (0.0015 + pct * 0.011) * (c.dir || 1);
+  });
+}
+
+/* ================= 图表 ================= */
+function initCharts() {
+  const axis = {
+    axisLine: { lineStyle: { color: 'rgba(70,110,160,.4)' } },
+    axisLabel: { color: '#7d93b8', fontSize: 9 },
+    splitLine: { lineStyle: { color: 'rgba(70,110,160,.14)' } }
+  };
+  const now0 = Date.now();
+  for (let i = 39; i >= 0; i--) {
+    const d = new Date(now0 - i * 2000);
+    const p = n => String(n).padStart(2, '0');
+    pwLabels.push(p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds()));
+  }
+  let v = 900;
+  for (let i = 0; i < 40; i++) { v = Math.max(400, Math.min(2600, v + (Math.random() - 0.48) * 260)); powerHistory.push(Math.round(v)); }
+  let wv = 0;
+  for (let i = 0; i < 40; i++) { wv = Math.random() < 0.78 ? 0 : 4 + Math.random() * 10; waterHistory.push(+wv.toFixed(1)); }
+
+  pwChart = echarts.init(document.getElementById('ch-power'));
+  pwChart.setOption({
+    grid: { left: 40, right: 8, top: 12, bottom: 18 },
+    tooltip: { trigger: 'axis', backgroundColor: 'rgba(10,16,30,.92)', borderColor: 'rgba(255,198,92,.4)', textStyle: { color: '#d5e4fa', fontSize: 10 } },
+    xAxis: Object.assign({ type: 'category', data: pwLabels, axisTick: { show: false }, axisLabel: { show: false }, axisLine: axis.axisLine }, {}),
+    yAxis: Object.assign({ type: 'value', min: 0, max: 3200, axisLabel: { color: '#7d93b8', fontSize: 9 }, splitLine: axis.splitLine }, {}),
+    series: [{
+      type: 'line', smooth: true, symbol: 'none', data: powerHistory,
+      lineStyle: { color: '#ffc65c', width: 2, shadowColor: 'rgba(255,198,92,.55)', shadowBlur: 9 },
+      areaStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+        { offset: 0, color: 'rgba(255,198,92,.32)' }, { offset: 1, color: 'rgba(255,198,92,0)' } ]) }
+    }]
+  });
+
+  wtChart = echarts.init(document.getElementById('ch-water'));
+  wtChart.setOption({
+    grid: { left: 30, right: 8, top: 10, bottom: 18 },
+    xAxis: Object.assign({ type: 'category', data: pwLabels, axisTick: { show: false }, axisLabel: { show: false }, axisLine: axis.axisLine }, {}),
+    yAxis: Object.assign({ type: 'value', min: 0, max: 14, axisLabel: { color: '#7d93b8', fontSize: 9 }, splitLine: axis.splitLine }, {}),
+    series: [{
+      type: 'bar', data: waterHistory, barWidth: 4,
+      itemStyle: { color: '#40a9ff', opacity: 0.85, borderRadius: 2 }
+    }]
+  });
+}
+
+/* ================= 房间列表 ================= */
+function renderChips() {
+  const box = document.getElementById('room-chips');
+  box.innerHTML = Object.keys(R).map(id => {
+    const r = R[id];
+    return '<div class="rchip' + (id === selectedId ? ' sel' : '') + (r.light.on ? ' lit' : '') + '" data-r="' + id + '">' +
+      '<div class="n"><i></i>' + r.name + '</div>' +
+      '<div class="t"><span class="tv">--</span><span class="u"> ℃</span></div>' +
+      '<div class="p"><span class="pv">--</span> W</div></div>';
+  }).join('');
+  box.querySelectorAll('.rchip').forEach(el => {
+    el.addEventListener('click', () => selectRoom(el.dataset.r, true, true));
+  });
+  updateChipsLive();
+}
+function updateChipsLive() {
+  document.querySelectorAll('.rchip').forEach(el => {
+    const r = R[el.dataset.r];
+    if (!r) return;
+    el.classList.toggle('lit', r.light.on);
+    el.classList.toggle('sel', el.dataset.r === selectedId);
+    const tv = el.querySelector('.tv'), pv = el.querySelector('.pv');
+    if (tv) tv.textContent = r.temp.toFixed(1);
+    if (pv) pv.textContent = Math.round(roomW(r));
+  });
+}
+
+/* ================= 控制面板 ================= */
+function renderControls() {
+  const box = document.getElementById('room-ctl');
+  const r = R[selectedId];
+  if (!r) {
+    box.innerHTML = '<div class="rc-empty">在 3D 场景或上方点击房间进行控制</div>';
+    return;
+  }
+  let html =
+    '<div class="rc-head"><b>' + r.name + '</b><span class="rc-env">-- ℃ · --%</span>' +
+      '<em id="c-focus">定位视角</em></div>' +
+    '<div class="rc-row"><span class="k">灯光</span>' +
+      '<button class="sw' + (r.light.on ? ' on' : '') + '" id="c-light"></button>' +
+      '<input type="range" id="c-br" min="5" max="100" value="' + r.light.br + '"' + (r.light.on ? '' : ' disabled') + '>' +
+      '<span class="val" id="c-brv">' + r.light.br + '%</span></div>';
+  if (r.ac) {
+    html += '<div class="rc-row"><span class="k">空调</span>' +
+      '<button class="sw cy' + (r.ac.on ? ' on' : '') + '" id="c-ac"></button>' +
+      '<button class="tbtn" id="c-acdn">−</button>' +
+      '<span class="val" style="color:#4dd8ff;font-size:13px" id="c-actv">' + r.ac.t + '℃</span>' +
+      '<button class="tbtn" id="c-acup">＋</button></div>';
+  }
+  if (r.curt && r.x2 - r.x1 > 3) {
+    html += '<div class="rc-row"><span class="k">窗帘</span>' +
+      '<div class="seg"><button id="c-co">打开</button><button id="c-cc">关闭</button></div>' +
+      '<div class="pos-bar"><i id="c-curtbar"></i></div></div>';
+  }
+  html += '<div class="rc-row"><span class="k">插座</span>' +
+    '<button class="sw' + (r.sockets ? ' on' : '') + '" id="c-sock"></button>' +
+    '<span class="val" id="c-sockw">-- W</span></div>';
+  (r.fixtures || []).forEach(f => {
+    html += '<div class="rc-row"><span class="k">' + f.icon + ' ' + f.name + '</span>' +
+      (f.locked ? '<span class="val">常开 · 保持供电</span>' :
+        '<button class="sw cy' + (f.on ? ' on' : '') + '" data-fx="' + f.id + '"></button>' +
+        '<span class="val" data-fxv="' + f.id + '">--</span>') + '</div>';
+  });
+  box.innerHTML = html;
+
+  document.getElementById('c-focus').addEventListener('click', () => focusRoom(selectedId));
+  document.getElementById('c-light').addEventListener('click', () => {
+    r.light.on = !r.light.on; applyRoom3D(r); drawLabel(r); renderControls(); updateChipsLive(); drawPlan();
+  });
+  const br = document.getElementById('c-br');
+  if (br) {
+    br.addEventListener('input', () => {
+      r.light.br = +br.value;
+      document.getElementById('c-brv').textContent = br.value + '%';
+      applyRoom3D(r);
+    });
+    br.addEventListener('change', () => { drawLabel(r); });
+  }
+  const ac = document.getElementById('c-ac');
+  if (ac) {
+    ac.addEventListener('click', () => { r.ac.on = !r.ac.on; applyRoom3D(r); renderControls(); });
+    document.getElementById('c-acdn').addEventListener('click', () => { r.ac.t = Math.max(16, r.ac.t - 1); renderControls(); });
+    document.getElementById('c-acup').addEventListener('click', () => { r.ac.t = Math.min(30, r.ac.t + 1); renderControls(); });
+  }
+  const co = document.getElementById('c-co'), cc = document.getElementById('c-cc');
+  if (co) {
+    co.addEventListener('click', () => { r.curt.t = 1; });
+    cc.addEventListener('click', () => { r.curt.t = 0; });
+  }
+  document.getElementById('c-sock').addEventListener('click', () => {
+    r.sockets = !r.sockets; applyRoom3D(r); renderControls(); updateChipsLive(); drawPlan();
+  });
+  box.querySelectorAll('[data-fx]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const f = (r.fixtures || []).find(x => x.id === btn.dataset.fx);
+      f.on = !f.on; applyRoom3D(r); renderControls();
+    });
+  });
+  updateCtlLive();
+}
+function updateCtlLive() {
+  const r = R[selectedId];
+  if (!r) return;
+  const env = document.querySelector('.rc-env');
+  if (env) env.textContent = r.temp.toFixed(1) + ' ℃ · 湿度 ' + Math.round(r.hum) + '%';
+  const sw = document.getElementById('c-sockw');
+  if (sw) sw.textContent = socketW(r).toFixed(0) + ' W';
+  const cb = document.getElementById('c-curtbar');
+  if (cb) cb.style.width = Math.round(r.curt.cur * 100) + '%';
+  document.querySelectorAll('[data-fxv]').forEach(el => {
+    const f = (r.fixtures || []).find(x => x.id === el.dataset.fxv);
+    if (!f) return;
+    if (f.flow && f.on) el.textContent = f.flow + ' L/min';
+    else if (f.id === 'heater') el.textContent = (f.on ? heaterTemp.toFixed(0) + '℃ · ' + f.wOn + 'W' : '保温 8W');
+    else el.textContent = f.on ? (f.wOn ? f.wOn + ' W' : (f.w || 0) + ' W') : '已关闭';
+  });
+}
+function selectRoom(id, focus, force, keepPatrol) {
+  if (!force && selectedId === id) {
+    selectedId = null;
+    if (window._selectRoom3D) for (const k in R) window._selectRoom3D(R[k], false);
+    drawAllLabels(); renderChips(); renderControls(); drawPlan();
+    return;
+  }
+  selectedId = id;
+  if (window._selectRoom3D) for (const k in R) window._selectRoom3D(R[k], k === id);
+  if (focus) focusRoom(id, keepPatrol);
+  drawAllLabels();
+  renderChips();
+  renderControls();
+  drawPlan();
+}
+function focusRoom(id, keepPatrol) {
+  const c = CAM[id];
+  if (!c || !window._flyTo) return;
+  window._flyTo(c, 1250);
+  if (!keepPatrol) stopPatrolOnly();
+}
+function focusCircuit(id) {
+  const c = CIRCUITS.find(x => x.id === id);
+  if (c) selectRoom(c.room, true, true);
+  if (window._highlightCircuit) window._highlightCircuit(id);
+  toast('已定位「' + (c ? c.name : '') + '」强电桥架', 'ok');
+}
+
+/* ================= 场景模式 ================= */
+function bindModes() {
+  document.querySelectorAll('.modes button[data-mode]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.modes button[data-mode]').forEach(b => b.classList.remove('act'));
+      btn.classList.add('act');
+      applyMode(btn.dataset.mode);
+    });
+  });
+}
+function applyMode(m) {
+  for (const k in R) {
+    const r = R[k];
+    r.light.on = false; r.light.br = 70;
+    if (r.ac) r.ac.on = false;
+    if (r.fixtures) r.fixtures.forEach(f => { if (!f.locked && f.id !== 'heater') f.on = false; });
+  }
+  mainValveOn = true;
+  overOn = false;
+  if (m === 'home') {
+    R.entry.light.on = true;
+    R.living.light.on = true; R.living.light.br = 85; R.living.ac.on = true; R.living.ac.t = 24; R.living.tvOn = true;
+    const tv = fx('living', 'tv'); if (tv) tv.on = true;
+    R.dining.light.on = true; R.dining.light.br = 65;
+    R.kitchen.light.on = true;
+    R.master.curt.t = 1;
+  } else if (m === 'movie') {
+    R.living.light.on = true; R.living.light.br = 12; R.living.ac.on = true; R.living.ac.t = 24; R.living.tvOn = true;
+    const tv = fx('living', 'tv'); if (tv) tv.on = true;
+    R.master.curt.t = 0;
+  } else if (m === 'sleep') {
+    R.master.light.on = true; R.master.light.br = 8;
+    R.master.ac.on = true; R.master.ac.t = 26;
+    R.master.curt.t = 0;
+  } else if (m === 'away') {
+    mainValveOn = false;
+    for (const k in R) R[k].sockets = (k === 'kitchen');
+    R.master.curt.t = 0;
+  } else if (m === 'alloff') {
+    for (const k in R) R[k].sockets = true;
+  }
+  for (const k in R) { applyRoom3D(R[k]); drawLabel(R[k]); }
+  renderChips();
+  renderControls();
+  drawPlan();
+  syncSensorRow();
+  toast('场景已切换：' + ({home:'回家',movie:'观影',sleep:'睡眠',away:'离家',alloff:'全关'}[m] || m), 'ok');
+}
+
+/* ================= 底部工具栏 ================= */
+function bindDock() {
+  document.querySelectorAll('.modes button[data-day]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.modes button[data-day]').forEach(b => b.classList.remove('act'));
+      btn.classList.add('act');
+      if (window._setDay) window._setDay(btn.dataset.day);
+      toast('昼夜模式：' + ({day:'白天',dusk:'黄昏',night:'夜景'}[btn.dataset.day]), 'ok');
+    });
+  });
+  const pg = document.getElementById('t-pipes');
+  pg.addEventListener('click', () => {
+    VIEW.pipes = !VIEW.pipes; pg.classList.toggle('on', VIEW.pipes);
+    if (window._setPipes) window._setPipes(VIEW.pipes);
+    drawPlan();
+  });
+  const xr = document.getElementById('t-xray');
+  xr.addEventListener('click', () => {
+    VIEW.xray = !VIEW.xray; xr.classList.toggle('on', VIEW.xray);
+    if (window._setXray) window._setXray(VIEW.xray);
+  });
+  const pt = document.getElementById('t-patrol');
+  pt.addEventListener('click', () => setPatrol(!VIEW.patrol));
+  document.getElementById('t-home').addEventListener('click', () => {
+    selectedId = null;
+    if (window._selectRoom3D) for (const k in R) window._selectRoom3D(R[k], false);
+    if (window._flyTo) window._flyTo(CAM_HOME, 1100);
+    stopPatrolOnly(); renderChips(); renderControls(); drawAllLabels(); drawPlan();
+  });
+  const rt = document.getElementById('t-rot');
+  rt.addEventListener('click', () => {
+    if (window._toggleRot) rt.classList.toggle('on', window._toggleRot());
+  });
+  document.getElementById('t-leak').addEventListener('click', () => { if (window._leak) window._leak(!leakOn); });
+  document.getElementById('t-over').addEventListener('click', () => { if (window._over) window._over(!overOn); });
+}
+function setPatrol(on) {
+  VIEW.patrol = on;
+  document.getElementById('t-patrol').classList.toggle('on', on);
+  if (window._patrol) window._patrol(on);
+  if (on) toast('自动巡检已开启 · 相机将依次巡游 9 个房间', 'ok');
+}
+function stopPatrolOnly() { if (VIEW.patrol) setPatrol(false); }
+function bindKeys() {
+  addEventListener('keydown', e => {
+    if (e.target && /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
+    const k = e.key.toLowerCase();
+    if (k === 'p') document.getElementById('t-pipes').click();
+    else if (k === 'x') document.getElementById('t-xray').click();
+    else if (k === 'v') document.getElementById('t-patrol').click();
+    else if (k === 'r') document.getElementById('t-home').click();
+    else if (k === 'escape') {
+      selectedId = null;
+      if (window._selectRoom3D) for (const kk in R) window._selectRoom3D(R[kk], false);
+      renderChips(); renderControls(); drawAllLabels(); drawPlan();
+    }
+    else if (/^[1-9]$/.test(k)) {
+      const id = Object.keys(R)[+k - 1];
+      if (id) selectRoom(id, true, true);
+    }
+  });
+}
+
+/* ================= 提示 ================= */
+function toast(msg, kind) {
+  const box = document.getElementById('toasts');
+  const d = document.createElement('div');
+  d.className = 'toast ' + (kind || '');
+  d.textContent = msg;
+  box.appendChild(d);
+  setTimeout(() => { d.style.transition = 'opacity .4s'; d.style.opacity = '0'; }, 4200);
+  setTimeout(() => { if (d.parentNode) d.parentNode.removeChild(d); }, 4800);
+  while (box.children.length > 3) box.removeChild(box.firstChild);
+}
+
+/* ================= 2D 户型平面 ================= */
+const PLAN = { x0: 0, z0: 0, sx: 1, sz: 1, pad: 30 };
+function planXY(x, z) {
+  return [PLAN.pad + (x - PLAN.x0) * PLAN.sx, PLAN.pad + (z - PLAN.z0) * PLAN.sz];
+}
+function drawPlan() {
+  const cvs = document.getElementById('plan');
+  if (!cvs) return;
+  const x = cvs.getContext('2d');
+  const W = cvs.width, H = cvs.height;
+  PLAN.sx = (W - PLAN.pad * 2) / 24;
+  PLAN.sz = (H - PLAN.pad * 2) / 16.6;
+  x.clearRect(0, 0, W, H);
+  x.fillStyle = 'rgba(6,10,20,.92)';
+  x.fillRect(0, 0, W, H);
+  x.strokeStyle = 'rgba(70,110,160,.12)'; x.lineWidth = 1;
+  for (let gx = 0; gx <= 24; gx += 2) {
+    const p = planXY(gx, 0);
+    x.beginPath(); x.moveTo(p[0], PLAN.pad - 12); x.lineTo(p[0], H - PLAN.pad + 12); x.stroke();
+  }
+  for (let gz = 0; gz <= 16.6; gz += 2) {
+    const p = planXY(0, gz);
+    x.beginPath(); x.moveTo(PLAN.pad - 12, p[1]); x.lineTo(W - PLAN.pad + 12, p[1]); x.stroke();
+  }
+  for (const k in R) {
+    const r = R[k];
+    const a = planXY(r.x1, r.z1), b = planXY(r.x2, r.z2);
+    const w = b[0] - a[0], h = b[1] - a[1];
+    const sel = k === selectedId;
+    x.fillStyle = sel ? 'rgba(255,198,92,.20)' : (r.light.on ? 'rgba(255,217,138,.09)' : 'rgba(28,48,80,.42)');
+    x.fillRect(a[0], a[1], w, h);
+    x.strokeStyle = sel ? '#ffc65c' : 'rgba(77,216,255,.42)';
+    x.lineWidth = sel ? 2.5 : 1.3;
+    x.strokeRect(a[0], a[1], w, h);
+    x.fillStyle = sel ? '#ffd98a' : '#cfe3ff';
+    x.font = '600 17px "Microsoft YaHei", sans-serif';
+    x.fillText(r.name, a[0] + 7, a[1] + 21);
+    x.font = '14px Bahnschrift, sans-serif';
+    x.fillStyle = '#4dd8ff';
+    x.fillText(r.temp.toFixed(1) + '℃', a[0] + 7, a[1] + 39);
+    x.fillStyle = 'rgba(255,198,92,.8)';
+    x.fillText(Math.round(roomW(r)) + 'W', a[0] + 7, a[1] + 55);
+    if (r.light.on) {
+      x.beginPath();
+      x.arc(b[0] - 14, a[1] + 14, 5.5, 0, 6.3);
+      x.fillStyle = '#ffd98a';
+      x.shadowColor = '#ffd98a'; x.shadowBlur = 12; x.fill();
+      x.shadowBlur = 0;
+    }
+  }
+  if (VIEW.pipes && planPipes) {
+    planPipes.forEach(p => {
+      x.strokeStyle = p.color; x.lineWidth = p.w; x.globalAlpha = 0.8;
+      x.beginPath();
+      p.pts.forEach((pt, i) => {
+        const q = planXY(pt[0], pt[1]);
+        if (i === 0) x.moveTo(q[0], q[1]); else x.lineTo(q[0], q[1]);
+      });
+      x.stroke();
+      x.globalAlpha = 1;
+    });
+  }
+  const nx = W - 32, ny = H - 34;
+  x.beginPath(); x.moveTo(nx, ny - 15); x.lineTo(nx - 7, ny + 7); x.lineTo(nx + 7, ny + 7); x.closePath();
+  x.fillStyle = 'rgba(77,216,255,.75)'; x.fill();
+  x.fillStyle = 'rgba(125,147,184,.85)';
+  x.font = '13px Bahnschrift, sans-serif';
+  x.fillText('N', nx - 4, ny + 23);
+  x.strokeStyle = 'rgba(125,147,184,.6)'; x.lineWidth = 2;
+  x.beginPath(); x.moveTo(PLAN.pad, H - 16); x.lineTo(PLAN.pad + 4 * PLAN.sx, H - 16); x.stroke();
+  x.fillStyle = 'rgba(125,147,184,.8)';
+  x.font = '12px Bahnschrift, sans-serif';
+  x.fillText('4 m', PLAN.pad + 2, H - 22);
+}
+function bindPlan() {
+  const cvs = document.getElementById('plan');
+  if (!cvs) return;
+  cvs.addEventListener('click', e => {
+    const b = cvs.getBoundingClientRect();
+    const px = (e.clientX - b.left) / b.width * cvs.width;
+    const py = (e.clientY - b.top) / b.height * cvs.height;
+    const wx = (px - PLAN.pad) / PLAN.sx + PLAN.x0;
+    const wz = (py - PLAN.pad) / PLAN.sz + PLAN.z0;
+    for (const k in R) {
+      const r = R[k];
+      if (wx >= r.x1 && wx <= r.x2 && wz >= r.z1 && wz <= r.z2) { selectRoom(k, true, true); return; }
+    }
+  });
+}
+/* =================================================================
+   3D 场景
+   ================================================================= */
+function initThree() {
+  const container = document.getElementById('scene');
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x060b14, 0.0042);
+
+  const camera = new THREE.PerspectiveCamera(42, innerWidth / innerHeight, 0.3, 400);
+  const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.setSize(innerWidth, innerHeight);
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.06;
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.setClearColor(0x05080f);
+  container.appendChild(renderer.domElement);
+
+  /* ---------- 灯光 ---------- */
+  const amb = new THREE.AmbientLight(0x8fa3c8, 0.10);
+  scene.add(amb);
+  const hemi = new THREE.HemisphereLight(0x35507a, 0x0a0f18, 0.34);
+  hemi.position.set(12, 30, 8);
+  scene.add(hemi);
+  const dl = new THREE.DirectionalLight(0x9fc0ff, 0.42);
+  dl.position.set(-22, 26, -18);
+  dl.castShadow = true;
+  dl.shadow.mapSize.set(2048, 2048);
+  dl.shadow.camera.near = 1;
+  dl.shadow.camera.far = 140;
+  dl.shadow.camera.left = -26; dl.shadow.camera.right = 26;
+  dl.shadow.camera.top = 26; dl.shadow.camera.bottom = -26;
+  dl.shadow.bias = -0.0006;
+  dl.shadow.normalBias = 0.022;
+  scene.add(dl);
+  scene.add(dl.target);
+  dl.target.position.set(12, 0, 8);
+
+  /* ---------- 天空 / 室外 ---------- */
+  const skyUni = {
+    top: { value: new THREE.Color(0x081226) },
+    hor: { value: new THREE.Color(0x16304f) },
+    bot: { value: new THREE.Color(0x070b12) }
+  };
+  const sky = new THREE.Mesh(
+    new THREE.SphereGeometry(150, 32, 16),
+    new THREE.ShaderMaterial({
+      side: THREE.BackSide, depthWrite: false, uniforms: skyUni,
+      vertexShader: 'varying vec3 vP; void main(){ vP = position; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
+      fragmentShader: 'varying vec3 vP; uniform vec3 top; uniform vec3 hor; uniform vec3 bot;' +
+        'void main(){ float h = normalize(vP).y; vec3 c = h > 0.0 ? mix(hor, top, pow(h, 0.62)) : mix(hor, bot, pow(-h, 0.5)); gl_FragColor = vec4(c, 1.0); }'
+    })
+  );
+  scene.add(sky);
+
+  const cityCanvas = cityTex();
+  const cityMap = texOf(cityCanvas, true, 1, 1);
+  const cityMat = new THREE.MeshStandardMaterial({
+    map: cityMap, emissive: 0xffffff, emissiveMap: cityMap, emissiveIntensity: 1, roughness: 1, metalness: 0
+  });
+  const city = new THREE.Group();
+  for (let i = 0; i < 34; i++) {
+    const a = (i / 34) * Math.PI * 2 + rnd() * 0.12;
+    const rad = 52 + rnd() * 30;
+    const h = 6 + rnd() * 22;
+    const w = 5 + rnd() * 7;
+    const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, 5 + rnd() * 6), cityMat);
+    m.position.set(12 + Math.cos(a) * rad, h / 2 - 0.4, 8.3 + Math.sin(a) * rad);
+    m.rotation.y = -a;
+    city.add(m);
+  }
+  scene.add(city);
+
+  const groundOut = new THREE.Mesh(
+    new THREE.CircleGeometry(150, 48),
+    new THREE.MeshStandardMaterial({ color: 0x0a0f1a, roughness: 1, metalness: 0 })
+  );
+  groundOut.rotation.x = -Math.PI / 2;
+  groundOut.position.y = -0.42;
+  groundOut.receiveShadow = true;
+  scene.add(groundOut);
+
+  const grid = new THREE.GridHelper(150, 60, 0x1b3f63, 0x0e2338);
+  grid.material.transparent = true; grid.material.opacity = 0.26;
+  grid.position.y = -0.40;
+  scene.add(grid);
+
+  /* ---------- 环境反射（手搓立方体贴图，绕开 r128 PMREM 在本环境的失效） ---------- */
+  const ENVPAL = {
+    day:   { top: '#7aa8dd', hor: '#d8e8f6', gnd: '#4a5560', win: false },
+    dusk:  { top: '#2c3f70', hor: '#e0995a', gnd: '#2a2620', win: true },
+    night: { top: '#081226', hor: '#16304f', gnd: '#070b12', win: true }
+  };
+  let envCube = null;
+  function makeEnvCube(mode) {
+    const pal = ENVPAL[mode] || ENVPAL.night, S = 64;
+    function face(kind) {
+      const c = cv(S, S), x = c.getContext('2d');
+      if (kind === 'up') { x.fillStyle = pal.top; x.fillRect(0, 0, S, S); return c; }
+      if (kind === 'dn') { x.fillStyle = pal.gnd; x.fillRect(0, 0, S, S); return c; }
+      const g = x.createLinearGradient(0, 0, 0, S);
+      g.addColorStop(0, pal.top); g.addColorStop(0.50, pal.hor);
+      g.addColorStop(0.56, pal.gnd); g.addColorStop(1, pal.gnd);
+      x.fillStyle = g; x.fillRect(0, 0, S, S);
+      if (pal.win) {
+        for (let i = 0; i < 16; i++) {
+          x.fillStyle = 'rgba(255,' + (185 + Math.round(rnd() * 60)) + ',' + (105 + Math.round(rnd() * 80)) + ',' + (0.25 + rnd() * 0.55).toFixed(2) + ')';
+          x.fillRect(rnd() * S, S * 0.49 + rnd() * 3.5, 1.5 + rnd() * 3.5, 1.2);
+        }
+      }
+      return c;
+    }
+    const cube = new THREE.CubeTexture([face(), face(), face('up'), face('dn'), face(), face()]);
+    cube.encoding = THREE.sRGBEncoding;
+    cube.needsUpdate = true;
+    return cube;
+  }
+  envCube = makeEnvCube('night');
+  scene.environment = envCube;
+
+  /* ---------- 程序化贴图 ---------- */
+  const tileK = tileTex([142, 144, 142], 8, 0.22);
+  const tileB = tileTex([118, 122, 126], 10, 0.26);
+  const tileS = tileTex([80, 84, 90], 3, 0.42);
+  const plaster = plasterTex('#e6e2da');
+  const plaster2 = plasterTex('#d9d5cd');
+  const T = {
+    wood: texOf(woodTex(), true, 3, 3),
+    woodR: null,
+    tileK: texOf(tileK.a, true, 2, 2), tileKR: texOf(tileK.r, false, 2, 2),
+    tileB: texOf(tileB.a, true, 2, 2), tileBR: texOf(tileB.r, false, 2, 2),
+    stone: texOf(tileS.a, true, 2, 2),
+    counter: texOf(stoneTex(), true, 2, 2),
+    rug: texOf(rugTex(), true, 1, 1),
+    ao: texOf(aoTex(), false, 1, 1),
+    curt: texOf(curtainTex(), true, 1, 1),
+    fabricA: texOf(fabricTex('#3d5273', 4), true, 2, 2),
+    fabricB: texOf(fabricTex('#8ea6c8', 3), true, 2, 2),
+    fabricC: texOf(fabricTex('#c9d2de', 4), true, 2, 2),
+    wallA: texOf(plaster.a, true, 2, 2), wallR: texOf(plaster.r, false, 2, 2),
+    wallA2: texOf(plaster2.a, true, 2, 2)
+  };
+  T.woodR = texOf((function () {
+    const S = 256, c = cv(S, S), x = c.getContext('2d');
+    x.fillStyle = '#c8c8c8'; x.fillRect(0, 0, S, S);
+    grain(x, S, S, 2600, 0.28, 2);
+    return c;
+  })(), false, 3, 3);
+
+  /* ---------- 材质 ---------- */
+  const wallMat = new THREE.MeshStandardMaterial({ map: T.wallA, roughnessMap: T.wallR, roughness: 0.94, metalness: 0, envMapIntensity: 0.55 });
+  const wallMat2 = new THREE.MeshStandardMaterial({ map: T.wallA2, roughnessMap: T.wallR, roughness: 0.95, metalness: 0, envMapIntensity: 0.55 });
+  const woodMat  = new THREE.MeshStandardMaterial({ map: T.wood, roughnessMap: T.woodR, roughness: 0.52, metalness: 0.0, envMapIntensity: 0.6 });
+  const woodDark = new THREE.MeshStandardMaterial({ map: T.wood, color: 0xa08668, roughnessMap: T.woodR, roughness: 0.42, metalness: 0.04, envMapIntensity: 0.75 });
+  const woodPale = new THREE.MeshStandardMaterial({ map: T.wood, color: 0xe0cdb2, roughnessMap: T.woodR, roughness: 0.5, metalness: 0.0 });
+  const sofaMat  = new THREE.MeshStandardMaterial({ map: T.fabricA, roughness: 0.96, metalness: 0 });
+  const cushMat  = new THREE.MeshStandardMaterial({ map: T.fabricB, roughness: 0.98, metalness: 0 });
+  const whiteMat = new THREE.MeshStandardMaterial({ color: 0xe7ecf2, roughness: 0.34, metalness: 0.02, envMapIntensity: 0.95 });
+  const porcMat  = new THREE.MeshStandardMaterial({ color: 0xf2f5f8, roughness: 0.12, metalness: 0.0, envMapIntensity: 1.25 });
+  const darkMat  = new THREE.MeshStandardMaterial({ color: 0x1b2230, roughness: 0.6, metalness: 0.08, envMapIntensity: 0.7 });
+  const metalMat = new THREE.MeshStandardMaterial({ color: 0xb9c2cc, roughness: 0.26, metalness: 0.85, envMapIntensity: 1.4 });
+  const steelMat = new THREE.MeshStandardMaterial({ color: 0x8d949c, roughness: 0.42, metalness: 0.7, envMapIntensity: 1.15 });
+  const stoneMat = new THREE.MeshStandardMaterial({ map: T.counter, roughness: 0.28, metalness: 0.02, envMapIntensity: 1.05 });
+  const glassMat = new THREE.MeshPhysicalMaterial({
+    color: 0xd2e8fa, roughness: 0.045, metalness: 0.0, clearcoat: 1.0, clearcoatRoughness: 0.03,
+    transparent: true, opacity: 0.22, envMapIntensity: 2.2, side: THREE.DoubleSide, depthWrite: false
+  });
+  const balMat = new THREE.MeshPhysicalMaterial({
+    color: 0xbcd8ee, roughness: 0.06, metalness: 0, clearcoat: 1, clearcoatRoughness: 0.04,
+    transparent: true, opacity: 0.18, envMapIntensity: 2.1, side: THREE.DoubleSide, depthWrite: false
+  });
+  const screenMat = new THREE.MeshStandardMaterial({ color: 0x05080e, emissive: 0x2a6ea8, emissiveIntensity: 0.10, roughness: 0.16, metalness: 0.25, envMapIntensity: 1.3 });
+  const curtMat   = new THREE.MeshStandardMaterial({ map: T.curt, roughness: 0.96, metalness: 0, side: THREE.DoubleSide });
+  const bedSheet  = new THREE.MeshStandardMaterial({ map: T.fabricC, roughness: 0.97, metalness: 0 });
+  const plantMat  = new THREE.MeshStandardMaterial({ color: 0x2f7a4e, roughness: 0.86, metalness: 0, flatShading: true });
+  const potMat    = new THREE.MeshStandardMaterial({ color: 0x8a5a34, roughness: 0.85, metalness: 0 });
+  const wallMats = [wallMat, wallMat2];
+
+  const APT = new THREE.Group();
+  scene.add(APT);
+
+  function box(w, h, d, mat, x, y, z, ry) {
+    const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
+    m.position.set(x, y, z);
+    if (ry) m.rotation.y = ry;
+    m.castShadow = true; m.receiveShadow = true;
+    APT.add(m);
+    return m;
+  }
+  function cyl(rt, rb, h, seg, mat, x, y, z) {
+    const m = new THREE.Mesh(new THREE.CylinderGeometry(rt, rb, h, seg), mat);
+    m.position.set(x, y, z);
+    m.castShadow = true; m.receiveShadow = true;
+    APT.add(m);
+    return m;
+  }
+  function sphere(r, seg, mat, x, y, z) {
+    const m = new THREE.Mesh(new THREE.SphereGeometry(r, seg, seg), mat);
+    m.position.set(x, y, z);
+    m.castShadow = true;
+    APT.add(m);
+    return m;
+  }
+
+  const CX = 12, CZ = 8.3;
+  const WH = 1.5, WI = 1.0, SILL = 0.62, HDR = 1.14;
+
+  /* ---------- 楼板（可点击房间） ---------- */
+  const slabMats = {
+    wood:  new THREE.MeshStandardMaterial({ map: T.wood, roughnessMap: T.woodR, roughness: 0.52, metalness: 0, envMapIntensity: 0.55 }),
+    stone: new THREE.MeshStandardMaterial({ map: T.stone, roughness: 0.4, metalness: 0.03, envMapIntensity: 1.05 }),
+    tileK: new THREE.MeshStandardMaterial({ map: T.tileK, roughnessMap: T.tileKR, roughness: 0.5, metalness: 0.02, envMapIntensity: 0.95 }),
+    tileB: new THREE.MeshStandardMaterial({ map: T.tileB, roughnessMap: T.tileBR, roughness: 0.44, metalness: 0.02, envMapIntensity: 1.0 })
+  };
+  const slabs = [];
+  for (const k in R) {
+    const r = R[k];
+    const w = r.x2 - r.x1, d = r.z2 - r.z1;
+    const mat = (slabMats[r.floor] || slabMats.wood).clone();
+    if (mat.map) { mat.map = mat.map.clone(); mat.map.needsUpdate = true; mat.map.repeat.set(w / 2.2, d / 2.2); }
+    mat.emissive = new THREE.Color(0x000000);
+    const slab = new THREE.Mesh(new THREE.BoxGeometry(w, 0.16, d), mat);
+    slab.position.set(r.x1 + w / 2, -0.08, r.z1 + d / 2);
+    slab.castShadow = false; slab.receiveShadow = true;
+    slab.userData = r;
+    APT.add(slab);
+    slabs.push(slab);
+    r.slab = slab; r.slabMat = mat;
+
+    const aoMap = T.ao.clone(); aoMap.needsUpdate = true;
+    const ao = new THREE.Mesh(new THREE.PlaneGeometry(w - 0.02, d - 0.02),
+      new THREE.MeshBasicMaterial({ map: aoMap, transparent: true, depthWrite: false, opacity: 0.9 }));
+    ao.rotation.x = -Math.PI / 2;
+    ao.position.set(r.x1 + w / 2, 0.014, r.z1 + d / 2);
+    ao.renderOrder = 2;
+    APT.add(ao);
+    r.aoMesh = ao;
+
+    const pts = [
+      new THREE.Vector3(r.x1, 0.02, r.z1), new THREE.Vector3(r.x2, 0.02, r.z1),
+      new THREE.Vector3(r.x2, 0.02, r.z2), new THREE.Vector3(r.x1, 0.02, r.z2)
+    ];
+    r.outline = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(pts),
+      new THREE.LineBasicMaterial({ color: 0x4a7fbf, transparent: true, opacity: 0.55 }));
+    APT.add(r.outline);
+  }
+  function setSlabSelect(r, sel) {
+    r.slabMat.emissive.set(sel ? 0x3d2f10 : 0x000000);
+    r.slabMat.emissiveIntensity = sel ? 1 : 0;
+    r.outline.material.color.set(sel ? 0xffc65c : 0x4a7fbf);
+    r.outline.material.opacity = sel ? 1 : 0.55;
+    if (r.aoMesh) r.aoMesh.material.opacity = sel ? 0.5 : 0.9;
+  }
+
+  /* ---------- 墙体 ---------- */
+  const wallEdge = new THREE.LineBasicMaterial({ color: 0x6f9ac8, transparent: true, opacity: 0.38 });
+  const wallEdges = [];
+  function edgeOf(m) {
+    const e = new THREE.LineSegments(new THREE.EdgesGeometry(m.geometry), wallEdge);
+    e.position.copy(m.position);
+    if (m.rotation.y) e.rotation.y = m.rotation.y;
+    APT.add(e);
+    wallEdges.push(e);
+    return e;
+  }
+  function solidX(x1, x2, z, h) {
+    if (x2 - x1 < 0.05) return null;
+    const m = box(x2 - x1, h, 0.22, wallMat, (x1 + x2) / 2, h / 2, z);
+    edgeOf(m); return m;
+  }
+  function solidZ(z1, z2, x, h) {
+    if (z2 - z1 < 0.05) return null;
+    const m = box(0.22, h, z2 - z1, wallMat, x, h / 2, (z1 + z2) / 2);
+    edgeOf(m); return m;
+  }
+  function windowX(a, b, z, y0, y1, headTop) {
+    const m1 = box(b - a, y0, 0.22, wallMat, (a + b) / 2, y0 / 2, z);
+    const m2 = box(b - a, headTop - y1, 0.24, wallMat, (a + b) / 2, (headTop + y1) / 2, z);
+    edgeOf(m1); edgeOf(m2);
+    box(b - a, 0.05, 0.10, darkMat, (a + b) / 2, y0 + 0.02, z);
+    box(b - a, 0.05, 0.10, darkMat, (a + b) / 2, y1 - 0.02, z);
+    box(0.07, y1 - y0, 0.10, darkMat, a + 0.035, (y0 + y1) / 2, z);
+    box(0.07, y1 - y0, 0.10, darkMat, b - 0.035, (y0 + y1) / 2, z);
+    const mid = (a + b) / 2;
+    box(0.05, y1 - y0, 0.09, darkMat, mid, (y0 + y1) / 2, z);
+    const g = new THREE.Mesh(new THREE.PlaneGeometry(b - a - 0.10, y1 - y0 - 0.08), glassMat);
+    g.position.set(mid, (y0 + y1) / 2, z);
+    g.renderOrder = 1;
+    APT.add(g);
+  }
+  function windowZ(a, b, x, y0, y1, headTop) {
+    const m1 = box(0.22, y0, b - a, wallMat, x, y0 / 2, (a + b) / 2);
+    const m2 = box(0.24, headTop - y1, b - a, wallMat, x, (headTop + y1) / 2, (a + b) / 2);
+    edgeOf(m1); edgeOf(m2);
+    box(0.10, 0.05, b - a, darkMat, x, y0 + 0.02, (a + b) / 2);
+    box(0.10, 0.05, b - a, darkMat, x, y1 - 0.02, (a + b) / 2);
+    box(0.10, y1 - y0, 0.07, darkMat, x, (y0 + y1) / 2, a + 0.035);
+    box(0.10, y1 - y0, 0.07, darkMat, x, (y0 + y1) / 2, b - 0.035);
+    const mid = (a + b) / 2;
+    box(0.09, y1 - y0, 0.05, darkMat, x, (y0 + y1) / 2, mid);
+    const g = new THREE.Mesh(new THREE.PlaneGeometry(b - a - 0.10, y1 - y0 - 0.08), glassMat);
+    g.position.set(x, (y0 + y1) / 2, mid);
+    g.rotation.y = Math.PI / 2;
+    g.renderOrder = 1;
+    APT.add(g);
+  }
+  /* 北外墙 */
+  (function () {
+    const wins = [[6, 12], [15, 18], [20, 23]];
+    let cur = 0;
+    wins.forEach(w => {
+      if (w[0] > cur) solidX(cur, w[0], 0, WH);
+      windowX(w[0], w[1], 0, SILL, HDR, WH);
+      cur = w[1];
+    });
+    if (cur < 24) solidX(cur, 24, 0, WH);
+  })();
+  /* 西外墙（入户门洞 1.6-3.6） */
+  (function () {
+    solidZ(0, 1.6, 0, WH);
+    windowZ(9.2, 12.2, 0, SILL, HDR, WH);
+    const doorH = 1.42;
+    box(0.24, WH - doorH, 0.24, wallMat, 0, (WH + doorH) / 2, 1.6);
+    box(0.24, WH, 0.24, wallMat, 0, WH / 2, 3.6);
+    box(0.10, WH - doorH, 2.0, darkMat, 0, (WH + doorH) / 2, 2.6);
+    solidZ(12.2, 14, 0, WH);
+  })();
+  /* 东外墙（主卧窗） */
+  (function () {
+    solidZ(0, 9.2, 24, WH);
+    windowZ(9.2, 12.4, 24, SILL, HDR, WH);
+    solidZ(12.4, 14, 24, WH);
+  })();
+  /* 南外墙 */
+  (function () {
+    let cur = 0;
+    const items = [
+      { a: 1, b: 4, kind: 'win' },
+      { a: 6, b: 10, kind: 'win' },
+      { a: 13.2, b: 13.9, kind: 'hi' },
+      { a: 18.5, b: 22.5, kind: 'door' }
+    ];
+    items.forEach(w => {
+      if (w.a > cur) solidX(cur, w.a, 14, WH);
+      if (w.kind === 'win') windowX(w.a, w.b, 14, SILL, HDR, WH);
+      else if (w.kind === 'hi') windowX(w.a, w.b, 14, 0.92, 1.28, WH);
+      else {
+        box(4.0, 0.08, 0.24, wallMat, 20.5, 1.46, 14);
+        box(0.10, 1.42, 0.10, darkMat, w.a + 0.05, 0.71, 14);
+        box(0.10, 1.42, 0.10, darkMat, w.b - 0.05, 0.71, 14);
+        box(4.0, 0.06, 0.12, darkMat, 20.5, 1.41, 14);
+        box(0.06, 1.36, 0.10, darkMat, 20.5, 0.70, 14);
+        const g = new THREE.Mesh(new THREE.PlaneGeometry(3.9, 1.32), glassMat);
+        g.position.set(20.5, 0.72, 14);
+        g.renderOrder = 1;
+        APT.add(g);
+      }
+      cur = w.b;
+    });
+    if (cur < 24) solidX(cur, 24, 14, WH);
+  })();
+
+  /* 阳台栏板 */
+  box(6, 0.06, 0.08, metalMat, 20.5, 1.20, 16.5);
+  (function () {
+    const p = new THREE.Mesh(new THREE.PlaneGeometry(6, 0.60), balMat);
+    p.position.set(20.5, 0.88, 16.5); p.renderOrder = 1; APT.add(p);
+    const q = new THREE.Mesh(new THREE.PlaneGeometry(2.5, 0.60), balMat);
+    q.position.set(17.55, 0.88, 15.3); q.rotation.y = Math.PI / 2; q.renderOrder = 1; APT.add(q);
+    const u = new THREE.Mesh(new THREE.PlaneGeometry(2.5, 0.60), balMat);
+    u.position.set(23.45, 0.88, 15.3); u.rotation.y = Math.PI / 2; u.renderOrder = 1; APT.add(u);
+  })();
+  box(0.06, 0.66, 0.06, metalMat, 17.55, 0.88, 16.5);
+  box(0.06, 0.66, 0.06, metalMat, 23.45, 0.88, 16.5);
+
+  /* 内墙（半高剖切） */
+  [[0, 2.6, 7], [4.0, 6.0, 7], [7.4, 11.4, 7], [12.6, 15.0, 7], [16.4, 24, 7]].forEach(s => solidX(s[0], s[1], s[2], WI));
+  [[0, 7, 4], [0, 2.2, 14], [0, 4.0, 19]].forEach(s => solidZ(s[0], s[1], s[2], WI));
+  solidZ(7, 14, 5, WI); solidZ(7, 14, 11, WI); solidZ(7, 14, 14, WI);
+
+  /* 入户门（可交互开启） */
+  const doorPivot = new THREE.Group();
+  doorPivot.position.set(0, 0, 3.55);
+  APT.add(doorPivot);
+  const doorMesh = new THREE.Mesh(new THREE.BoxGeometry(0.10, 1.40, 1.90), woodDark);
+  doorMesh.position.set(0, 0.70, -0.95);
+  doorMesh.castShadow = true; doorMesh.receiveShadow = true;
+  doorPivot.add(doorMesh);
+  const doorHandle = new THREE.Mesh(new THREE.CylinderGeometry(0.026, 0.026, 0.14, 10), metalMat);
+  doorHandle.rotation.x = Math.PI / 2;
+  doorHandle.position.set(0.08, 0.72, -1.72);
+  doorPivot.add(doorHandle);
+  let doorOpen = false;
+
+  /* ---------- 灯具 ---------- */
+  function ceilingLight(r, lx, lz, color, dist) {
+    const g = new THREE.Group();
+    const disc = new THREE.Mesh(new THREE.CylinderGeometry(0.30, 0.30, 0.07, 24),
+      new THREE.MeshStandardMaterial({ color: 0x33405a, emissive: color, emissiveIntensity: 0, roughness: 0.3, metalness: 0.35 }));
+    disc.position.y = 2.35; disc.castShadow = true; g.add(disc);
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(0.31, 0.022, 8, 26), metalMat);
+    ring.rotation.x = Math.PI / 2; ring.position.y = 2.30; g.add(ring);
+    const pl = new THREE.PointLight(color, 0, dist || 9, 2);
+    pl.position.y = -0.25; g.add(pl);
+    g.position.set(lx, 0, lz);
+    scene.add(g);
+    r.lampDisc = disc; r.lampLight = pl; r.lampColor = color; r.lampGroup = g;
+    disc.userData.dev = { kind: 'light', room: r.id, name: r.name + ' · 顶灯' };
+  }
+  ceilingLight(R.entry, 2, 3.5, 0xffd9a0, 7);
+  ceilingLight(R.living, 9, 3.2, 0xffd9a0, 12);
+  ceilingLight(R.dining, 16.5, 3.5, 0xffd9a0, 8);
+  ceilingLight(R.kitchen, 21.5, 3.5, 0xeaf4ff, 8);
+  ceilingLight(R.bed2, 2.5, 10.5, 0xffd9a0, 8);
+  ceilingLight(R.study, 8, 10.5, 0xffe9c8, 8);
+  ceilingLight(R.bath, 12.5, 10.5, 0xeaf4ff, 7);
+  ceilingLight(R.master, 19, 10.5, 0xffd9a0, 11);
+  ceilingLight(R.balcony, 20.5, 15.3, 0xcfe8ff, 6);
+
+  /* 餐桌吊灯 */
+  const pend = new THREE.Group();
+  const bulbMat = new THREE.MeshBasicMaterial({ color: 0xffd9a0 });
+  const bulbMats = [];
+  for (let i = -1; i <= 1; i++) {
+    const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 1.1, 6), darkMat);
+    stem.position.set(i * 0.5, 1.85, 0); pend.add(stem);
+    const sh = new THREE.Mesh(new THREE.ConeGeometry(0.15, 0.20, 18, 1, true),
+      new THREE.MeshStandardMaterial({ color: 0x3a3226, side: THREE.DoubleSide, roughness: 0.5, metalness: 0.4 }));
+    sh.position.set(i * 0.5, 1.24, 0); pend.add(sh);
+    const bm = bulbMat.clone();
+    bulbMats.push(bm);
+    const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.05, 10, 10), bm);
+    bulb.position.set(i * 0.5, 1.16, 0); pend.add(bulb);
+  }
+  pend.position.set(16.5, 0, 3.4);
+  scene.add(pend);
+  R.dining.pendant = pend;
+
+  let lampScale = 1;
+  function applyRoom3D(r) {
+    if (!r.lampLight) return;
+    const on = r.light.on;
+    r.lampLight.intensity = on ? (1.15 + r.light.br * 0.013) * lampScale : 0;
+    r.lampDisc.material.emissiveIntensity = on ? 0.42 + r.light.br * 0.010 : 0.02;
+    if (r.pendant) bulbMats.forEach(m => m.color.set(on ? 0xffd9a0 : 0x33405a));
+  }
+  for (const k in R) applyRoom3D(R[k]);
+
+  /* ---------- 窗帘 ---------- */
+  box(4.3, 0.06, 0.08, darkMat, 20.5, 1.46, 13.78);
+  const curtSlats = [];
+  for (let i = 0; i < 9; i++) {
+    const s = box(0.30, 1.34, 0.05, curtMat, 0, 0.72, 13.78);
+    s.userData.dev = { kind: 'curtain', room: 'master', name: '主卧 · 电动窗帘' };
+    curtSlats.push(s);
+  }
+  R.master.curtSlats = curtSlats; R.master.curtRailX0 = 18.45; R.master.curtSpan = 4.1;
+
+  /* ---------- 空调内机 ---------- */
+  function acUnit(x, z, ry, r) {
+    const g = new THREE.Group();
+    const body = new THREE.Mesh(new THREE.BoxGeometry(1.06, 0.32, 0.36), whiteMat);
+    body.castShadow = true; body.receiveShadow = true; g.add(body);
+    const vent = new THREE.Mesh(new THREE.BoxGeometry(0.94, 0.10, 0.04), new THREE.MeshStandardMaterial({ color: 0x2a3242, roughness: 0.7 }));
+    vent.position.set(0, -0.13, 0.185); g.add(vent);
+    const led = new THREE.Mesh(new THREE.SphereGeometry(0.040, 10, 10), new THREE.MeshBasicMaterial({ color: 0x22314a }));
+    led.position.set(0.42, 0.04, 0.20); g.add(led);
+    g.position.set(x, 1.30, z);
+    if (ry) g.rotation.y = ry;
+    scene.add(g);
+    body.userData.dev = { kind: 'ac', room: r.id, name: r.name + ' · 空调' };
+    r.acLed = led; r.acMesh = body;
+  }
+  acUnit(9, 0.32, 0, R.living);
+  acUnit(23.62, 10.5, Math.PI / 2, R.master);
+  acUnit(2.2, 7.32, 0, R.bed2);
+
+  /* ---------- 家具 ---------- */
+  /* 玄关 */
+  box(1.10, 0.90, 0.42, woodDark, 0.78, 0.45, 0.58);
+  box(1.16, 0.04, 0.46, woodPale, 0.78, 0.92, 0.58);
+  cyl(0.11, 0.13, 0.22, 14, potMat, 0.78, 1.05, 0.58);
+  sphere(0.20, 8, plantMat, 0.78, 1.30, 0.58);
+  box(1.30, 0.76, 0.35, woodDark, 3.2, 0.38, 6.4);
+  box(1.20, 0.02, 0.80, new THREE.MeshStandardMaterial({ map: T.rug, roughness: 1 }), 2.4, 0.03, 2.6);
+  /* 配电箱 / 水表 */
+  const boxMat = new THREE.MeshStandardMaterial({ color: 0xd8dce2, roughness: 0.38, metalness: 0.25, envMapIntensity: 1.1 });
+  const dbBox = box(0.10, 0.60, 0.50, boxMat, 0.14, 1.10, 5.60);
+  box(0.03, 0.10, 0.30, darkMat, 0.10, 1.10, 5.60);
+  dbBox.userData.dev = { kind: 'panel', room: 'entry', name: '入户配电箱', sub: '5 分路 · 总闸 40A' };
+  const wmBox = box(0.20, 0.16, 0.16, metalMat, 0.30, 1.02, 4.42);
+  wmBox.userData.dev = { kind: 'valve', room: 'entry', name: '入户水表 · 总阀', sub: '点击切换总阀开闭' };
+
+  /* 客厅 */
+  box(5.00, 0.02, 3.80, new THREE.MeshStandardMaterial({ map: T.rug, roughness: 1 }), 8.6, 0.04, 3.0);
+  box(0.85, 0.30, 3.60, sofaMat, 5.05, 0.30, 3.10);
+  box(0.28, 0.80, 3.60, sofaMat, 4.74, 0.40, 3.10);
+  box(0.85, 0.56, 0.26, sofaMat, 5.05, 0.43, 1.40);
+  box(0.85, 0.56, 0.26, sofaMat, 5.05, 0.43, 4.80);
+  [2.10, 3.10, 4.10].forEach(z => box(0.70, 0.15, 1.00, cushMat, 5.10, 0.52, z));
+  [1.90, 2.80].forEach(z => box(0.14, 0.44, 1.40, cushMat, 4.88, 0.72, z + 0.35));
+  box(5.05, 0.34, 0.85, sofaMat, 7.20, 0.30, 1.15);
+  box(3.90, 0.62, 0.26, sofaMat, 7.20, 0.44, 0.88);
+  box(1.30, 0.16, 0.50, cushMat, 6.40, 0.54, 1.20);
+  box(1.30, 0.16, 0.50, cushMat, 8.00, 0.54, 1.20);
+  box(0.55, 0.40, 0.30, cushMat, 6.90, 0.74, 1.05, 0.3);
+  box(0.55, 0.40, 0.30, cushMat, 7.60, 0.74, 1.05, -0.2);
+  /* 茶几 */
+  box(1.50, 0.06, 0.85, woodPale, 9.20, 0.44, 2.90);
+  [[-0.66, -0.34], [0.66, -0.34], [-0.66, 0.34], [0.66, 0.34]].forEach(p => cyl(0.03, 0.03, 0.42, 8, metalMat, 9.20 + p[0], 0.21, 2.90 + p[1]));
+  cyl(0.09, 0.11, 0.26, 14, potMat, 9.20, 0.60, 2.90);
+  sphere(0.17, 8, plantMat, 9.20, 0.80, 2.90);
+  /* 电视墙 */
+  box(2.60, 0.40, 0.48, woodDark, 12.90, 0.20, 1.20);
+  const tvPanel = box(0.07, 1.10, 2.00, screenMat, 13.78, 1.12, 1.20);
+  tvPanel.userData.dev = { kind: 'fx', room: 'living', fx: 'tv', name: '客厅 · 电视', sub: '点击开关' };
+  box(0.20, 0.06, 0.30, darkMat, 13.90, 0.55, 1.20);
+  box(0.24, 0.16, 0.24, darkMat, 11.60, 0.08, 0.55);
+  box(1.20, 0.44, 0.60, woodDark, 11.50, 0.22, 0.95);
+  /* 落地灯 */
+  cyl(0.02, 0.02, 1.30, 8, metalMat, 5.90, 0.65, 6.20);
+  cyl(0.20, 0.20, 0.03, 16, metalMat, 5.90, 0.02, 6.20);
+  const floorLampGlow = new THREE.Mesh(new THREE.CylinderGeometry(0.20, 0.24, 0.28, 18, 1, true),
+    new THREE.MeshStandardMaterial({ color: 0x6b6047, emissive: 0xffd9a0, emissiveIntensity: 0.15, side: THREE.DoubleSide, roughness: 0.8 }));
+  floorLampGlow.position.set(5.90, 1.35, 6.20);
+  APT.add(floorLampGlow);
+  R.living.floorLamp = floorLampGlow;
+
+  /* 餐厅 */
+  box(2.00, 0.06, 1.15, woodDark, 16.5, 0.73, 3.40);
+  [[-0.82, -0.44], [0.82, -0.44], [-0.82, 0.44], [0.82, 0.44]].forEach(p => cyl(0.035, 0.035, 0.70, 8, woodDark, 16.5 + p[0], 0.35, 3.40 + p[1]));
+  [[-0.80, -0.92], [0.80, -0.92], [-0.80, 0.92], [0.80, 0.92]].forEach(p => {
+    box(0.44, 0.06, 0.44, woodPale, 16.5 + p[0], 0.45, 3.40 + p[1]);
+    box(0.42, 0.52, 0.06, woodPale, 16.5 + p[0], 0.70, 3.40 + p[1] + (p[1] > 0 ? 0.19 : -0.19));
+    [[-0.17, -0.17], [0.17, -0.17], [-0.17, 0.17], [0.17, 0.17]].forEach(q =>
+      cyl(0.02, 0.02, 0.45, 6, woodDark, 16.5 + p[0] + q[0], 0.225, 3.40 + p[1] + q[1]));
+  });
+  cyl(0.10, 0.12, 0.10, 16, porcMat, 16.5, 0.81, 3.40);
+
+  /* 厨房 */
+  box(4.24, 0.86, 0.64, whiteMat, 21.60, 0.43, 0.52);
+  box(4.26, 0.05, 0.70, stoneMat, 21.60, 0.885, 0.52);
+  box(4.24, 0.40, 0.03, new THREE.MeshStandardMaterial({ map: T.tileK, roughness: 0.35, metalness: 0.05 }), 21.60, 1.11, 0.19);
+  box(4.24, 0.48, 0.34, whiteMat, 21.60, 1.20, 0.32);
+  box(4.24, 0.03, 0.36, darkMat, 21.60, 0.94, 0.32);
+  box(0.92, 0.03, 0.54, new THREE.MeshStandardMaterial({ color: 0x14181f, roughness: 0.22, metalness: 0.4, envMapIntensity: 1.3 }), 20.90, 0.915, 0.52);
+  [[-0.22, 0], [0.22, 0]].forEach(p => cyl(0.11, 0.11, 0.02, 16, steelMat, 20.90 + p[0], 0.935, 0.52));
+  box(0.86, 0.42, 0.40, steelMat, 20.90, 1.05, 0.33);
+  const sink = box(0.72, 0.14, 0.44, new THREE.MeshStandardMaterial({ color: 0x9aa3ad, roughness: 0.22, metalness: 0.9, envMapIntensity: 1.4 }), 22.50, 0.82, 0.52);
+  cyl(0.022, 0.022, 0.34, 8, metalMat, 22.50, 1.06, 0.26);
+  const fridge = box(0.78, 1.44, 0.72, new THREE.MeshStandardMaterial({ color: 0x6d7c90, roughness: 0.32, metalness: 0.5, envMapIntensity: 1.2 }), 23.52, 0.72, 5.90);
+  fridge.userData.dev = { kind: 'fx', room: 'kitchen', fx: 'fridge', name: '厨房 · 冰箱', sub: '常开 · 保持供电' };
+  box(0.06, 0.90, 0.05, metalMat, 23.20, 0.95, 5.90);
+  box(0.60, 0.05, 0.50, stoneMat, 22.50, 0.885, 0.52);
+  box(0.18, 0.30, 0.18, new THREE.MeshStandardMaterial({ color: 0xdde3ea, roughness: 0.4 }), 22.50, 0.60, 0.58);
+  cyl(0.09, 0.11, 0.24, 14, potMat, 19.30, 1.05, 0.52);
+  sphere(0.18, 8, plantMat, 19.30, 1.26, 0.52);
+
+  /* 次卧 */
+  box(1.62, 0.26, 2.24, woodPale, 1.65, 0.19, 10.60);
+  box(1.50, 0.24, 2.10, bedSheet, 1.65, 0.44, 10.62);
+  box(1.50, 0.10, 1.30, new THREE.MeshStandardMaterial({ map: T.fabricC, color: 0x9fb3cc, roughness: 0.97 }), 1.65, 0.58, 11.10);
+  box(1.24, 0.14, 0.40, porcMat, 1.65, 0.60, 9.72);
+  box(0.50, 0.48, 0.50, woodDark, 2.92, 0.24, 9.20);
+  const bedLamp = new THREE.Mesh(new THREE.ConeGeometry(0.11, 0.18, 14, 1, true),
+    new THREE.MeshStandardMaterial({ color: 0x8a7a5c, emissive: 0xffd9a0, emissiveIntensity: 0.1, side: THREE.DoubleSide, roughness: 0.8 }));
+  bedLamp.position.set(2.92, 0.60, 9.20); APT.add(bedLamp);
+  cyl(0.012, 0.012, 0.14, 6, metalMat, 2.92, 0.53, 9.20);
+  box(1.90, 1.44, 0.56, woodDark, 3.60, 0.72, 13.58);
+  box(0.06, 1.44, 0.03, darkMat, 3.60, 0.72, 13.29);
+  box(0.50, 0.06, 0.50, cushMat, 4.30, 0.44, 8.00);
+  box(0.46, 0.46, 0.06, cushMat, 4.30, 0.66, 8.24);
+  cyl(0.02, 0.02, 0.42, 6, metalMat, 4.30, 0.21, 8.00);
+
+  /* 书房 */
+  box(2.60, 0.06, 0.85, woodPale, 7.00, 0.73, 7.60);
+  [[5.85, 0], [8.15, 0]].forEach(p => box(0.08, 0.70, 0.78, woodPale, p[0], 0.35, 7.60));
+  const monitor = box(0.06, 0.52, 0.94, screenMat, 7.00, 1.05, 7.46);
+  monitor.userData.dev = { kind: 'fx', room: 'study', fx: 'pc', name: '书房 · 电脑', sub: '点击开关' };
+  box(0.14, 0.14, 0.14, darkMat, 7.00, 0.83, 7.46);
+  box(0.44, 0.02, 0.15, darkMat, 7.00, 0.76, 7.85);
+  box(0.22, 0.42, 0.42, darkMat, 8.45, 0.21, 8.85);
+  const chair2 = box(0.52, 0.07, 0.50, cushMat, 7.00, 0.45, 8.55);
+  box(0.50, 0.50, 0.07, cushMat, 7.00, 0.70, 8.78);
+  [[-0.21, -0.20], [0.21, -0.20], [-0.21, 0.20], [0.21, 0.20]].forEach(q => cyl(0.02, 0.02, 0.45, 6, metalMat, 7.00 + q[0], 0.225, 8.55 + q[1]));
+  box(0.44, 1.44, 2.60, woodDark, 5.55, 0.72, 11.00);
+  for (let i = 0; i < 3; i++) box(0.42, 0.03, 2.56, woodDark, 5.55, 0.30 + i * 0.42, 11.00);
+  [[0x8c3b3b, 9.8], [0x2f5f7a, 10.6], [0x6b6f3a, 11.4], [0x7a4a6b, 12.0]].forEach((b, i) =>
+    box(0.30, 0.24, 0.10 + (i % 2) * 0.06, new THREE.MeshStandardMaterial({ color: b[0], roughness: 0.85 }), 5.72, 0.42, b[1]));
+
+  /* 卫生间 */
+  const showerG1 = box(0.04, 1.24, 1.10, glassMat, 12.60, 0.62, 7.95);
+  const showerG2 = box(1.12, 1.24, 0.04, glassMat, 13.16, 0.62, 8.48);
+  box(0.86, 0.52, 0.46, whiteMat, 12.10, 0.26, 13.60);
+  box(0.90, 0.05, 0.50, stoneMat, 12.10, 0.545, 13.60);
+  box(0.62, 0.09, 0.36, porcMat, 12.10, 0.60, 13.60);
+  box(0.03, 0.22, 0.03, metalMat, 12.10, 0.72, 13.82);
+  const mirror = box(0.66, 0.68, 0.03, new THREE.MeshStandardMaterial({ color: 0xcfe3f2, roughness: 0.03, metalness: 0.96, envMapIntensity: 1.8 }), 12.10, 1.02, 13.86);
+  box(0.30, 0.34, 0.26, porcMat, 11.60, 0.17, 9.34);
+  cyl(0.20, 0.13, 0.22, 20, porcMat, 11.58, 0.29, 9.64);
+  cyl(0.21, 0.21, 0.04, 20, porcMat, 11.58, 0.42, 9.64);
+  box(0.44, 0.42, 0.15, porcMat, 11.56, 0.56, 9.22);
+  const heaterMesh = box(0.42, 0.58, 0.40, new THREE.MeshStandardMaterial({ color: 0xd6dbe2, roughness: 0.3, metalness: 0.35, envMapIntensity: 1.2 }), 13.58, 1.15, 7.62);
+  heaterMesh.userData.dev = { kind: 'fx', room: 'bath', fx: 'heater', name: '卫生间 · 电热水器', sub: '点击开关' };
+  const heaterLed = new THREE.Mesh(new THREE.SphereGeometry(0.040, 10, 10), new THREE.MeshBasicMaterial({ color: 0x37e08a }));
+  heaterLed.position.set(13.36, 1.32, 7.62); APT.add(heaterLed);
+  R.bath.heaterLed = heaterLed; R.bath.heaterMesh = heaterMesh;
+  cyl(0.016, 0.016, 0.90, 8, metalMat, 12.75, 1.10, 8.30);
+  cyl(0.11, 0.11, 0.03, 16, metalMat, 12.75, 1.56, 8.30);
+  box(0.60, 0.02, 0.05, metalMat, 13.70, 1.32, 10.00);
+  box(0.50, 0.60, 0.03, new THREE.MeshStandardMaterial({ map: T.fabricB, roughness: 1 }), 13.70, 1.00, 10.02);
+
+  /* 主卧 */
+  box(1.96, 0.30, 2.16, woodPale, 15.42, 0.20, 10.40);
+  box(0.24, 0.74, 2.26, woodDark, 14.32, 0.50, 10.40);
+  box(1.86, 0.26, 2.06, bedSheet, 15.44, 0.46, 10.40);
+  box(1.86, 0.11, 1.42, new THREE.MeshStandardMaterial({ map: T.fabricC, color: 0x8fa6c4, roughness: 0.97 }), 15.44, 0.62, 11.02);
+  box(0.62, 0.17, 0.40, porcMat, 15.10, 0.66, 9.52);
+  box(0.62, 0.17, 0.40, porcMat, 15.82, 0.66, 9.52);
+  box(0.50, 0.46, 0.50, woodDark, 14.60, 0.23, 9.05);
+  box(0.50, 0.46, 0.50, woodDark, 14.60, 0.23, 11.75);
+  [[14.60, 9.05], [14.60, 11.75]].forEach(p => {
+    cyl(0.012, 0.012, 0.16, 6, metalMat, p[0], 0.54, p[1]);
+    const sh = new THREE.Mesh(new THREE.ConeGeometry(0.10, 0.16, 14, 1, true),
+      new THREE.MeshStandardMaterial({ color: 0x8a7a5c, emissive: 0xffd9a0, emissiveIntensity: 0.1, side: THREE.DoubleSide, roughness: 0.8 }));
+    sh.position.set(p[0], 0.66, p[1]); APT.add(sh);
+  });
+  box(2.40, 1.44, 0.58, woodDark, 16.40, 0.72, 13.58);
+  box(0.06, 1.44, 0.03, darkMat, 16.40, 0.72, 13.30);
+  box(1.40, 0.44, 0.44, woodDark, 21.20, 0.22, 7.35);
+  box(0.60, 0.42, 0.05, new THREE.MeshStandardMaterial({ color: 0x0a0f18, emissive: 0x1c3a5e, emissiveIntensity: 0.1, roughness: 0.3 }), 21.20, 0.30, 7.14);
+  box(3.20, 0.02, 2.60, new THREE.MeshStandardMaterial({ map: T.rug, roughness: 1 }), 15.60, 0.04, 10.60);
+
+  /* 阳台 */
+  const washerMesh = box(0.66, 0.84, 0.66, whiteMat, 18.20, 0.42, 15.00);
+  washerMesh.userData.dev = { kind: 'fx', room: 'balcony', fx: 'washer', name: '阳台 · 洗衣机', sub: '点击开关' };
+  const wdoor = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 0.03, 20), new THREE.MeshStandardMaterial({ color: 0x1b2230, roughness: 0.2, metalness: 0.3 }));
+  wdoor.rotation.z = Math.PI / 2;
+  wdoor.position.set(18.54, 0.44, 15.00); APT.add(wdoor);
+  const washerLed = new THREE.Mesh(new THREE.SphereGeometry(0.036, 10, 10), new THREE.MeshBasicMaterial({ color: 0x22314a }));
+  washerLed.position.set(18.54, 0.76, 14.78); APT.add(washerLed);
+  R.balcony.washerLed = washerLed;
+  box(2.90, 0.06, 0.06, whiteMat, 20.60, 1.52, 16.20);
+  [[19.40, 16.20], [21.80, 16.20]].forEach(p => cyl(0.014, 0.014, 0.30, 6, metalMat, p[0], 1.36, p[1]));
+  [[22.60, 14.70, 0.42], [23.10, 15.50, 0.36], [17.90, 14.55, 0.34]].forEach(p => {
+    const potH = p[2] * 0.5;
+    cyl(p[2] * 0.62, p[2] * 0.5, potH, 14, potMat, p[0], potH / 2, p[1]);
+    sphere(p[2] * 0.78, 8, plantMat, p[0], potH + p[2] * 0.72, p[1]);
+  });
+  box(0.44, 0.40, 0.52, stoneMat, 22.40, 0.20, 16.00);
+  cyl(0.05, 0.05, 0.42, 10, metalMat, 22.40, 0.61, 16.10);
+
+  /* ---------- 水电管线 ---------- */
+  const PIPES = { supply: [], drain: [], power: [] };
+  const beadGroups = [];
+  function route(points, kind, opts) {
+    const pts = points.map(p => new THREE.Vector3(p[0], p[1], p[2]));
+    const curve = new THREE.CatmullRomCurve3(pts, false, 'catmullrom', 0.35);
+    const seg = Math.max(16, pts.length * 10);
+    const geo = new THREE.TubeGeometry(curve, seg, opts.radius, 9, false);
+    const map = texOf(flowTex(), true, Math.max(2, pts.length * 2), 1);
+    const mat = new THREE.MeshStandardMaterial({
+      color: opts.color, map, emissive: opts.color, emissiveIntensity: opts.glow === undefined ? 0.14 : opts.glow,
+      roughness: 0.42, metalness: 0.55, envMapIntensity: 1.0
+    });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.castShadow = true;
+    mesh.userData.pipe = { kind, name: opts.name, spec: opts.spec, circuit: opts.circuit, flowKey: opts.flowKey, baseColor: opts.color };
+    APT.add(mesh);
+    PIPES[kind].push(mesh);
+
+    /* 沿管线跑动的"流珠"，体现数字化流动 */
+    const beads = [];
+    if (opts.beads !== false) {
+      for (let i = 0; i < 3; i++) {
+        const b = new THREE.Mesh(new THREE.SphereGeometry(opts.radius * 1.55, 8, 8),
+          new THREE.MeshBasicMaterial({ color: opts.bead || opts.color, transparent: true, opacity: 0.9 }));
+        b.userData.off = i / 3;
+        APT.add(b);
+        beads.push(b);
+      }
+    }
+    return { mesh, curve, mat, map, beads, kind, speed: opts.speed || 0.12, base: opts.glow === undefined ? 0.14 : opts.glow };
+  }
+
+  const cSup = 0x38a8ff, cDrn = 0x8fa2bd, cPwr = 0xffc65c;
+  /* 给水 */
+  const wMain = route([[0.30,1.24,4.30],[0.30,1.24,1.10],[0.62,1.24,0.46],[20.50,1.24,0.46],[20.50,1.08,0.86]],
+    'supply', { color: cSup, radius: 0.036, name: '给水主管', spec: 'PPR DN25 · 入户总阀 → 厨房', flowKey: 'main' });
+  const wBath = route([[12.95,1.26,0.46],[12.95,1.26,7.10],[12.95,1.08,7.94]],
+    'supply', { color: cSup, radius: 0.028, name: '给水支管 · 卫生间', spec: 'PPR DN20 → 淋浴 / 马桶 / 热水器', flowKey: 'bath' });
+  const wBalc = route([[13.62,1.28,7.62],[13.62,1.34,13.50],[18.20,1.36,13.76],[18.20,1.02,14.68]],
+    'supply', { color: cSup, radius: 0.026, name: '给水支管 · 阳台', spec: 'PPR DN20 → 洗衣机 / 拖把池', flowKey: 'balcony' });
+  /* 排水 */
+  const dStack = route([[13.70,1.50,13.70],[13.70,0.16,13.70]], 'drain',
+    { color: cDrn, radius: 0.068, name: '排水立管 · 卫生间', spec: 'PVC-U DN110', beads: false, glow: 0.10, flowKey: null });
+  const dFloor = route([[13.70,0.30,13.70],[13.70,0.30,11.95],[12.40,0.30,11.95]], 'drain',
+    { color: cDrn, radius: 0.050, name: '排水横管 · 地漏', spec: 'PVC-U DN75 · 坡度 2%', beads: false, glow: 0.14, flowKey: null });
+  const dKitchen = route([[23.60,1.50,6.60],[23.60,0.30,6.60],[23.60,0.30,1.10],[20.60,0.30,0.94]], 'drain',
+    { color: cDrn, radius: 0.064, name: '排水立管 · 厨房', spec: 'PVC-U DN110', beads: false, glow: 0.14, flowKey: null });
+  const dBalc = route([[18.20,0.16,15.60],[18.20,0.30,13.72]], 'drain',
+    { color: cDrn, radius: 0.046, name: '阳台地漏', spec: 'PVC-U DN50', beads: false, glow: 0.14, flowKey: null });
+  /* 强电桥架 */
+  const eMain = route([[0.34,1.42,5.60],[0.34,1.42,1.10],[0.66,1.42,0.52],[23.40,1.42,0.52]], 'power',
+    { color: cPwr, radius: 0.026, name: '强电桥架 · 主干', spec: 'JDG25 · 照明 / 插座回路', circuit: 'light', glow: 0.18, flowKey: 'power' });
+  const eAcL = route([[9.00,1.42,0.52],[9.00,1.42,0.36]], 'power',
+    { color: cPwr, radius: 0.022, name: '空调回路 · 客厅', spec: 'BV3×4mm² · 客厅空调', circuit: 'ac', glow: 0.18, flowKey: 'power' });
+  const eAcM = route([[23.40,1.42,0.52],[23.40,1.42,10.50]], 'power',
+    { color: cPwr, radius: 0.022, name: '空调回路 · 主卧', spec: 'BV3×4mm² · 主卧空调', circuit: 'ac', glow: 0.3, flowKey: 'power' });
+  const eAcB = route([[2.20,1.42,0.52],[2.20,1.42,7.10]], 'power',
+    { color: cPwr, radius: 0.022, name: '空调回路 · 次卧', spec: 'BV3×4mm² · 次卧空调', circuit: 'ac', glow: 0.3, flowKey: 'power' });
+  const eKit = route([[21.00,1.42,0.52],[21.00,1.42,0.96]], 'power',
+    { color: cPwr, radius: 0.021, name: '厨房回路', spec: 'BV3×4mm² · 灶具 / 消毒柜 / 净水器', circuit: 'kitchen', glow: 0.18, flowKey: 'power' });
+  const eBath = route([[13.10,1.42,0.52],[13.10,1.42,7.80]], 'power',
+    { color: cPwr, radius: 0.021, name: '卫浴回路', spec: 'BV3×4mm² · 热水器 / 浴霸', circuit: 'bath', glow: 0.18, flowKey: 'power' });
+  const CIRCUIT_MESH = { light: [eMain, eAcL], socket: [eMain], ac: [eAcL, eAcM, eAcB], kitchen: [eKit], bath: [eBath] };
+  circuits3D = [
+    { id: 'light',  mat: eMain.mat, tex: eMain.map, maxW: 1500 },
+    { id: 'socket', mat: eMain.mat, tex: eMain.map, maxW: 2200 },
+    { id: 'ac',     mat: eAcM.mat, tex: eAcM.map, maxW: 3500 },
+    { id: 'kitchen',mat: eKit.mat, tex: eKit.map,  maxW: 2500 },
+    { id: 'bath',   mat: eBath.mat, tex: eBath.map, maxW: 3500 }
+  ];
+  const allRoutes = [wMain, wBath, wBalc, dStack, dFloor, dKitchen, dBalc, eMain, eAcL, eAcM, eAcB, eKit, eBath];
+
+  /* 平面图管线 */
+  planPipes = [
+    { color: '#38a8ff', w: 4, pts: [[0.30,4.30],[0.30,1.10],[0.62,0.46],[20.50,0.46],[20.50,0.86]] },
+    { color: '#38a8ff', w: 3, pts: [[12.95,0.46],[12.95,7.10],[12.95,7.94]] },
+    { color: '#38a8ff', w: 3, pts: [[13.62,7.62],[13.62,13.50],[18.20,13.76],[18.20,14.68]] },
+    { color: '#8fa2bd', w: 5, pts: [[13.70,13.70],[13.70,11.95]] },
+    { color: '#8fa2bd', w: 5, pts: [[23.60,6.60],[23.60,1.10],[20.60,0.94]] },
+    { color: '#ffc65c', w: 3, pts: [[0.34,5.60],[0.34,1.10],[0.66,0.52],[23.40,0.52]] },
+    { color: '#ffc65c', w: 3, pts: [[23.40,0.52],[23.40,10.50]] },
+    { color: '#ffc65c', w: 3, pts: [[2.20,0.52],[2.20,7.10]] },
+    { color: '#ffc65c', w: 3, pts: [[13.10,0.52],[13.10,7.80]] }
+  ];
+
+  /* 漏水告警可视（卫生间） */
+  const leakRing = new THREE.Mesh(new THREE.RingGeometry(0.30, 0.62, 32),
+    new THREE.MeshBasicMaterial({ color: 0xff5a6e, transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false }));
+  leakRing.rotation.x = -Math.PI / 2;
+  leakRing.position.set(12.50, 0.06, 11.20);
+  leakRing.renderOrder = 3;
+  APT.add(leakRing);
+
+  /* ---------- 设备 LED 同步 ---------- */
+  function applyFixtures3D(r) {
+    if (r.acLed) r.acLed.material.color.set(r.ac && r.ac.on ? 0x37e08a : 0x22314a);
+    if (r.acMesh) r.acMesh.material.emissive = r.acMesh.material.emissive || new THREE.Color(0x000000);
+    if (r.tvMesh) { const tv = fx('living', 'tv'); r.tvMesh.material.emissiveIntensity = tv && tv.on ? 0.85 : 0.08; }
+    if (r.monMesh) { const pc = fx('study', 'pc'); r.monMesh.material.emissiveIntensity = pc && pc.on ? 0.75 : 0.08; }
+    if (r.heaterLed) { const h = fx('bath', 'heater'); r.heaterLed.material.color.set(h && h.on ? 0x37e08a : 0xff5544); }
+    if (r.washerLed) { const w0 = fx('balcony', 'washer'); r.washerLed.material.color.set(w0 && w0.on ? 0x37e08a : 0x22314a); }
+    if (r.floorLamp) { const lv = R.living.light.on; r.floorLamp.material.emissiveIntensity = lv ? 0.9 : 0.15; }
+  }
+  R.living.tvMesh = tvPanel;
+  R.study.monMesh = monitor;
+  for (const k in R) applyFixtures3D(R[k]);
+
+  /* ---------- 房间浮动标签 ---------- */
+  function roundRect(c, x0, y0, w, h, r0) {
+    c.beginPath();
+    c.moveTo(x0 + r0, y0);
+    c.arcTo(x0 + w, y0, x0 + w, y0 + h, r0);
+    c.arcTo(x0 + w, y0 + h, x0, y0 + h, r0);
+    c.arcTo(x0, y0 + h, x0, y0, r0);
+    c.arcTo(x0, y0, x0 + w, y0, r0);
+    c.closePath();
+  }
+  function drawLabel(r) {
+    if (!r.labelCnv) return;
+    const c = r.labelCnv.getContext('2d');
+    c.clearRect(0, 0, 256, 96);
+    const sel = r.id === selectedId;
+    c.fillStyle = sel ? 'rgba(46,36,14,.92)' : 'rgba(9,14,26,.82)';
+    c.strokeStyle = sel ? '#ffc65c' : 'rgba(77,216,255,.42)';
+    c.lineWidth = 2;
+    roundRect(c, 4, 4, 248, 88, 10); c.fill(); c.stroke();
+    c.fillStyle = sel ? '#ffd98a' : '#d5e4fa';
+    c.font = '600 30px "Microsoft YaHei", sans-serif';
+    c.fillText(r.name, 22, 42);
+    c.fillStyle = r.light.on ? '#ffd98a' : '#33445e';
+    c.font = '22px sans-serif';
+    c.fillText('☀', 206, 40);
+    c.fillStyle = '#4dd8ff';
+    c.font = '25px Bahnschrift, "Segoe UI", sans-serif';
+    c.fillText(r.temp.toFixed(1) + '℃  ' + Math.round(roomW(r)) + 'W', 22, 76);
+    r.labelTex.needsUpdate = true;
+  }
+  for (const k in R) {
+    const r = R[k];
+    const cnv = cv(256, 96);
+    const tex = new THREE.CanvasTexture(cnv);
+    tex.encoding = THREE.sRGBEncoding;
+    const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false, depthTest: false }));
+    sp.scale.set(3.4, 1.28, 1);
+    sp.position.set((r.x1 + r.x2) / 2, 3.05, (r.z1 + r.z2) / 2);
+    sp.userData = r;
+    sp.renderOrder = 6;
+    scene.add(sp);
+    r.labelCnv = cnv; r.labelTex = tex; r.labelSprite = sp;
+    drawLabel(r);
+  }
+
+  /* ---------- 交互：轨道控制 ---------- */
+  const ctrl = {
+    r: 30, phi: 0.94, theta: 0.18, target: new THREE.Vector3(CX, 0.6, CZ),
+    rT: 26, phiT: 0.92, thetaT: 0.10, tT: new THREE.Vector3(CX, 0.6, CZ),
+    auto: true, tween: null,
+    dragging: false, panning: false, lx: 0, ly: 0, downX: 0, downY: 0, moved: false
+  };
+  const dom = renderer.domElement;
+  dom.addEventListener('contextmenu', e => e.preventDefault());
+  dom.addEventListener('pointerdown', e => {
+    ctrl.dragging = ctrl.panning = false; ctrl.moved = false;
+    ctrl.downX = ctrl.lx = e.clientX; ctrl.downY = ctrl.ly = e.clientY;
+    if (e.button === 0) ctrl.dragging = true;
+    if (e.button === 2 || e.shiftKey) ctrl.panning = true;
+  });
+  addEventListener('pointermove', e => {
+    const dx = e.clientX - ctrl.lx, dy = e.clientY - ctrl.ly;
+    ctrl.lx = e.clientX; ctrl.ly = e.clientY;
+    if (Math.abs(e.clientX - ctrl.downX) + Math.abs(e.clientY - ctrl.downY) > 6) ctrl.moved = true;
+    if (!ctrl.dragging && !ctrl.panning) { hover(e); return; }
+    ctrl.auto = false;
+    const rt = document.getElementById('t-rot'); if (rt) rt.classList.remove('on');
+    if (ctrl.dragging) {
+      ctrl.thetaT -= dx * 0.0052;
+      ctrl.phiT = Math.max(0.20, Math.min(1.45, ctrl.phiT - dy * 0.0045));
+      ctrl.tween = null;
+    } else {
+      const m = camera.matrixWorld.elements, s = ctrl.r * 0.0011;
+      const right = new THREE.Vector3(m[0], m[1], m[2]);
+      const up = new THREE.Vector3(m[4], m[5], m[6]);
+      ctrl.tT.addScaledVector(right, -dx * s).addScaledVector(up, dy * s);
+      ctrl.tween = null;
+    }
+  });
+  addEventListener('pointerup', e => {
+    if (ctrl.dragging && !ctrl.moved && e.target === dom) pick(e);
+    ctrl.dragging = ctrl.panning = false;
+  });
+  dom.addEventListener('wheel', e => {
+    e.preventDefault();
+    ctrl.rT = Math.max(7, Math.min(60, ctrl.rT * Math.exp(e.deltaY * 0.0011)));
+  }, { passive: false });
+
+  function tweenTo(to, dur) {
+    ctrl.tween = {
+      t0: performance.now(), dur,
+      from: { r: ctrl.r, phi: ctrl.phi, theta: ctrl.theta, t: ctrl.target.clone() },
+      to: {
+        r: to.r, phi: to.phi, theta: to.theta,
+        t: new THREE.Vector3(to.t[0], to.t[1], to.t[2])
+      }
+    };
+    ctrl.rT = to.r; ctrl.phiT = to.phi; ctrl.thetaT = to.theta; ctrl.tT.copy(ctrl.tween.to.t);
+  }
+  window._flyTo = tweenTo;
+  tweenTo(CAM_HOME, 2400);
+
+  window._toggleRot = function () {
+    ctrl.auto = !ctrl.auto;
+    return ctrl.auto;
+  };
+
+  /* ---------- 拾取 ---------- */
+  const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
+  const tip = document.getElementById('tip');
+  const pickables = slabs.slice();
+  for (const k in R) if (R[k].labelSprite) pickables.push(R[k].labelSprite);
+  scene.traverse(o => { if (o.userData && (o.userData.dev || o.userData.pipe)) pickables.push(o); });
+
+  let hoverObj = null;
+  function castAt(e) {
+    ndc.set((e.clientX / innerWidth) * 2 - 1, -(e.clientY / innerHeight) * 2 + 1);
+    ray.setFromCamera(ndc, camera);
+    const hits = ray.intersectObjects(pickables, false);
+    for (let i = 0; i < hits.length; i++) {
+      const o = hits[i].object;
+      if (!o.visible) continue;
+      const ud = o.userData;
+      if (ud.dev || ud.pipe || (ud.id && R[ud.id])) return o;
+    }
+    return null;
+  }
+  function hover(e) {
+    if (e.target !== dom) { tip.style.display = 'none'; return; }
+    const o = castAt(e);
+    hoverObj = o;
+    if (!o) { tip.style.display = 'none'; dom.style.cursor = 'default'; return; }
+    tip.style.display = 'block';
+    const ud = o.userData;
+    if (ud.dev) {
+      tip.className = '';
+      tip.innerHTML = '<b>' + ud.dev.name + '</b>' + (ud.dev.sub ? '<span class="sub">' + ud.dev.sub + '</span>' : '');
+    } else if (ud.pipe) {
+      tip.className = 'pipe';
+      tip.innerHTML = '<b>' + ud.pipe.name + '</b><span class="sub">' + ud.pipe.spec + '</span>';
+    } else {
+      tip.className = '';
+      const r = ud;
+      tip.innerHTML = '<b>' + r.name + '</b><span class="sub">' + r.temp.toFixed(1) + '℃ · ' +
+        Math.round(roomW(r)) + 'W · ' + (r.light.on ? '照明开' : '照明关') + '　点击定位</span>';
+    }
+    tip.style.left = (e.clientX + 14) + 'px';
+    tip.style.top = (e.clientY + 10) + 'px';
+    dom.style.cursor = 'pointer';
+  }
+
+  function flash(msg, kind) { toast(msg, kind || 'ok'); }
+
+  function act(o) {
+    const ud = o.userData;
+    if (ud.dev) {
+      const d = ud.dev, room = R[d.room];
+      if (d.kind === 'light') {
+        if (room) {
+          room.light.on = !room.light.on;
+          applyRoom3D(room); applyFixtures3D(room);
+          if (selectedId === d.room) renderControls();
+          updateChipsLive(); drawPlan(); drawLabel(room);
+          flash(room.name + ' 顶灯已' + (room.light.on ? '开启 · ' + room.light.br + '%' : '关闭'), room.light.on ? 'ok' : 'warn');
+        }
+      } else if (d.kind === 'ac') {
+        if (room && room.ac) {
+          room.ac.on = !room.ac.on;
+          applyRoom3D(room); applyFixtures3D(room);
+          if (selectedId === d.room) renderControls();
+          drawPlan();
+          flash(room.name + ' 空调已' + (room.ac.on ? '开启 · ' + room.ac.t + '℃' : '关闭'), room.ac.on ? 'ok' : 'warn');
+        }
+      } else if (d.kind === 'fx') {
+        const f = fx(d.room, d.fx);
+        if (f) {
+          if (f.locked) { flash(f.name + ' 为常开回路，无法断电', 'warn'); return; }
+          f.on = !f.on;
+          applyRoom3D(R[d.room]); applyFixtures3D(R[d.room]);
+          if (selectedId === d.room) renderControls();
+          drawPlan();
+          flash(f.name + ' 已' + (f.on ? '开启' : '关闭') + (f.flow && f.on ? ' · ' + f.flow + ' L/min' : ''), f.on ? 'ok' : 'warn');
+        }
+      } else if (d.kind === 'curtain') {
+        const m = R.master;
+        m.curt.t = m.curt.t > 0.5 ? 0 : 1;
+        if (selectedId === 'master') renderControls();
+        flash('主卧电动窗帘 ' + (m.curt.t > 0.5 ? '打开' : '关闭'), 'ok');
+      } else if (d.kind === 'door') {
+        doorOpen = !doorOpen;
+        flash('入户门 ' + (doorOpen ? '已开启 · 门磁触发' : '已关闭 · 门磁正常'), doorOpen ? 'warn' : 'ok');
+      } else if (d.kind === 'valve') {
+        mainValveOn = !mainValveOn;
+        syncSensorRow(); updateChipsLive(); drawPlan();
+        flash('入户总阀已' + (mainValveOn ? '开启 · 0.28 MPa' : '关闭 · 全屋停止供水'), mainValveOn ? 'ok' : 'warn');
+      } else if (d.kind === 'panel') {
+        focusCircuit('light');
+      }
+      return;
+    }
+    if (ud.pipe) {
+      tip.className = 'pipe';
+      tip.innerHTML = '<b>' + ud.pipe.name + '</b><span class="sub">' + ud.pipe.spec + '</span>';
+      if (ud.pipe.circuit) focusCircuit(ud.pipe.circuit);
+      else flash(ud.pipe.name + ' · ' + ud.pipe.spec, 'ok');
+      return;
+    }
+    if (ud.id) selectRoom(ud.id, true, true);
+  }
+  function pick(e) { const o = castAt(e); if (o) act(o); }
+
+  /* 入户门也纳入可拾取 */
+  doorMesh.userData.dev = { kind: 'door', room: 'entry', name: '入户门 · 门磁', sub: '点击开 / 关' };
+  pickables.push(doorMesh);
+  doorMesh.userData.dev = { kind: 'door', room: 'entry', name: '入户门 · 门磁', sub: '点击开 / 关，观察门磁状态' };
+
+  /* ---------- 昼夜模式 ---------- */
+  const DAYPAL = {
+    day:   { sun: 0xfff4e2, sunI: 2.35, sunPos: [34, 40, 26], hemiTop: 0xa8c8ff, hemiGnd: 0x50565e, hemiI: 1.15,
+             amb: 0.30, sky: ['#7aa8dd', '#d8e8f6', '#4a5560'], lamp: 0.32, city: 0.22, exp: 1.02 },
+    dusk:  { sun: 0xffa860, sunI: 1.70, sunPos: [-30, 15, 30], hemiTop: 0x7a88b8, hemiGnd: 0x241f22, hemiI: 0.70,
+             amb: 0.16, sky: ['#2c3f70', '#e0995a', '#2a2620'], lamp: 0.88, city: 0.85, exp: 1.04 },
+    night: { sun: 0x9fc0ff, sunI: 0.42, sunPos: [-24, 26, -20], hemiTop: 0x35507a, hemiGnd: 0x0a0f18, hemiI: 0.34,
+             amb: 0.10, sky: ['#081226', '#16304f', '#070b12'], lamp: 1.00, city: 1.00, exp: 1.06 }
+  };
+  const envCache = {};
+  function getEnv(mode) { if (!envCache[mode]) envCache[mode] = makeEnvCube(mode); return envCache[mode]; }
+  function setDay(mode) {
+    VIEW.day = mode;
+    const P = DAYPAL[mode] || DAYPAL.night;
+    dl.color.set(P.sun); dl.intensity = P.sunI;
+    dl.position.set(P.sunPos[0], P.sunPos[1], P.sunPos[2]);
+    dl.target.position.set(12, 0, 8);
+    dl.target.updateMatrixWorld();
+    hemi.color.set(P.hemiTop); hemi.groundColor.set(P.hemiGnd); hemi.intensity = P.hemiI;
+    amb.intensity = P.amb;
+    skyUni.top.value.set(P.sky[0]); skyUni.hor.value.set(P.sky[1]); skyUni.bot.value.set(P.sky[2]);
+    cityMat.emissiveIntensity = P.city;
+    groundOut.material.color.set(mode === 'day' ? 0x2a3038 : 0x0a0f1a);
+    renderer.toneMappingExposure = P.exp;
+    lampScale = P.lamp;
+    scene.environment = getEnv(mode);
+    for (const k in R) { applyRoom3D(R[k]); applyFixtures3D(R[k]); }
+  }
+  window._setDay = setDay;
+
+  /* ---------- 图层开关 ---------- */
+  function setPipes(on) {
+    allRoutes.forEach(rt => {
+      rt.mesh.visible = on;
+      rt.beads.forEach(b => { b.visible = on; });
+    });
+    leakRing.visible = on;
+  }
+  window._setPipes = setPipes;
+
+  function setXray(on) {
+    wallMats.forEach(m => {
+      m.transparent = on;
+      m.opacity = on ? 0.10 : 1;
+      m.depthWrite = !on;
+      m.needsUpdate = true;
+    });
+    wallEdge.opacity = on ? 0.9 : 0.38;
+    wallEdge.transparent = true;
+    wallEdge.needsUpdate = true;
+  }
+  window._setXray = setXray;
+
+  /* 桥接给面板逻辑 */
+  window._applyRoom3D = function (r) { applyRoom3D(r); applyFixtures3D(r); };
+  window._drawLabel = drawLabel;
+  window._selectRoom3D = setSlabSelect;
+
+  let hlSet = [], hlUntil = 0;
+  window._highlightCircuit = function (id) {
+    hlSet = CIRCUIT_MESH[id] || [];
+    hlUntil = performance.now() + 3000;
+  };
+
+  /* ---------- 自动巡检 ---------- */
+  let patrolTimer = null, patrolIdx = 0;
+  window._patrol = function (on) {
+    if (patrolTimer) { clearInterval(patrolTimer); patrolTimer = null; }
+    if (!on) return;
+    patrolIdx = 0;
+    const step = function () {
+      if (!VIEW.patrol) return;
+      const id = PATROL_ORDER[patrolIdx % PATROL_ORDER.length];
+      patrolIdx++;
+      selectRoom(id, true, true, true);
+    };
+    step();
+    patrolTimer = setInterval(step, 5200);
+  };
+
+  /* ---------- 应急演练 ---------- */
+  let leakTimer = null, overTimer = null;
+  window._leak = function (on) {
+    const btn = document.getElementById('t-leak');
+    if (btn) { btn.classList.toggle('tg', !!on); btn.classList.toggle('on', !!on); }
+    if (!!on === leakOn) return;
+    leakOn = !!on;
+    if (on) {
+      selectRoom('bath', true, true);
+      toast('⚠ 卫生间漏水告警 · 地漏回水，流量 +6.0 L/min', 'err');
+      if (leakTimer) clearTimeout(leakTimer);
+      setTimeout(() => {
+        if (!leakOn) return;
+        mainValveOn = false;
+        syncSensorRow(); updateChipsLive(); drawPlan();
+        toast('已联动关闭入户总阀 · 全屋供水停止', 'warn');
+      }, 4200);
+      leakTimer = setTimeout(() => window._leak(false), 22000);
+    } else {
+      mainValveOn = true;
+      syncSensorRow(); updateChipsLive(); drawPlan(); updateCtlLive();
+      toast('漏水已处置 · 总阀恢复开启，压力回到 0.28 MPa', 'ok');
+    }
+  };
+  window._over = function (on) {
+    const btn = document.getElementById('t-over');
+    if (btn) { btn.classList.toggle('tg', !!on); btn.classList.toggle('on', !!on); }
+    if (!!on === overOn) return;
+    overOn = !!on;
+    if (on) {
+      selectRoom('kitchen', true, true);
+      toast('⚠ 厨房回路过载 · 4.2 kW 超限，回路温度上升', 'err');
+      if (overTimer) clearTimeout(overTimer);
+      setTimeout(() => {
+        if (!overOn) return;
+        const p = fx('kitchen', 'purifier');
+        if (p) p.on = false;
+        applyRoom3D(R.kitchen); applyFixtures3D(R.kitchen);
+        if (selectedId === 'kitchen') renderControls();
+        toast('已自动切除净水器回路 · 负荷回落至 1.3 kW', 'warn');
+      }, 4200);
+      overTimer = setTimeout(() => window._over(false), 20000);
+    } else {
+      const p = fx('kitchen', 'purifier');
+      if (p) p.on = true;
+      applyRoom3D(R.kitchen); applyFixtures3D(R.kitchen);
+      if (selectedId === 'kitchen') renderControls();
+      updateChipsLive(); drawPlan();
+      toast('过载已解除 · 回路温度恢复正常', 'ok');
+    }
+  };
+
+  /* ---------- 渲染循环 ---------- */
+  const clock = new THREE.Clock();
+  const easeIO = u => u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;
+  const tmpV = new THREE.Vector3();
+
+  function animate() {
+    requestAnimationFrame(animate);
+    const dt = Math.min(clock.getDelta(), 0.05), t = clock.elapsedTime;
+    const now = performance.now();
+
+    if (ctrl.tween) {
+      const u = Math.min(1, (now - ctrl.tween.t0) / ctrl.tween.dur), e2 = easeIO(u);
+      const f = ctrl.tween.from, o = ctrl.tween.to;
+      ctrl.r = ctrl.rT = f.r + (o.r - f.r) * e2;
+      ctrl.phi = ctrl.phiT = f.phi + (o.phi - f.phi) * e2;
+      ctrl.theta = ctrl.thetaT = f.theta + (o.theta - f.theta) * e2;
+      ctrl.target.copy(f.t).lerp(o.t, e2);
+      ctrl.tT.copy(ctrl.target);
+      if (u >= 1) ctrl.tween = null;
+    } else {
+      if (ctrl.auto) ctrl.thetaT += dt * 0.045;
+      const k = Math.min(1, dt * 7.5);
+      ctrl.r += (ctrl.rT - ctrl.r) * k;
+      ctrl.phi += (ctrl.phiT - ctrl.phi) * k;
+      ctrl.theta += (ctrl.thetaT - ctrl.theta) * k;
+      ctrl.target.lerp(ctrl.tT, k);
+    }
+    camera.position.set(
+      ctrl.target.x + ctrl.r * Math.sin(ctrl.phi) * Math.sin(ctrl.theta),
+      ctrl.target.y + ctrl.r * Math.cos(ctrl.phi),
+      ctrl.target.z + ctrl.r * Math.sin(ctrl.phi) * Math.cos(ctrl.theta)
+    );
+    camera.lookAt(ctrl.target);
+
+    /* 入户门 */
+    const doorTgt = doorOpen ? -1.80 : 0;
+    if (Math.abs(doorPivot.rotation.y - doorTgt) > 0.001) {
+      doorPivot.rotation.y += (doorTgt - doorPivot.rotation.y) * Math.min(1, dt * 4);
+    }
+    document.getElementById('s-door').textContent = doorOpen ? '开启 · 已联动' : '关闭 · 正常';
+    document.getElementById('s-door').className = 'v' + (doorOpen ? ' warn' : '');
+
+    /* 窗帘 */
+    for (const k in R) {
+      const r = R[k];
+      if (!r.curtSlats) continue;
+      r.curt.cur += (r.curt.t - r.curt.cur) * Math.min(1, dt * 2.2);
+      const n = r.curtSlats.length;
+      r.curtSlats.forEach((s, i) => {
+        const spread = r.curtRailX0 + 0.24 + (r.curtSpan - 0.48) * (i / (n - 1));
+        const bunched = r.curtRailX0 + r.curtSpan - 0.22 - i * 0.09;
+        s.position.x = bunched + (spread - bunched) * r.curt.cur;
+      });
+    }
+
+    /* 灯光呼吸 */
+    for (const k in R) {
+      const r = R[k];
+      if (r.lampLight && r.light.on) {
+        r.lampLight.intensity = (1.15 + r.light.br * 0.013) * lampScale * (1 + Math.sin(t * 9 + k.length) * 0.007);
+      }
+    }
+
+    /* 水电流动 */
+    const flow = totalFlow();
+    const supplySpd = flow > 0.05 ? 0.035 + flow * 0.022 : 0;
+    const powerSpd = 0.05 + Math.min(1, totalW() / 6000) * 0.10;
+    if (leakOn) {
+      leakRing.material.opacity = 0.35 + 0.35 * Math.sin(t * 5);
+      leakRing.scale.setScalar(1 + 0.16 * Math.sin(t * 5));
+    } else if (leakRing.material.opacity > 0) {
+      leakRing.material.opacity = Math.max(0, leakRing.material.opacity - dt * 1.2);
+    }
+    for (let i = 0; i < allRoutes.length; i++) {
+      const rt = allRoutes[i];
+      if (!rt.mesh.visible) continue;
+      let spd = 0;
+      if (rt.kind === 'power') spd = powerSpd;
+      else if (rt.kind === 'supply') spd = supplySpd;
+      else spd = 0.006;
+      rt.map.offset.x -= dt * spd * 2.0;
+      for (let j = 0; j < rt.beads.length; j++) {
+        const b = rt.beads[j];
+        if (!b.visible) continue;
+        b.userData.u = ((b.userData.u || b.userData.off) + dt * spd) % 1;
+        rt.curve.getPointAt(b.userData.u, tmpV);
+        b.position.copy(tmpV);
+        b.material.opacity = rt.kind === 'supply' ? (supplySpd > 0 ? 0.9 : 0) : 0.9;
+        b.visible = rt.kind === 'supply' ? supplySpd > 0 : true;
+      }
+      /* 高亮脉冲 */
+      let glow = rt.base;
+      if (hlSet.indexOf(rt) >= 0 && now < hlUntil) glow = 1.3 + Math.sin(t * 12) * 0.6;
+      if (rt.kind === 'supply' && leakOn && rt === wBath) glow = 1.3 + Math.sin(t * 9) * 0.5;
+      rt.mat.emissiveIntensity = glow;
+      if (rt.kind === 'supply' && rt === wBath) {
+        const c = leakOn ? 0xff6a7a : cSup;
+        rt.mat.color.set(c); rt.mat.emissive.set(c);
+      }
+    }
+
+    /* 空调出风口的 LED 呼吸（运行中） */
+    for (const k in R) {
+      const r = R[k];
+      if (r.acLed && r.ac && r.ac.on) r.acLed.material.opacity = 1;
+    }
+
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  addEventListener('resize', () => {
+    camera.aspect = innerWidth / innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(innerWidth, innerHeight);
+    if (pwChart) pwChart.resize();
+    if (wtChart) wtChart.resize();
+  });
+}
+
+/* ============ initThree 内部函数 → 面板逻辑桥接 ============ */
+function applyRoom3D(r) { if (window._applyRoom3D) window._applyRoom3D(r); }
+function drawLabel(r) { if (window._drawLabel) window._drawLabel(r); }
+function drawAllLabels() { if (window._drawLabel) for (const k in R) window._drawLabel(R[k]); }
+
+</script>
+<style>/* 全屏 3D 数字孪生场景：关闭 premium-fx 的鼠标反色镜，避免白圆遮挡孪生视图 */
+#pfx-invert-lens{display:none!important}</style>
+<script src="../../assets/premium-fx.js"></script>
+</body>
+</html>
