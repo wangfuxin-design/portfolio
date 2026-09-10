@@ -199,95 +199,6 @@
     });
   }
 
-  /* 黑白反色镜 + 闲置呼吸灯（合集内页） */
-  function invertLens() {
-    if (reduce || !fine) return;
-    if (document.getElementById("pfx-invert-lens")) return;
-
-    var st = document.createElement("style");
-    st.id = "pfx-invert-style";
-    st.textContent =
-      "#pfx-invert-lens{position:fixed;left:0;top:0;width:120px;height:120px;border-radius:50%;" +
-      "z-index:9990;pointer-events:none;background:#fff;mix-blend-mode:difference;opacity:0;" +
-      "transition:opacity .3s ease,width .45s cubic-bezier(.22,.61,.21,1),height .45s cubic-bezier(.22,.61,.21,1);" +
-      "will-change:transform,opacity,width,height}" +
-      "#pfx-invert-lens.pfx-on{opacity:.9}" +
-      "#pfx-invert-lens.pfx-shrink,#pfx-invert-lens.pfx-off{opacity:0;width:0!important;height:0!important}" +
-      "@media (hover:none),(pointer:coarse){#pfx-invert-lens{display:none!important}}" +
-      "@media (prefers-reduced-motion:reduce){#pfx-invert-lens{display:none!important}}";
-    document.head.appendChild(st);
-
-    var lens = document.createElement("div");
-    lens.id = "pfx-invert-lens";
-    lens.setAttribute("aria-hidden", "true");
-    document.body.appendChild(lens);
-
-    var base = 120;
-    var raf = 0;
-    var lastMove = 0;
-    var idle = false;
-    var mx = -400;
-    var my = -400;
-
-    function place(size) {
-      lens.style.width = size + "px";
-      lens.style.height = size + "px";
-      lens.style.transform = "translate(" + (mx - size / 2) + "px," + (my - size / 2) + "px)";
-    }
-
-    function breathe(t) {
-      if (idle && lens.classList.contains("pfx-on")) {
-        var s = 122 + Math.sin(t / 650) * 16;
-        place(s);
-      }
-      raf = requestAnimationFrame(breathe);
-    }
-    raf = requestAnimationFrame(breathe);
-
-    window.addEventListener(
-      "pointermove",
-      function (e) {
-        var lb = document.getElementById("lightbox");
-        if (lb && lb.classList.contains("on")) {
-          lens.classList.remove("pfx-on");
-          lens.classList.add("pfx-off");
-          return;
-        }
-
-        var hit =
-          e.target && e.target.closest
-            ? e.target.closest(".work, .card, .pic, .thumb, a[href], button, .panel-card")
-            : null;
-        if (hit) {
-          lens.classList.remove("pfx-on");
-          lens.classList.add("pfx-shrink");
-          idle = false;
-          return;
-        }
-
-        lens.classList.add("pfx-on");
-        lens.classList.remove("pfx-shrink", "pfx-off");
-        idle = false;
-        mx = e.clientX;
-        my = e.clientY;
-        place(base);
-        lastMove = performance.now();
-      },
-      { passive: true }
-    );
-
-    setInterval(function () {
-      if (lastMove && performance.now() - lastMove > 850) {
-        idle = true;
-      }
-    }, 180);
-
-    document.addEventListener("mouseleave", function () {
-      lens.classList.remove("pfx-on");
-      idle = false;
-    });
-  }
-
   function boot() {
     pageIn();
     progress();
@@ -295,7 +206,6 @@
     sectionPolish();
     navGlow();
     rowGlow();
-    invertLens();
   }
 
   if (document.readyState === "loading") {
