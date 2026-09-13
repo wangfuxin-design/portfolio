@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="CAD-Blender Bridge：让 Agent 直接操作 AutoCAD 和 Blender——从 2D 平面图到 3D 模型全流程自动化，并封装为可复用的 Skill。王福鑫 · AI 产品 / 交互设计。"
+    />
+    <title>CAD-Blender Bridge · Agent 建模管线 — 王福鑫</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+    <style>
+      .detail-hero {
+        padding: calc(var(--nav-h) + 56px) var(--pad) 40px;
+        max-width: var(--max);
+        margin: 0 auto;
+      }
+      .detail-hero .section-label {
+        display: inline-block;
+        margin-bottom: 18px;
+      }
+      .detail-hero h1 {
+        margin: 0 0 14px;
+        font-size: clamp(34px, 5.4vw, 56px);
+        letter-spacing: -0.02em;
+        line-height: 1.15;
+      }
+      .detail-hero .lead {
+        margin: 0;
+        max-width: 680px;
+        color: var(--muted);
+        font-size: 17px;
+      }
+      .stat-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 12px;
+        margin-top: 36px;
+      }
+      .stat {
+        border: 1px solid var(--line);
+        border-radius: var(--radius-sm);
+        padding: 16px 18px;
+        background: var(--bg-soft);
+      }
+      .stat b {
+        display: block;
+        font-size: 26px;
+        font-family: var(--font-mono);
+        letter-spacing: -0.02em;
+      }
+      .stat span {
+        font-size: 12.5px;
+        color: var(--muted);
+      }
+      main .section {
+        max-width: var(--max);
+        margin: 0 auto;
+        padding: 56px var(--pad) 8px;
+      }
+      .shot-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        align-items: start;
+      }
+      .shot {
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        overflow: hidden;
+        background: var(--bg-soft);
+        box-shadow: var(--shadow);
+      }
+      .shot figcaption {
+        padding: 12px 16px;
+        font-size: 13px;
+        color: var(--muted);
+        border-top: 1px solid var(--line);
+        background: var(--bg);
+      }
+      .clip video {
+        display: block;
+        width: 100%;
+        background: #0d1117;
+        aspect-ratio: 16 / 9;
+        object-fit: contain;
+      }
+      .flow {
+        display: grid;
+        gap: 0;
+      }
+      .flow-step {
+        display: grid;
+        grid-template-columns: 40px 1fr;
+        gap: 16px;
+        padding: 18px 4px;
+        border-bottom: 1px solid var(--line);
+      }
+      .flow-step:last-child {
+        border-bottom: none;
+      }
+      .flow-step .no {
+        font-family: var(--font-mono);
+        font-weight: 700;
+        color: var(--brand-ink);
+        font-size: 18px;
+      }
+      .flow-step h3 {
+        margin: 0 0 6px;
+        font-size: 16px;
+      }
+      .flow-step p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .about-card p {
+        margin-top: 0;
+      }
+      .about-card p:last-child {
+        margin-bottom: 0;
+      }
+      .back-bar {
+        max-width: var(--max);
+        margin: 0 auto;
+        padding: 24px var(--pad) 64px;
+      }
+      .skill-tree {
+        font-family: var(--font-mono);
+        font-size: 13.5px;
+        line-height: 2;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-sm);
+        background: var(--bg-soft);
+        padding: 20px 24px;
+        overflow-x: auto;
+        color: var(--ink-soft, var(--muted));
+      }
+      .skill-tree b {
+        color: var(--ink);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header class="nav" id="nav">
+        <div class="nav-inner">
+          <a href="./index.html" class="nav-logo" aria-label="返回首页">
+            <span class="logo-mark">WX</span>
+            <span class="logo-text">王福鑫</span>
+          </a>
+          <nav class="nav-links" aria-label="主导航">
+            <a href="./index.html#works">精选作品</a>
+            <a href="./index.html#projects">项目</a>
+            <a href="./index.html#contact" class="nav-cta">联系我</a>
+          </nav>
+        </div>
+      </header>
+
+      <main>
+        <div class="detail-hero">
+          <span class="section-label">Agent × 专业软件 · 已封装 Skill · 2026</span>
+          <h1>CAD-Blender Bridge</h1>
+          <p class="lead">
+            在环境设计流程中，CAD 平面图转 Blender 三维模型是一项固定的手工环节，通常耗时半天。这个项目将该环节交给 Agent 执行：由它读取图纸、编写脚本并驱动 Blender 完成建模，最终把整套流程封装为可复用的 Skill 包，使 Agent 能够直接操作专业生产软件，而不只停留在网页或 API 层面。
+          </p>
+          <div class="stat-row">
+            <div class="stat"><b>2 款</b><span>专业软件直连（AutoCAD / Blender）</span></div>
+            <div class="stat"><b>3 层</b><span>Skill 架构（手册 / 工具 / 示例）</span></div>
+            <div class="stat"><b>7 个</b><span>自动化脚本</span></div>
+            <div class="stat"><b>90.3 ㎡</b><span>实测户型一键成模</span></div>
+          </div>
+        </div>
+
+        <section class="section">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <span class="section-label">工作流</span>
+              <h2>从一张平面图，到一个 3D 模型</h2>
+            </div>
+            <p class="section-desc">Agent 编排全程，人只提需求、验收结果。</p>
+          </div>
+          <div class="flow">
+            <div class="flow-step">
+              <span class="no">01</span>
+              <div>
+                <h3>输入：AutoCAD 平面图（DWG / DXF）</h3>
+                <p>常规户型图或自绘图——客厅、主卧、门窗位置与尺寸都在图里，含面积标注（实测户型 90.30㎡，六类功能空间）。</p>
+              </div>
+            </div>
+            <div class="flow-step">
+              <span class="no">02</span>
+              <div>
+                <h3>提取：ezdxf 解析墙体 / 门窗</h3>
+                <p>Agent 调用 extract_walls.py 从 DXF 中提取墙体线、门洞、窗洞与轴线数据，转成结构化参数——图纸即数据源。</p>
+              </div>
+            </div>
+            <div class="flow-step">
+              <span class="no">03</span>
+              <div>
+                <h3>建模：驱动 Blender 自动生成</h3>
+                <p>sw_bridge.py 桥接 Blender 进程，Agent 控制 3.5 生成墙体、门、窗、地板，实时在视口里看到模型长出来。</p>
+              </div>
+            </div>
+            <div class="flow-step">
+              <span class="no">04</span>
+              <div>
+                <h3>输出：.blend 工程文件 + .glb 通用格式</h3>
+                <p>保存可继续编辑的工程文件，同时导出 .glb 供 Web 端（Three.js）与 AR 使用——图纸到 3D 到线上展示，一条链跑通。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <span class="section-label">实录</span>
+              <h2>Agent 建模过程录屏</h2>
+            </div>
+            <p class="section-desc">无剪辑，真实运行。</p>
+          </div>
+          <div class="shot-grid">
+            <figure class="shot clip">
+              <video controls muted playsinline preload="metadata" src="./assets/agent-clip-1.mp4"></video>
+              <figcaption>录屏一 · Agent 运行建模管线</figcaption>
+            </figure>
+            <figure class="shot clip">
+              <video controls muted playsinline preload="metadata" src="./assets/agent-clip-2.mp4"></video>
+              <figcaption>录屏二 · 完整过程与结果检查</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <span class="section-label">封装</span>
+              <h2>从跑通一次，到封装成可分发的 Skill</h2>
+            </div>
+          </div>
+          <div class="about-grid">
+            <div class="about-card">
+              <p>
+                流程跑通后，我将全部步骤封装为 cad-blender-bridge Skill 包：<strong>SKILL.md 记录操作流程与本机踩坑记录，tools 存放工具脚本，examples 提供三个实战案例</strong>。其他 Agent 安装该 Skill 后，即可直接执行 CAD → Blender 建模流程，无需重复开发。
+              </p>
+              <p>
+                三个实战案例覆盖三个难度：extract_walls（DXF 墙体提取）、build_huxing_simple（户型简模）、build_pavilion（回澜阁——异形景观构筑物）。工具层用 pywin32 做 AutoCAD COM 控制、进程桥接方式驱动 Blender，降低版本耦合。
+              </p>
+            </div>
+            <aside class="about-meta">
+              <div class="meta-item">
+                <span class="meta-key">角色</span>
+                <span class="meta-val">管线设计 · Skill 架构 · 验收迭代</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-key">技术栈</span>
+                <span class="meta-val">Agent 编排 · Python · ezdxf · pywin32 · Blender</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-key">交付形态</span>
+                <span class="meta-val">28KB 可分发 Skill 包</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-key">状态</span>
+                <span class="meta-val status-open">v2 持续迭代中</span>
+              </div>
+            </aside>
+          </div>
+          <div class="skill-tree" style="margin-top: 20px">
+            <b>cad-blender-bridge/</b><br />
+            ├── <b>SKILL.md</b> —— v2 使用手册（操作流程 + 本机踩坑记录）<br />
+            ├── tools/ —— 工具层<br />
+            │&nbsp;&nbsp;&nbsp;├── ac_bridge.py —— AutoCAD COM 控制<br />
+            │&nbsp;&nbsp;&nbsp;├── sw_bridge.py —— Blender 进程桥接<br />
+            │&nbsp;&nbsp;&nbsp;└── ac_validate.py —— 环境自检<br />
+            └── examples/ —— 实战案例<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;├── extract_walls.py —— DXF 提取墙体<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;├── build_huxing_simple.py —— 户型简模<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;└── build_pavilion.py —— 回澜阁
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <span class="section-label">实况截图</span>
+              <h2>三屏联动的工作现场</h2>
+            </div>
+          </div>
+          <div class="shot-grid">
+            <figure class="shot" style="grid-column: 1 / -1">
+              <img src="./assets/agent-bridge-1.png" alt="Agent 同时调度 MiMo 任务、AutoCAD 图纸与 Blender 建模" />
+              <figcaption>Agent 任务面板（左）· 图纸与脚本（中）· AutoCAD 平面图 + Blender 实时建模（右）</figcaption>
+            </figure>
+            <figure class="shot">
+              <img src="./assets/agent-bridge-2.png" alt="cad-blender-bridge Skill 包结构" />
+              <figcaption>Skill 打包交付 · 含使用手册与实战案例</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <span class="section-label">项目定位</span>
+              <h2>面向垂直领域的 Agent 工具链实践</h2>
+            </div>
+          </div>
+          <div class="about-card">
+            <p>
+              这个项目解决的问题很具体：环境设计流程中，CAD 平面图转 Blender 三维模型是一项重复、耗时的手工劳动。我将 Agent 引入这条实际使用多年的生产工具链，通过任务拆解、工具调用与结果校验，使这一环节可以自动完成，并产出真实可用的交付文件。
+            </p>
+            <p>
+              项目涉及三层能力：对专业图纸的理解（识别墙体、门窗等图层语义）、对 Agent 的运用（编排建模步骤、处理调用失败）、以及对工具的沉淀（将流程封装为可复用、可分发的 Skill 包）。这也是我认为 Agent 在垂直行业中落地时，产品工作需要覆盖的完整链路。
+            </p>
+          </div>
+        </section>
+
+        <div class="back-bar">
+          <a class="btn btn-ghost" href="./index.html#works">← 返回作品集首页</a>
+        </div>
+      </main>
+
+      <footer class="footer">
+        <div class="footer-inner">
+          <span>Copyright © 2026 王福鑫 WANG FUXIN. All Rights Reserved</span>
+          <span class="footer-note">CAD-Blender Bridge · Agent 建模管线 · 2027 秋招</span>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

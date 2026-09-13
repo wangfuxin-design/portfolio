@@ -1,62 +1,16 @@
 [
-    {
-        "file":  "01-书房少年.mp4",
-        "series":  "角色",
-        "duration":  47.93
-    },
-    {
-        "file":  "02-侠女破阵.mp4",
-        "series":  "古风",
-        "duration":  4.88
-    },
-    {
-        "file":  "03-上街.mp4",
-        "series":  "产品",
-        "duration":  14.95
-    },
-    {
-        "file":  "04-湖畔别墅.mp4",
-        "series":  "建筑",
-        "duration":  9.71
-    },
-    {
-        "file":  "05-产品宣传.mp4",
-        "series":  "产品",
-        "duration":  18.65
-    },
-    {
-        "file":  "06-少女肖像.mp4",
-        "series":  "角色",
-        "duration":  12.42
-    },
-    {
-        "file":  "07-操场独行.mp4",
-        "series":  "动漫",
-        "duration":  36.27
-    },
-    {
-        "file":  "08-园区景观.mp4",
-        "series":  "建筑",
-        "duration":  17.97
-    },
-    {
-        "file":  "09-庭院疾步.mp4",
-        "series":  "古风",
-        "duration":  15.84
-    },
-    {
-        "file":  "10-战斗场景.mp4",
-        "series":  "古风",
-        "duration":  17.72
-    },
-    {
-        "file":  "11-语音助手.mp4",
-        "series":  "产品",
-        "duration":  32.02
-    },
-    {
-        "file":  "12-古市长街.mp4",
-        "series":  "古风",
-        "duration":  31.02
-    }
+  { "file": "01-高层社区.mp4", "series": "建筑", "duration": 36.22 },
+  { "file": "02-星际走廊.mp4", "series": "科幻", "duration": 16.13 },
+  { "file": "03-书房少年.mp4", "series": "角色", "duration": 47.93 },
+  { "file": "04-侠女破阵.mp4", "series": "古风", "duration": 4.88 },
+  { "file": "05-上街.mp4", "series": "产品", "duration": 14.95 },
+  { "file": "06-湖畔别墅.mp4", "series": "建筑", "duration": 9.71 },
+  { "file": "07-产品宣传.mp4", "series": "产品", "duration": 18.65 },
+  { "file": "08-少女肖像.mp4", "series": "角色", "duration": 12.42 },
+  { "file": "09-操场独行.mp4", "series": "动漫", "duration": 36.27 },
+  { "file": "10-园区景观.mp4", "series": "建筑", "duration": 17.97 },
+  { "file": "11-庭院疾步.mp4", "series": "古风", "duration": 15.84 },
+  { "file": "12-战斗场景.mp4", "series": "古风", "duration": 17.72 },
+  { "file": "13-语音助手.mp4", "series": "产品", "duration": 32.02 },
+  { "file": "14-古市长街.mp4", "series": "古风", "duration": 31.02 }
 ]

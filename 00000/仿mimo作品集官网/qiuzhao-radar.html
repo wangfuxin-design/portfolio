@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="秋招雷达 · 27 届校招岗位助手——把自己的秋招痛点做成产品：2035 条岗位数据按专业/学历/城市/匹配度分档筛选，投递追踪，网申信息一键复制。AI 协作开发，已上线迭代 4 版。王福鑫。"
+    />
+    <title>秋招雷达 · 27 届校招岗位助手 — 王福鑫</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+    <style>
+      .detail-hero {
+        padding: calc(var(--nav-h) + 56px) var(--pad) 40px;
+        max-width: var(--max);
+        margin: 0 auto;
+      }
+      .detail-hero .section-label {
+        display: inline-block;
+        margin-bottom: 18px;
+      }
+      .detail-hero h1 {
+        margin: 0 0 14px;
+        font-size: clamp(34px, 5.4vw, 56px);
+        letter-spacing: -0.02em;
+        line-height: 1.15;
+      }
+      .detail-hero .lead {
+        margin: 0;
+        max-width: 640px;
+        color: var(--muted);
+        font-size: 17px;
+      }
+      .stat-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 12px;
+        margin-top: 36px;
+      }
+      .stat {
+        border: 1px solid var(--line);
+        border-radius: var(--radius-sm);
+        padding: 16px 18px;
+        background: var(--bg-soft);
+      }
+      .stat b {
+        display: block;
+        font-size: 26px;
+        font-family: var(--font-mono);
+        letter-spacing: -0.02em;
+      }
+      .stat span {
+        font-size: 12.5px;
+        color: var(--muted);
+      }
+      .shot-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 20px;
+        align-items: start;
+      }
+      .shot {
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        overflow: hidden;
+        background: var(--bg-soft);
+        box-shadow: var(--shadow);
+      }
+      .shot figcaption {
+        padding: 12px 16px;
+        font-size: 13px;
+        color: var(--muted);
+        border-top: 1px solid var(--line);
+        background: var(--bg);
+      }
+      .shot--wide {
+        max-width: 860px;
+      }
+      .ver-list {
+        display: grid;
+        gap: 12px;
+      }
+      .ver-item {
+        display: grid;
+        grid-template-columns: 86px 1fr;
+        gap: 16px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-sm);
+        padding: 16px 18px;
+        background: var(--bg);
+      }
+      .ver-item .v {
+        font-family: var(--font-mono);
+        font-weight: 700;
+        color: var(--brand-ink);
+      }
+      .ver-item p {
+        margin: 4px 0 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .ver-item h3 {
+        margin: 0;
+        font-size: 16px;
+      }
+      .back-bar {
+        max-width: var(--max);
+        margin: 0 auto;
+        padding: 24px var(--pad) 64px;
+      }
+      main .section {
+        max-width: var(--max);
+        margin: 0 auto;
+        padding: 56px var(--pad) 8px;
+      }
+      .about-card p {
+        margin-top: 0;
+      }
+      .about-card p:last-child {
+        margin-bottom: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header class="nav" id="nav">
+        <div class="nav-inner">
+          <a href="./index.html" class="nav-logo" aria-label="返回首页">
+            <span class="logo-mark">WX</span>
+            <span class="logo-text">王福鑫</span>
+          </a>
+          <nav class="nav-links" aria-label="主导航">
+            <a href="./index.html#works">精选作品</a>
+            <a href="./index.html#projects">项目</a>
+            <a href="./index.html#contact" class="nav-cta">联系我</a>
+          </nav>
+        </div>
+      </header>
+
+      <main>
+        <div class="detail-hero">
+          <span class="section-label">AI 产品实战 · 微信小程序 · 已上线</span>
+          <h1>秋招雷达</h1>
+          <p class="lead">
+            27 届秋招，我是环境设计背景、想投 AI / 产品 / 交互岗——几千条校招信息里翻对口岗位太痛苦，就把这个痛点做成了产品。微信小程序「山海工具 · 秋招雷达」：接飞书多维表格数据源，按专业 / 学历 / 城市 / 匹配度分档筛选，附投递追踪与网申信息一键复制。
+          </p>
+          <div class="stat-row">
+            <div class="stat"><b>2035</b><span>岗位数据条数</span></div>
+            <div class="stat"><b>6 档</b><span>自研匹配度评价体系</span></div>
+            <div class="stat"><b>4 版</b><span>上线后持续迭代</span></div>
+            <div class="stat"><b>14 城</b><span>工作地点快捷筛选</span></div>
+          </div>
+        </div>
+
+        <section class="section">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <span class="section-label">问题定义</span>
+              <h2>我自己的四个真实痛点</h2>
+            </div>
+          </div>
+          <div class="about-grid">
+            <div class="about-card">
+              <p><strong>信息过载</strong>——秋招汇总表几千条岗位，环设背景能投的散在里面，逐条翻 JD 一上午就没了。</p>
+              <p><strong>匹配难判断</strong>——哪些岗算"强对口"、哪些是"设计背景可迁移"、哪些投了等于陪跑，没有现成标准，全靠自己一条条读。</p>
+              <p><strong>网申重复劳动</strong>——每投一家都要重填一遍邮箱、电话、作品集链接、学校专业，机械且易错。</p>
+              <p><strong>怕错过</strong>——截止前 3 天的、刚发布的、招满即止的，散落各处没人提醒。</p>
+              <p class="about-motto">以上需求均来自我本人 2027 秋招的真实投递过程。</p>
+            </div>
+            <aside class="about-meta">
+              <div class="meta-item">
+                <span class="meta-key">角色</span>
+                <span class="meta-val">产品定义 · 功能设计 · 数据逻辑 · 验收</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-key">开发方式</span>
+                <span class="meta-val">AI 协作开发（AI 出码，我把关）</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-key">数据源</span>
+                <span class="meta-val">飞书多维表格「26/27 校招汇总表」</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-key">状态</span>
+                <span class="meta-val status-open">1.0.3 已上线 · 1.1.0 审核中</span>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <span class="section-label">产品方案</span>
+              <h2>四个痛点，四组功能</h2>
+            </div>
+          </div>
+          <div class="item-list">
+            <div class="item-row">
+              <span class="item-index">01</span>
+              <div class="item-body">
+                <h3>预筛 + 分档：2035 条 → 我的 253 条</h3>
+                <p>按专业预筛后，叠加「本科可投 · 未截止」，再按自研 6 档体系分层：S 强对口 / A 相关对口 / B1 设计迁移 / B2 需补作品 / C 通用 / D 专业对口——先啃 S+A+B1 的 253 条，把时间花在刀刃上。</p>
+              </div>
+            </div>
+            <div class="item-row">
+              <span class="item-index">02</span>
+              <div class="item-body">
+                <h3>快捷筛选：一键缩小范围</h3>
+                <p>重点岗 S+A+B1、只看山东 / 青岛、央国企事业单位、有投递链接、近 30 天更新；14 个城市快捷切换。筛一次 3 秒，原来要一上午。</p>
+              </div>
+            </div>
+            <div class="item-row">
+              <span class="item-index">03</span>
+              <div class="item-body">
+                <h3>投递追踪 + 网申信息一键复制</h3>
+                <p>收藏 / 不符合 / 待投三态管理，筛选进度可视化；邮箱、电话、作品集链接、学校专业点击即复制——该功能源于我本人在网申填报时的重复操作体验。</p>
+              </div>
+            </div>
+            <div class="item-row">
+              <span class="item-index">04</span>
+              <div class="item-body">
+                <h3>今日聚焦：不再错过</h3>
+                <p>3 天内截止、7 天内截止、最新发布、招满即止、含 AI 岗位、本地 S/A 档——打开先看这一屏，30 秒掌握今天要处理的岗位。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <span class="section-label">界面</span>
+              <h2>产品截图</h2>
+            </div>
+          </div>
+          <div class="shot-grid">
+            <figure class="shot">
+              <img src="./assets/qiuzhao-home.png" alt="秋招雷达首页：岗位清单与筛选" />
+              <figcaption>岗位清单 · 数据统计与 6 档匹配筛选</figcaption>
+            </figure>
+            <figure class="shot">
+              <img src="./assets/qiuzhao-track.png" alt="秋招雷达投递追踪页" />
+              <figcaption>投递追踪 · 状态管理 / 快捷复制 / 今日聚焦</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <span class="section-label">迭代记录</span>
+              <h2>上线后的三次迭代</h2>
+            </div>
+          </div>
+          <div class="ver-list">
+            <div class="ver-item">
+              <span class="v">v1.0.0</span>
+              <div>
+                <h3>初版：岗位清单</h3>
+                <p>打通飞书多维表格数据源，实现按专业筛选与基础岗位列表。</p>
+              </div>
+            </div>
+            <div class="ver-item">
+              <span class="v">v1.0.3</span>
+              <div>
+                <h3>线上版：三专业筛选与投递追踪</h3>
+                <p>9/11 发布。新增投递状态管理、网申信息快捷复制、今日聚焦；支持多专业切换。</p>
+              </div>
+            </div>
+            <div class="ver-item">
+              <span class="v">v1.1.0</span>
+              <div>
+                <h3>审核中：体验优化</h3>
+                <p>9/13 提交审核。细节体验与数据展示优化。</p>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top: 20px">
+            <figure class="shot shot--wide">
+              <img src="./assets/qiuzhao-version.png" alt="小程序后台版本管理" />
+              <figcaption>小程序后台 · 版本管理记录</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <span class="section-label">AI 协作开发</span>
+              <h2>产品与开发的分工方式</h2>
+            </div>
+          </div>
+          <div class="about-grid">
+            <div class="about-card">
+              <p>
+                项目分工：<strong>我负责产品定义、功能设计、数据筛选逻辑、测试验收与迭代决策，代码实现由 AI 完成</strong>。每一版遵循同一流程：提出需求与验收标准 → AI 实现代码 → 真机测试 → 记录问题 → 确定下一版改进点。
+              </p>
+              <p>
+                在这个流程中，关键的工作是明确 AI 应该做什么、检验产出是否符合预期、并决定后续迭代方向。三个版本的迭代记录，可以完整追溯这套决策过程。
+              </p>
+            </div>
+            <aside class="about-meta">
+              <div class="meta-item">
+                <span class="meta-key">需求来源</span>
+                <span class="meta-val">自身痛点，真实可验证</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-key">迭代节奏</span>
+                <span class="meta-val">平均每 1-2 天一版</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-key">验收方式</span>
+                <span class="meta-val">真机全流程测试</span>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <span class="section-label">数据与下一步</span>
+              <h2>当前状态与后续计划</h2>
+            </div>
+          </div>
+          <div class="about-card">
+            <p>
+              当前 1.0.3 已上线自用，备案审核中；审核通过后计划分享到 27 届秋招群与设计专业群，目标第一批 100 个真实用户，并基于反馈迭代。
+            </p>
+            <p>
+              规划中的 AI 能力：接入大模型 API，实现「粘贴简历 → AI 推荐匹配档位」——把 6 档评价体系从人工规则升级为 AI 判断，让工具从"信息筛选"走向"决策辅助"。
+            </p>
+          </div>
+          <div style="margin-top: 20px">
+            <figure class="shot shot--wide">
+              <img src="./assets/qiuzhao-data.png" alt="小程序后台 We分析数据" />
+              <figcaption>小程序后台 · We分析实时数据（上线初期）</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <div class="back-bar">
+          <a class="btn btn-ghost" href="./index.html#works">← 返回作品集首页</a>
+        </div>
+      </main>
+
+      <footer class="footer">
+        <div class="footer-inner">
+          <span>Copyright © 2026 王福鑫 WANG FUXIN. All Rights Reserved</span>
+          <span class="footer-note">秋招雷达 · AI 产品实战 · 2027 秋招</span>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
