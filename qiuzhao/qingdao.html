@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>青岛设计岗 · 投递入口清单</title>
+<style>
+:root{
+  --bg:#0e1310; --panel:#161d18; --panel2:#1c2520; --line:#2a352e;
+  --txt:#dfe9e2; --dim:#8fa397; --accent:#7fd6a0; --warn:#e8b45a; --danger:#e07a6a;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--txt);
+  font:15px/1.6 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  padding:20px 16px 60px;max-width:760px;margin:0 auto}
+h1{font-size:22px;margin:0 0 6px;letter-spacing:.5px}
+.sub{color:var(--dim);font-size:13px;margin-bottom:22px}
+.sec{margin:26px 0 12px;font-size:13px;color:var(--accent);letter-spacing:1px;font-weight:600;
+  display:flex;align-items:center;gap:8px}
+.sec::after{content:"";flex:1;height:1px;background:var(--line)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:14px 15px;margin-bottom:10px}
+.card.hot{border-color:#5d4a2a;background:linear-gradient(180deg,#241d12,#161d18)}
+.head{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.name{font-weight:600;font-size:16px}
+.tag{font-size:11px;padding:1px 7px;border-radius:5px;border:1px solid var(--line);color:var(--dim)}
+.tag.hi{color:var(--warn);border-color:#5d4a2a}
+.tag.go{color:var(--accent);border-color:#2f5c42}
+.tag.no{color:var(--danger);border-color:#5c3230}
+.jobs{color:var(--dim);font-size:13px;margin:5px 0 9px}
+.act{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+a.btn,button.btn{font:inherit;font-size:13px;padding:7px 13px;border-radius:8px;text-decoration:none;
+  border:1px solid #2f5c42;background:#1a2c22;color:var(--accent);cursor:pointer}
+button.btn.alt{border-color:var(--line);background:var(--panel2);color:var(--txt)}
+a.btn:active,button.btn:active{transform:translateY(1px)}
+.mail{font-family:ui-monospace,Consolas,monospace;font-size:12.5px;color:#c9dbd0;
+  background:#0b100d;border:1px dashed #33443a;border-radius:6px;padding:5px 9px;display:inline-block;margin-top:8px}
+.note{color:var(--dim);font-size:12.5px;margin-top:8px;padding-left:10px;border-left:2px solid #33443a}
+.note b{color:#cbb98e;font-weight:600}
+.foot{margin-top:34px;color:var(--dim);font-size:12px;line-height:1.8;border-top:1px solid var(--line);padding-top:14px}
+</style>
+</head>
+<body>
+
+<h1>青岛设计岗 · 投递入口清单</h1>
+<div class="sub">面向 2027 届环境设计本科 · 已排除明确卡 985/211 的岗位 · 更新于 2026-11-15</div>
+
+<div class="sec">本周必须处理</div>
+
+<div class="card hot">
+  <div class="head"><span class="name">山水比德</span><span class="tag hi">明天截止 11-16</span><span class="tag">景观·规划</span></div>
+  <div class="jobs">设计类管培生：景观设计 / 规划设计 / 建筑设计｜本科及以上｜青岛有岗</div>
+  <div class="note">专业明确写「风景园林、环境艺术、城乡规划、设计学」，是你最对口的一家。流程含快题或上机测试，提前准备一个能快速讲清的方案。</div>
+  <div class="act"><a class="btn" href="https://spigroup1.zhiye.com/campus/jobs" target="_blank">打开网申</a></div>
+</div>
+
+<div class="card hot">
+  <div class="head"><span class="name">卡尔美体育</span><span class="tag hi">11-20 截止</span><span class="tag">平面·视频</span></div>
+  <div class="jobs">平面设计岗 / 视频剪辑岗 / 内容营销｜青岛有岗｜不卡学历</div>
+  <div class="note">青岛本地唯一有硬截止的设计岗。你有 AI 影像经验，视频剪辑岗比平面岗更容易讲出差异。</div>
+  <div class="act"><a class="btn" href="https://xy.liepin.com/kelme/zhaopin.html" target="_blank">打开网申</a></div>
+</div>
+
+<div class="sec">青岛本地设计院 · 邮箱直投（不进表、不卡 92）</div>
+
+<div class="card">
+  <div class="head"><span class="name">腾远设计</span><span class="tag go">最推荐</span><span class="tag">景观·室内·规划</span></div>
+  <div class="jobs">青岛本土最大的民营设计院之一，2000 余人，有景观园林、室内、规划、市政板块</div>
+  <div class="note"><b>和你学院有校企合作</b>（青岛理工建筑与城乡规划学院已走访共建实习基地），走辅导员或学院就业办内推比邮箱更有效。</div>
+  <div class="mail" id="m1">tengyuanzhaopin@163.com</div>
+  <div class="act"><button class="btn alt" onclick="cp('m1',this)">复制邮箱</button><a class="btn" href="http://www.tengyuan.com.cn/" target="_blank">官网</a></div>
+  <div class="note">邮件主题：姓名+学校+专业+学历；附件：简历 + 作品集 + 成绩单（合成一个 PDF，控制在 20MB 内）。</div>
+</div>
+
+<div class="card">
+  <div class="head"><span class="name">青岛北洋建筑设计</span><span class="tag">建筑·景观·室内</span></div>
+  <div class="jobs">1995 年成立，青岛最早的双甲级民营院，含风景园林乙级资质与室内设计业务</div>
+  <div class="mail" id="m2">beiyangxiaozhao@163.com</div>
+  <div class="act"><button class="btn alt" onclick="cp('m2',this)">复制邮箱</button></div>
+  <div class="note">邮件备注：姓名+专业+学校；附件准备简历和作品集。</div>
+</div>
+
+<div class="card">
+  <div class="head"><span class="name">青岛市建筑设计研究院集团</span><span class="tag no">需自行确认入口</span></div>
+  <div class="jobs">1952 年成立，青岛最老牌甲级院，内设园林景观部、室内设计部</div>
+  <div class="note">未查到公开校招邮箱。走官网「人才招聘」或公众号投递；也可以直接打总机转人力资源部问 2027 届校招批次。</div>
+</div>
+
+<div class="sec">全国性设计院 · 青岛有分公司</div>
+
+<div class="card">
+  <div class="head"><span class="name">基准方中</span><span class="tag go">本科可投</span><span class="tag">景观·室内·建筑</span></div>
+  <div class="jobs">27 届景观设计师招 5 人，专业明确含「环境设计、风景园林」，本科及以上</div>
+  <div class="act"><a class="btn" href="http://jzfz.zhiye.com/" target="_blank">打开网申</a></div>
+  <div class="note"><b>注意批次</b>：公开信息显示本校招批次为 09-09 至 10-07，可能已收口。网申系统若还开着就投；关了就直接问青岛分公司是否有补录。</div>
+</div>
+
+<div class="card">
+  <div class="head"><span class="name">中建西南院</span><span class="tag no">实际偏硕士+92</span><span class="tag">景观·装饰·展陈</span></div>
+  <div class="jobs">景观设计师 / 装饰设计师 / 展陈设计岗｜青岛在可分配城市内</div>
+  <div class="act"><a class="btn" href="https://xnjz.zhiye.com/campus" target="_blank">打开网申</a></div>
+  <div class="note">表里原链接已失效，这是官方正确入口。央企大院设计岗现实录取以硕士为主，本科双非建议只当练手，别当主攻。</div>
+</div>
+
+<div class="card">
+  <div class="head"><span class="name">中建新科</span><span class="tag go">专业对口</span><span class="tag">装饰设计</span></div>
+  <div class="jobs">装饰设计师｜专业要求明确写入「环境艺术设计、室内设计、风景园林」</div>
+  <div class="act"><a class="btn" href="https://mp.weixin.qq.com/s/Xyr4GRbesSAIVBynWSPGyw" target="_blank">看公告投递</a></div>
+  <div class="note">少数把环设写进招聘要求的央企子公司，比中建西南院现实得多。</div>
+</div>
+
+<div class="card">
+  <div class="head"><span class="name">中国市政中南院</span><span class="tag no">实际偏硕士+92</span><span class="tag">风景园林</span></div>
+  <div class="jobs">风景园林设计岗 / 建筑设计岗</div>
+  <div class="act"><a class="btn" href="https://app.mokahr.com/campus-recruitment/znszy/98600#/jobs" target="_blank">打开网申</a></div>
+</div>
+
+<div class="card">
+  <div class="head"><span class="name">丝路视觉</span><span class="tag go">差异化最强</span><span class="tag">展馆·AIGC</span></div>
+  <div class="jobs">展馆空间设计 / 多媒体交互设计 / AIGC 设计师（AI 视觉方向）｜青岛有岗</div>
+  <div class="act"><a class="btn" href="https://wecruit.hotjob.cn/SU61161679bef57c65330abe2c/mc/position/campus" target="_blank">打开网申</a></div>
+  <div class="note">你的 AIGC 影像 + 数字孪生 + 交互网站，在这家的岗位描述里几乎逐条对应。作品集把三个跨界实验放前面。</div>
+</div>
+
+<div class="card">
+  <div class="head"><span class="name">UDG 联创设计</span><span class="tag no">管培生卡新老八校</span><span class="tag">景观·室内</span></div>
+  <div class="jobs">景观设计师 / 室内设计师 / 规划设计师｜2027 届本科、硕士｜青岛有岗</div>
+  <div class="act"><a class="btn" href="https://www.udg.com.cn/" target="_blank">官网 · 人力-校园招聘</a></div>
+  <div class="note">「U才生」要求建筑新老八校 + 班级前 10%，你走普通校招岗，不碰管培生计划。</div>
+</div>
+
+<div class="sec">青岛国企总入口（一次性覆盖 19 家）</div>
+
+<div class="card hot">
+  <div class="head"><span class="name">青岛人才网 · 2027 届国企秋招专区</span><span class="tag hi">线上仍开放</span></div>
+  <div class="jobs">19 家市直国企 + 驻青央企，计划招录近 2500 人｜含数字孪生仿真等新岗</div>
+  <div class="note">线下专场 10-31 已结束，<b>线上专区还能查岗投递</b>。企业含青啤、国信、城投、华通、海发、地铁、水务、澳柯玛、海信等。<br>
+  在专区按「设计 / 建筑 / 展陈 / 品牌」筛，别只搜「环境设计」——国企岗位名通常写成「工程管理」「品牌策划」。</div>
+  <div class="act"><a class="btn" href="https://rc.qingdao.gov.cn/" target="_blank">进入青岛人才网</a></div>
+</div>
+
+<div class="card">
+  <div class="head"><span class="name">青岛融资担保集团</span><span class="tag hi">11-16 开始报名</span></div>
+  <div class="jobs">档案管理 / 政策和产业研究 / 研发管理 / 子公司业务经理</div>
+  <div class="note">报名窗口 11-16 至 11-20，只有 5 天。岗位不限设计，但作为青岛国企保底选项可以投一个。</div>
+</div>
+
+<div class="card">
+  <div class="head"><span class="name">青岛双星营销</span><span class="tag">12-10 截止</span></div>
+  <div class="jobs">营销类校招生 7 人｜专业不限｜5000-7000 元/月</div>
+  <div class="note">专业不限，报名 10-30 至 12-10，时间宽裕，留作最后保底。</div>
+</div>
+
+<div class="sec">别忽略这两个免费渠道</div>
+
+<div class="card">
+  <div class="head"><span class="name">你学院的就业办</span><span class="tag go">成功率最高</span></div>
+  <div class="note">青岛理工建筑与城乡规划学院已和腾远设计共建实习基地、谈成常态化校招。这类校企合作往往有「定向名额」，不走公开网申。找辅导员问一句，比投十个网申有用。</div>
+</div>
+
+<div class="card">
+  <div class="head"><span class="name">山东建筑大学就业网</span><span class="tag">跨校看岗</span></div>
+  <div class="note">sdjzu.bysjy.com.cn 上青岛企业的校招岗比我们表里更及时（北洋那条就是从这发现的）。外校也能看，投递走企业自己的邮箱或系统。</div>
+  <div class="act"><a class="btn" href="https://sdjzu.bysjy.com.cn/" target="_blank">打开就业网</a></div>
+</div>
+
+<div class="foot">
+判读口径：只列本科可投、专业对得上、且未写明 985/211 硬门槛的岗位。<br>
+「实际偏硕士+92」不是官方要求，是按央企设计院近年录取情况给的现实判断，投了不亏但别当主攻。<br>
+所有截止日期以企业官网为准，本页信息采集于 2026-11-15。
+</div>
+
+<script>
+function cp(id,btn){
+  var t=document.getElementById(id).textContent.trim();
+  var done=function(){var o=btn.textContent;btn.textContent='已复制';setTimeout(function(){btn.textContent=o},1400)};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done).catch(fb)}else{fb()}
+  function fb(){var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');done()}catch(e){}document.body.removeChild(a)}
+}
+</script>
+</body>
+</html>
